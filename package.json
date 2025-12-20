@@ -2,17 +2,22 @@
   "name": "rankio",
   "version": "0.0.0",
   "private": true,
+  "description": "Desenvolvimento de um Sistema de Gamificação Educacional para Potencializar Engajamento e Aprendizagem em Ambientes Digitais",
   "scripts": {
     "start": "node ./bin/www",
     "dev": "nodemon ./bin/www"
   },
   "dependencies": {
-    "cookie-parser": "~1.4.7",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.7",
     "debug": "~4.4.3",
+    "dotenv": "^17.2.3",
     "express": "~5.2.1",
+    "express-handlebars": "^8.0.4",
+    "express-session": "^1.18.2",
     "hbs": "~4.2.0",
     "http-errors": "~2.0.1",
-    "mongoose": "^9.0.1",
+    "lucide-static": "^0.562.0",
     "morgan": "~1.10.1",
     "mysql2": "^3.16.0",
     "sequelize": "^6.37.7"

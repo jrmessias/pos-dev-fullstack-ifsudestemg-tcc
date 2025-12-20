@@ -1,0 +1,26 @@
+<h2 class="mb-4">Edição <small class="text-black-50">Usuário</small></h2>
+
+{{> messages}}
+
+<form class="row g-3 needs-validation" method="POST" action="/user/update/{{id}}" novalidate>
+    <input type="hidden" id="id" name="id" value="{{id}}">
+    <div class="col-12">
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" placeholder="Nome" name="name" id="name" value="{{name}}" required>
+            <label for="name">Nome</label>
+            <div class="invalid-feedback">
+                Digite o nome.
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="form-floating mb-3">
+            <input type="email" class="form-control" placeholder="E-mail" name="email" id="email" value="{{email}}" required>
+            <label for="email">E-mail</label>
+            <div class="invalid-feedback">
+                Digite o e-mail.
+            </div>
+        </div>
+    </div>
+    {{> form-buttons isEdit=true }}
+</form>

@@ -1,0 +1,11 @@
+.zebra > div:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.zebra > div:nth-child(even) {
+    background-color: #ffffff;
+}
+
+.zebra > div:hover {
+    background-color: #eaeaea;
+}

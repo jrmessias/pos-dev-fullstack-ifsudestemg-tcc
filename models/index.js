@@ -24,12 +24,6 @@ Question.hasMany(Answer, { foreignKey: 'question_id' });
 
 Answer.belongsTo(Question, { foreignKey: 'question_id' });
 
-// Sync
-// sequelize
-//     .sync({ alter: true })
-//     .then(() => console.log('Tabelas criadas/alteradas com sucesso'))
-//     .catch(err => console.error(err));
-
 module.exports = {
     sequelize,
     User,

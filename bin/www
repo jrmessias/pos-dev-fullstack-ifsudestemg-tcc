@@ -5,8 +5,9 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('03-notas:server');
+var debug = require('debug')('rankio:server');
 var http = require('http');
+
 
 /**
  * Get port from environment and store in Express.
@@ -27,7 +28,7 @@ var server = http.createServer(app);
 
 // server.listen(port);
 app.listen(port, () => {
-    console.log(`\x1b[43m Server running on http://127.0.0.1:${port} \x1b[0m`);
+    console.log(`\x1b[43mServidor rodando em http://127.0.0.1:${port} \x1b[0m`);
 });
 server.on('error', onError);
 server.on('listening', onListening);

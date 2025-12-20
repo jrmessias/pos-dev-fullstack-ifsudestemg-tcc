@@ -1,0 +1,19 @@
+<div class="col-12 col-sm-6">
+    <button type="reset" class="btn px-3 ml-1 btn-outline-secondary">
+        Limpar
+    </button>
+    {{#if isEdit}}
+        <button type="submit" class="btn px-3 ml-1 btn-primary">Atualizar</button>
+    {{else}}
+        <button type="submit" class="btn px-3 ml-1 btn-success">Salvar</button>
+    {{/if}}
+</div>
+<div class="col-12 col-sm-6 text-end">
+    {{#if back}}
+        <a href="{{back}}" class="btn px-3 ml-1 btn-outline-secondary">
+            Voltar
+        </a>
+    {{/if}}
+</div>
+
+

@@ -1,0 +1,45 @@
+<div class="row mb-4">
+    <div class="col-6 p-0">
+        <h2>Usuário</h2>
+    </div>
+    <div class="col-6 p-0 align-self-center text-end">
+        <a href="/user/create" class="btn btn-sm btn-outline-success my-1">
+            <span class="icon-plus"></span> Adicionar
+        </a>
+    </div>
+</div>
+
+{{> messages}}
+
+{{#if users}}
+    <div class="row fw-bold bg-primary-subtle text-black py-2">
+        <div class="col-1 text-center">ID</div>
+        <div class="col-6 col-lg">Nome</div>
+        <div class="col-5 col-lg-1 text-center">Ações</div>
+    </div>
+    <span class="zebra">
+        {{#each users}}
+        <div class="row py-2 border-bottom align-items-center">
+            <div class="col-1 text-center">
+                {{id}}
+            </div>
+            <div class="col-6 col-lg">
+                {{name}}
+            </div>
+            <div class="col-5 col-lg-1 text-center">
+                <a href="/user/edit/{{id}}" class="mx-2 text-decoration-none">
+                    <span class="icon-pencil text-primary"></span>
+                </a>
+                <a href="#" class="mx-1 text-decoration-none" data-bs-toggle="modal" data-bs-target="#destroyModal"
+                   data-bs-text="{{name}}" data-bs-id="/user/delete/{{id}}">
+                    <span class="icon-trash text-danger"></span>
+                </a>
+            </div>
+        </div>
+        {{/each}}
+    </span>
+{{else}}
+    {{> alert-new-register link="/user/create" name="usuário"}}
+{{/if}}
+
+{{> modal-delete link="/user/delete/{{id}}" name="usuário"}}
