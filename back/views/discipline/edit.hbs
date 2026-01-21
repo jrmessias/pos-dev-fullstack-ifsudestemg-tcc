@@ -1,0 +1,46 @@
+<h2 class="mb-4">Edição <small class="text-black-50">{{title}}</small></h2>
+
+{{> messages}}
+
+<form class="row g-3 needs-validation" method="POST" action="/discipline/update/{{id}}" novalidate>
+    <input type="hidden" id="id" name="id" value="{{id}}">
+    <div class="col-12">
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" placeholder="Nome" name="name" id="name" value="{{name}}" required>
+            <label for="name">Nome</label>
+            <div class="invalid-feedback">
+                Digite o nome.
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" placeholder="Descrição" name="description" id="description" value="{{description}}" maxlength="255">
+            <label for="description">Descrição</label>
+            <div class="invalid-feedback">
+                Digite a descrição.
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="form-floating">
+            <select class="form-select" id="user_id" name="user_id" required>
+                <option selected value="">Selecione um usuário</option>
+                {{#each users}}
+                    <option value="{{this.id}}" {{#if this.selected}}selected{{/if}}>{{this.name}}</option>
+                {{/each}}
+            </select>
+            <label for="user_id">Usuário</label>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="form-floating">
+            <select class="form-select" id="active" name="active" required>
+                <option value="0" {{selected active 0}}>Não</option>
+                <option value="1" {{selected active 1}}>Sim</option>
+            </select>
+            <label for="active">Ativa</label>
+        </div>
+    </div>
+    {{> form-buttons isEdit=true back="/discipline" }}
+</form>

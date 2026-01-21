@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{title}}</title>
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/stylesheets/lucide.css"/>
+    <link rel="stylesheet" href="/stylesheets/custom.css"/>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body>
+<div class="container-fluid bg-light mb-4">
+    <nav class="navbar navbar-expand-lg justify-content-between">
+        <div class="container px-0">
+            <div class="container-fluid px-0">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false"
+                        aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+                    <a class="navbar-brand fw-bold" href="/">
+                        <span class="icon-trophy"></span> Rankio
+                    </a>
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/user">Usuário</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/discipline" class="nav-link px-2">
+                                Disciplina
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/activity" class="nav-link px-2">
+                                Atividade
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/question" class="nav-link px-2">
+                                Questão
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="/associate" class="nav-link px-2">
+                                Aluno/Disciplina
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+</div>
+<div class="container">
+    <div class="container px-0">
+        {{{body}}}
+    </div>
+</div>
+
+<script src="/javascripts/bootstrap.bundle.min.js"></script>
+<script src="/javascripts/main.js"></script>
+</body>
+</html>

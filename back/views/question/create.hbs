@@ -1,0 +1,49 @@
+<h2 class="mb-4">Nova <small class="text-black-50">{{title}}</small></h2>
+
+{{> messages}}
+
+<form class="row g-3 needs-validation" method="POST" action="/question/store" novalidate>
+    <div class="col-12">
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" placeholder="Título" name="name" id="name" value="{{form.name}}" maxlength="250" required>
+            <label for="name">Título</label>
+            <div class="invalid-feedback">
+                Digite o título.
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" placeholder="Descrição da questão" id="description"
+                   name="description" value="{{form.description}}" maxlength="250">
+            <label for="description">Descrição</label>
+            <div class="invalid-feedback">
+                Digite a descrição.
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="form-floating">
+            <select class="form-select" id="activity_id" name="activity_id" required>
+                <option selected value="">Selecione uma atividade</option>
+                {{#each activities}}
+                    <option value="{{this.id}}" {{#if this.selected}}selected{{/if}}>{{this.name}}</option>
+                {{/each}}
+            </select>
+            <label for="activity_id">Atividade</label>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="form-floating">
+            <select class="form-select" id="type" name="type" required>
+                <option selected value="">Selecione o tipo</option>
+                <option value="quizz">Quizz</option>
+                <option value="truefalse">Verdadeiro ou Falso</option>
+            </select>
+            <label for="type">Tipo</label>
+        </div>
+    </div>
+    {{> form-buttons back="/question" }}
+</form>
+
+

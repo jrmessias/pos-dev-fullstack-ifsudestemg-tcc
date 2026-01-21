@@ -1,0 +1,57 @@
+<div class="row mb-4">
+    <div class="col-6 p-0">
+        <h2>{{title}}</h2>
+    </div>
+    <div class="col-6 p-0 align-self-center text-end">
+        <a href="/activity/create" class="btn btn-sm btn-outline-success my-1">
+            <span class="icon-plus"></span> Adicionar
+        </a>
+    </div>
+</div>
+
+{{> messages}}
+
+{{#if activities}}
+    <div class="row fw-bold bg-primary-subtle text-black py-2">
+        <div class="col-1 text-center">ID</div>
+        <div class="col-6 col-lg">Nome</div>
+        <div class="col-5 col-lg-2 text-center">Ações</div>
+    </div>
+    <span class="zebra">
+        {{#each activities}}
+            <div class="row py-2 border-bottom align-items-center">
+            <div class="col-1 text-center">
+                {{id}}
+            </div>
+            <div class="col-6 col-lg">
+                {{name}} <small>({{Discipline.name}})</small>
+            </div>
+            <div class="col-5 col-lg-2 text-center">
+                <a href="/question?activity={{id}}" class="mx-2 text-decoration-none" title="Questões de {{name}}">
+                    <span class="icon-circle-question-mark text-black"></span>
+                </a>
+                {{#if active}}
+                <a href="/activity/inactive/{{id}}" class="mx-2 text-decoration-none" title="Ativo: Sim">
+                    <span class="icon-eye text-success"></span>
+                </a>
+                {{else}}
+                <a href="/activity/active/{{id}}" class="mx-2 text-decoration-none" title="Ativo: Não">
+                    <span class="icon-eye-off text-danger"></span>
+                </a>
+                {{/if}}
+                <a href="/activity/edit/{{id}}" class="mx-2 text-decoration-none" title="Editar">
+                    <span class="icon-pencil text-primary"></span>
+                </a>
+                <a href="#" class="mx-1 text-decoration-none" data-bs-toggle="modal" data-bs-target="#destroyModal"
+                   data-bs-text="{{name}}" data-bs-id="/activity/delete/{{id}}" title="Excluir">
+                    <span class="icon-trash text-danger"></span>
+                </a>
+            </div>
+        </div>
+        {{/each}}
+    </span>
+{{else}}
+    {{> alert-new-register link="/activity/create" name="atividade"}}
+{{/if}}
+
+{{> modal-delete link="/activity/delete/{{id}}" name="atividade"}}

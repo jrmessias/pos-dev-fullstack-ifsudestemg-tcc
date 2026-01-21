@@ -1,0 +1,25 @@
+<div class="row">
+    {{#each error}}
+        <div class="alert alert-danger">
+            {{this}}
+        </div>
+    {{/each}}
+
+    {{#each success}}
+        <div class="alert alert-success">
+            {{this}}
+        </div>
+    {{/each}}
+
+    {{#each info}}
+        <div class="alert alert-info">
+            {{this}}
+        </div>
+    {{/each}}
+
+    {{#each warning}}
+        <div class="alert alert-warning">
+            {{this}}
+        </div>
+    {{/each}}
+</div>
