@@ -22,5 +22,24 @@
             </div>
         </div>
     </div>
+    <div class="col-12">
+        <div class="form-floating mb-3">
+            <input type="password" class="form-control" placeholder="Senha" name="password" id="password" value="" minlength="6">
+            <label for="password">Senha</label>
+            <div class="invalid-feedback">
+                Digite a senha.
+            </div>
+        </div>
+        <small class="d-inline-flex mb-3 px-2 py-1 text-warning-emphasis bg-warning-subtle border border-warning-subtle rounded-2">Digite uma senha se quiser alterar a atual.</small>
+    </div>
+    <div class="col-12">
+        <div class="form-floating">
+            <select class="form-select" id="role" name="role">
+                <option value="student" {{selected role 'student'}}>Estudante</option>
+                <option value="teacher" {{selected role 'teacher'}}>Professor</option>
+            </select>
+            <label for="role">Papel</label>
+        </div>
+    </div>
     {{> form-buttons isEdit=true back="/user" }}
 </form>

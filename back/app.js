@@ -37,29 +37,32 @@ app.engine('hbs', engine({
 app.set('view engine', 'hbs');
 
 app.use(logger('dev'));
-app.use(express.json());
+
 app.use(express.urlencoded({extended: false}));
 app.use(cors({
-    origin: '*',
+    origin: 'http://localhost:5173',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization']
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
 }));
-app.use(session({
-    secret: process.env.SESSION_SECRET || 'rankio-secret',
-    resave: false,
-    saveUninitialized: false
-}))
-app.use(flash())
+app.use(express.json());
 app.use(cookieParser());
+// app.use(session({
+//     secret: process.env.SESSION_SECRET || 'token',
+//     resave: false,
+//     saveUninitialized: false
+// }))
+// app.use(flash())
+
 app.use(express.static(path.join(__dirname, 'public')));
-app.use((req, res, next) => {
-    res.locals.success = req.flash('success')
-    res.locals.error = req.flash('error')
-    res.locals.info = req.flash('info')
-    res.locals.warning = req.flash('warning')
-    res.locals.form = req.flash('form')[0] ?? null
-    next()
-})
+// app.use((req, res, next) => {
+//     res.locals.success = req.flash('success')
+//     res.locals.error = req.flash('error')
+//     res.locals.info = req.flash('info')
+//     res.locals.warning = req.flash('warning')
+//     res.locals.form = req.flash('form')[0] ?? null
+//     next()
+// })
 
 // Rotas
 app.use('/', routesWeb);
@@ -71,15 +74,36 @@ app.use(function (req, res, next) {
     next(createError(404));
 });
 
-// error handler
-app.use(function (err, req, res, next) {
-    // set locals, only providing error in development
-    res.locals.message = err.message;
-    res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-    // render the error page
+// Add this at the very end of your middleware stack
+app.use((err, req, res, next) => {
+    console.error(err.stack); // Log the error stack to the console
     res.status(err.status || 500);
-    res.render('error');
+
+    // Send the error message and stack trace in development
+    if (process.env.NODE_ENV === 'development') {
+        res.send({
+            message: err.message,
+            error: err
+        });
+    } else {
+        // Generic error message in production
+        res.send({
+            message: 'Internal Server Error',
+            error: {}
+        });
+    }
 });
+
+//
+// // error handler
+// app.use(function (err, req, res, next) {
+//     // set locals, only providing error in development
+//     res.locals.message = err.message;
+//     res.locals.error = req.app.get('env') === 'development' ? err : {};
+//
+//     // render the error page
+//     res.status(err.status || 500);
+//     res.render('error');
+// });
 
 module.exports = app;

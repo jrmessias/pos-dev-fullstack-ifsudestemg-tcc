@@ -1,5 +1,6 @@
-const {User} = require("../models");
+const {User} = require("../../models");
 const {Op} = require("sequelize");
+const bcrypt = require("bcryptjs");
 
 const title = "Usuário";
 
@@ -23,19 +24,23 @@ exports.create = async function (req, res) {
 }
 
 exports.store = async function (req, res) {
-    const {name, email} = req.body;
+    const {name, email, password, role} = req.body;
 
     const existingUser = await User.findOne({where: {email: email}});
     if (existingUser) {
         req.flash('error', `O email ${email} já está em uso.`)
         req.flash('form', req.body)
-        console.log(req.body)
         return res.redirect('/user/create');
     }
+
+    const salt = await bcrypt.genSalt ( ) ;
+    const passwordHashed = await bcrypt.hash (password, salt );
 
     const newUser = {
         name: name,
         email: email,
+        password: passwordHashed,
+        role: role,
     };
 
     try {
@@ -53,6 +58,7 @@ exports.edit = async function (req, res) {
 
     const id = req.params.id;
     var user = await User.findByPk(id);
+    console.log(user)
 
     var context = {
         title: title,
@@ -63,7 +69,7 @@ exports.edit = async function (req, res) {
 }
 
 exports.update = async function (req, res) {
-    const { name, email, id } = req.body;
+    const { name, email, id, password, role } = req.body;
 
     const existingUser = await User.findOne({where: {email: email, id: {[Op.ne]: id}}});
     if (existingUser) {
@@ -74,7 +80,13 @@ exports.update = async function (req, res) {
     const updateUser = {
         name: name,
         email: email,
+        role: role,
     };
+
+    if(password.length > 0) {
+        const salt = await bcrypt.genSalt();
+        updateUser.password = await bcrypt.hash(password, salt);
+    }
 
     try {
         await User.update(updateUser, {

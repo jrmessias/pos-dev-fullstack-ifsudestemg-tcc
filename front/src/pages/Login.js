@@ -1,14 +1,17 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema } from "../validators/loginSchema";
-import { loginRequest } from "../services/authService";
-import { useState } from "react";
+import {loginRequest, meRequest} from "../services/authService";
+import {useContext, useState} from "react";
 import logo from "../assets/react.svg";
 import {useNavigate} from "react-router-dom";
+import {AuthContext} from "../contexts/AuthContext.js";
 
 export default function Login() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const { setUser } = useContext(AuthContext);
+
     const navigate = useNavigate();
 
     const {
@@ -25,14 +28,20 @@ export default function Login() {
             setError(null);
 
             const result = await loginRequest(data);
-            console.log(data);
-            console.log("Login sucesso:", result);
+            // console.log(data);
+            // console.log("Login sucesso:", result.user);
+            console.log("Login sucesso!");
 
             // exemplo: persistência simples
             // localStorage.setItem("token", result.token);
 
             // redireciona após cookie ser salvo
-            navigate("/dashboard");
+            // navigate("/dashboard");
+            const { user } = await meRequest('/me');
+            setUser(user);
+
+            if (user.role === 'teacher') navigate('/teacher');
+            else navigate('/student');
         } catch (err) {
 
             setError(err.message);
@@ -42,10 +51,10 @@ export default function Login() {
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-slate-100">
+        <div className="min-h-screen flex items-center justify-center bg-slate-100 dark:bg-slate-900">
             <form
                 onSubmit={handleSubmit(onSubmit)}
-                className="w-full max-w-sm bg-white p-6 rounded-xl shadow"
+                className="w-full max-w-sm bg-white p-6 rounded-xl shadow dark:bg-slate-800"
             >
                 {/* Logo */}
                 <div className="flex justify-center mb-6">
@@ -68,9 +77,9 @@ export default function Login() {
                         className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-400"
                     />
                     {errors.email && (
-                        <span className="text-red-500 text-sm">
-              {errors.email.message}
-            </span>
+                        <div className="mb-3 text-sm p-2 rounded bg-red-100 text-red-800 dark:text-red-800 dark:bg-red-200 text-center">
+                            {errors.email.message}
+                        </div>
                     )}
                 </div>
 
@@ -82,22 +91,23 @@ export default function Login() {
                         className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-400"
                     />
                     {errors.password && (
-                        <span className="text-red-500 text-sm">
-              {errors.password.message}
-            </span>
+                        <div className="mb-3 text-sm p-2 rounded bg-red-100 text-red-800 dark:text-red-800 dark:bg-red-200 text-center">
+                            {errors.password.message}
+                        </div>
                     )}
                 </div>
 
                 {error && (
-                    <div className="mb-3 text-sm text-red-600 text-center">
-                        {error}
-                    </div>
-                )}
+                    <div className="mb-3 text-sm p-2 rounded bg-red-100 text-red-800 dark:text-red-800 dark:bg-red-200 text-center">
+                {error}
+        </div>
+    )
+}
 
-                <button
-                    type="submit"
-                    disabled={loading}
-                    className="w-full bg-slate-900 text-white py-2 rounded-md hover:bg-slate-700 transition disabled:opacity-60"
+    <button
+        type="submit"
+        disabled={loading}
+        className="w-full bg-slate-900 text-white py-2 rounded-md hover:bg-slate-700 transition disabled:opacity-60"
                 >
                     {loading ? "Entrando..." : "Entrar"}
                 </button>

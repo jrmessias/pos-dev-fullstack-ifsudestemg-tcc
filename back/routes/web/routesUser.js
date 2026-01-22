@@ -1,9 +1,8 @@
 // var express = require('express');
 // var router = express.Router();
-var controllerUser = require('../../controllers/controllerUser')
+var controllerUser = require('../../controllers/web/controllerUser')
 const createRouter = require("../../utils/createRouter");
 const router = createRouter("/user");
-const authMiddleware = require("../../middlewares/authMiddleware.js");
 
 router.get('/', controllerUser.index);
 

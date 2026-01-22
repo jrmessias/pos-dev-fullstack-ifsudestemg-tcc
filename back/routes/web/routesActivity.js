@@ -1,6 +1,6 @@
 // var express = require('express');
 // var router = express.Router();
-var controllerActivity = require('../../controllers/controllerActivity')
+var controllerActivity = require('../../controllers/web/controllerActivity')
 const createRouter = require("../../utils/createRouter");
 const router = createRouter("/activity");
 

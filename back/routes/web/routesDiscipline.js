@@ -1,6 +1,6 @@
 // var express = require('express');
 // var router = express.Router();
-var controllerDiscipline = require('../../controllers/controllerDiscipline')
+var controllerDiscipline = require('../../controllers/web/controllerDiscipline')
 const createRouter = require("../../utils/createRouter");
 const router = createRouter("/discipline");
 

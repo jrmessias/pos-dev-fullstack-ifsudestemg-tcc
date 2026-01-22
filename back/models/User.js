@@ -8,6 +8,8 @@ User.init(
         id: { type: DataTypes.INTEGER, autoIncrement: true, primaryKey: true },
         name: { type: DataTypes.STRING(80), allowNull: false },
         email: { type: DataTypes.STRING(45), allowNull: false, unique: true },
+        password: { type: DataTypes.STRING(100), allowNull: false },
+        role: { type: DataTypes.STRING(10), allowNull: false },
         nickname: { type: DataTypes.STRING(45) }
     },
     {

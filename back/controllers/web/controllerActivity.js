@@ -1,4 +1,4 @@
-const {Discipline, Activity, User} = require("../models");
+const {Discipline, Activity, User} = require("../../models");
 
 const title = "Atividade";
 

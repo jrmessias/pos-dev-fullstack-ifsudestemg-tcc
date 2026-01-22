@@ -1,4 +1,4 @@
-const {Activity, Question} = require("../models");
+const {Activity, Question} = require("../../models");
 
 const title = "Questão";
 

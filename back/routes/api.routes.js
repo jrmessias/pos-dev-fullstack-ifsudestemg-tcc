@@ -1,8 +1,8 @@
 const express = require('express');
-const authMiddleware = require("../middlewares/authMiddleware");
+const auth = require("../middlewares/auth");
 const router = express.Router();
 
-router.use(authMiddleware);
+router.use(auth);
 
 router.use('/auth', require('./api/routesAuth'));
 

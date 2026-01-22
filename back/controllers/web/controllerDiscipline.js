@@ -1,6 +1,6 @@
-const {User, Discipline} = require("../models");
-const generateKey = require("../helpers/generateKey");
-const currentDateToArray = require("../helpers/currentDateToArray");
+const {User, Discipline} = require("../../models");
+const generateKey = require("../../helpers/generateKey");
+const currentDateToArray = require("../../helpers/currentDateToArray");
 
 const title = "Disciplina";
 
