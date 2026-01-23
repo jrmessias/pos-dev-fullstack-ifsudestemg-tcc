@@ -5,6 +5,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import TeacherDashboard from './pages/teacher/Dashboard';
 import StudentDashboard from './pages/student/Dashboard';
 import Login from './pages/Login';
+import Home from './pages/Home';
 import Unauthorized from './pages/Unauthorized';
 
 export default function AppRoutes() {
@@ -12,6 +13,7 @@ export default function AppRoutes() {
         <BrowserRouter>
             <AuthProvider>
                 <Routes>
+                    <Route path="/" element={<Home />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/unauthorized" element={<Unauthorized />} />
 

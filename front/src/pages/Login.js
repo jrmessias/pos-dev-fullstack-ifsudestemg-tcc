@@ -1,23 +1,21 @@
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema } from "../validators/loginSchema";
-import {loginRequest, meRequest} from "../services/authService";
-import {useContext, useState} from "react";
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {loginSchema} from "../validators/loginSchema";
+import {loginRequest} from "../services/authService";
+import { useState} from "react";
 import logo from "../assets/react.svg";
 import {useNavigate} from "react-router-dom";
-import {AuthContext} from "../contexts/AuthContext.js";
 
 export default function Login() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const { setUser } = useContext(AuthContext);
 
     const navigate = useNavigate();
 
     const {
         register,
         handleSubmit,
-        formState: { errors },
+        formState: {errors},
     } = useForm({
         resolver: zodResolver(loginSchema),
     });
@@ -28,19 +26,15 @@ export default function Login() {
             setError(null);
 
             const result = await loginRequest(data);
-            // console.log(data);
-            // console.log("Login sucesso:", result.user);
-            console.log("Login sucesso!");
+            console.log("Login sucesso:", result);
 
             // exemplo: persistência simples
             // localStorage.setItem("token", result.token);
 
-            // redireciona após cookie ser salvo
-            // navigate("/dashboard");
-            const { user } = await meRequest('/me');
-            setUser(user);
-
-            if (user.role === 'teacher') navigate('/teacher');
+            // const { user } = await meRequest('/me');
+            // console.log(user)
+            // setUser(user);
+            if (result.data.user.role === 'teacher') navigate('/teacher');
             else navigate('/student');
         } catch (err) {
 
@@ -77,7 +71,8 @@ export default function Login() {
                         className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-400"
                     />
                     {errors.email && (
-                        <div className="mb-3 text-sm p-2 rounded bg-red-100 text-red-800 dark:text-red-800 dark:bg-red-200 text-center">
+                        <div
+                            className="mb-3 text-sm p-2 rounded bg-red-100 text-red-800 dark:text-red-800 dark:bg-red-200 text-center">
                             {errors.email.message}
                         </div>
                     )}
@@ -91,23 +86,25 @@ export default function Login() {
                         className="w-full border rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-slate-400"
                     />
                     {errors.password && (
-                        <div className="mb-3 text-sm p-2 rounded bg-red-100 text-red-800 dark:text-red-800 dark:bg-red-200 text-center">
+                        <div
+                            className="mb-3 text-sm p-2 rounded bg-red-100 text-red-800 dark:text-red-800 dark:bg-red-200 text-center">
                             {errors.password.message}
                         </div>
                     )}
                 </div>
 
                 {error && (
-                    <div className="mb-3 text-sm p-2 rounded bg-red-100 text-red-800 dark:text-red-800 dark:bg-red-200 text-center">
-                {error}
-        </div>
-    )
-}
+                    <div
+                        className="mb-3 text-sm p-2 rounded bg-red-100 text-red-800 dark:text-red-800 dark:bg-red-200 text-center">
+                        {error}
+                    </div>
+                )
+                }
 
-    <button
-        type="submit"
-        disabled={loading}
-        className="w-full bg-slate-900 text-white py-2 rounded-md hover:bg-slate-700 transition disabled:opacity-60"
+                <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full bg-slate-900 text-white py-2 rounded-md hover:bg-slate-700 transition disabled:opacity-60"
                 >
                     {loading ? "Entrando..." : "Entrar"}
                 </button>

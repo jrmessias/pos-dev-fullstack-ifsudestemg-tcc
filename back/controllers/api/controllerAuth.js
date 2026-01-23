@@ -2,8 +2,15 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const {loginSchema} = require("../../validators/authValidator");
 const {findUserByEmail} = require("../../repositories/userRepository");
-const {User} = require("../../models");
-const {Op} = require("sequelize");
+
+cookieOptions = {
+    // domain: "127.0.0.1",
+    httpOnly: true,
+    secure: false,//process.env.NODE_ENV === "production", // true só em HTTPS
+    sameSite: 'lax',
+    path: '/',         // precisa bater com o cookie original
+    // maxAge: 5 * 60 * 1000, // 5 minutes * 60 seconds * 1000 milliseconds = 300000 ms
+};
 
 exports.login = async function (req, res) {
     try {
@@ -34,20 +41,12 @@ exports.login = async function (req, res) {
         );
 
         // cookie httpOnly
-        res.cookie("token", token, {
-            // domain: "localhost",
-            httpOnly: true,
-            secure: false,//process.env.NODE_ENV === "production",
-            sameSite: "lax",
-            path: '/',
-            // maxAge: 5 * 60 * 1000, // 5 minutes * 60 seconds * 1000 milliseconds = 300000 ms
-        });
+        res.cookie("token", token, cookieOptions);
 
         return res.json({
             token,
             user: {
                 name: user.name,
-                email: user.email,
                 role: user.role,
             },
         });
@@ -78,6 +77,12 @@ exports.me = async function (req, res) {
     //     email: user.email,
     //     role: user.role,
     // });
+}
+
+exports.logout = async function (req, res) {
+    res.clearCookie('token', cookieOptions);
+
+    return res.sendStatus(204);
 }
 
 module.exports = exports;

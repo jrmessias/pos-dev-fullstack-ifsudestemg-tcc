@@ -5,3 +5,6 @@ export const loginRequest = (data) =>
 
 export const meRequest = () =>
     api.get("/auth/me");
+
+export const logoutRequest = () =>
+    api.post("/auth/logout");

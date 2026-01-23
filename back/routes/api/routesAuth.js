@@ -8,7 +8,9 @@ const router = createRouter("/api/auth");
 router.post('/login', controllerAuth.login);
 
 router.get('/me', auth, controllerAuth.me);
-//
+
+router.post('/logout', controllerAuth.logout);
+
 // router.get('/refresh', controllerAuth.refreshToken);
 
 module.exports = router;

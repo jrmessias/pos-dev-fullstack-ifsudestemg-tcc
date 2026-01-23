@@ -4,9 +4,6 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser')
 const {sequelize} = require('./models');
-const {engine} = require('express-handlebars');
-const session = require('express-session')
-const flash = require('connect-flash')
 const routesWeb = require('./routes/web.routes')
 const routesApi = require('./routes/api.routes')
 const cors = require('cors')
@@ -25,19 +22,7 @@ var app = express();
     }
 })();
 
-// view engine setup
-app.engine('hbs', engine({
-    extname: '.hbs',
-    defaultLayout: 'admin',
-    viewsDir: path.join(__dirname, 'views'),
-    layoutsDir: path.join(__dirname, 'views/layouts'),
-    partialsDir: path.join(__dirname, 'views/partials'),
-    helpers: require('./helpers/handlebars')
-}));
-app.set('view engine', 'hbs');
-
 app.use(logger('dev'));
-
 app.use(express.urlencoded({extended: false}));
 app.use(cors({
     origin: 'http://localhost:5173',
@@ -47,23 +32,7 @@ app.use(cors({
 }));
 app.use(express.json());
 app.use(cookieParser());
-// app.use(session({
-//     secret: process.env.SESSION_SECRET || 'token',
-//     resave: false,
-//     saveUninitialized: false
-// }))
-// app.use(flash())
-
 app.use(express.static(path.join(__dirname, 'public')));
-// app.use((req, res, next) => {
-//     res.locals.success = req.flash('success')
-//     res.locals.error = req.flash('error')
-//     res.locals.info = req.flash('info')
-//     res.locals.warning = req.flash('warning')
-//     res.locals.form = req.flash('form')[0] ?? null
-//     next()
-// })
-
 // Rotas
 app.use('/', routesWeb);
 app.use('/api', routesApi);
