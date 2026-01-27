@@ -26,7 +26,7 @@ export default function Login() {
             setError(null);
 
             const result = await loginRequest(data);
-            console.log("Login sucesso:", result);
+            console.log("Login sucesso:", result.data);
 
             // exemplo: persistência simples
             // localStorage.setItem("token", result.token);
