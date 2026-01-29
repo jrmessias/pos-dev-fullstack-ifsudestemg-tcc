@@ -1,5 +1,5 @@
-import {useNavigate} from "react-router-dom";
-import Icon from "../components/Icon.js";
+import Icon from "../components/Icon";
+import ThemeToggle from "../components/ThemeToggle.js";
 
 export default function Login() {
 
@@ -11,43 +11,35 @@ export default function Login() {
                     <div className="flex items-center justify-between h-16">
                         <div className="flex items-center gap-2">
                             <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                     stroke-linejoin="round"
-                                     className="lucide lucide-graduation-cap w-5 h-5 text-primary-foreground">
-                                    <path
-                                        d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"></path>
-                                    <path d="M22 10v6"></path>
-                                    <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"></path>
-                                </svg>
+                                <Icon name={'GraduationCap'} className="text-primary-foreground"/>
                             </div>
-                            <span className="text-xl font-bold text-foreground">Rankio</span></div>
-                        <nav className="hidden md:flex items-center gap-8"><a href="#recursos"
-                                                                              className="text-sm text-muted-foreground hover:text-foreground transition-colors">Recursos</a><a
-                            href="#como-funciona"
-                            className="text-sm text-muted-foreground hover:text-foreground transition-colors">Como
-                            Funciona</a><a href="#depoimentos"
-                                           className="text-sm text-muted-foreground hover:text-foreground transition-colors">Depoimentos</a>
+                            <span className="text-xl font-bold text-foreground">Rankio</span>
+                        </div>
+                        <nav className="hidden md:flex items-center gap-8">
+                            <a href="#recursos"
+                               className="text-sm text-muted-foreground hover:text-foreground transition-colors">Recursos</a>
+                            <a href="#como-funciona"
+                               className="text-sm text-muted-foreground hover:text-foreground transition-colors">Como
+                                Funciona</a>
+                            <a href="#depoimentos"
+                               className="text-sm text-muted-foreground hover:text-foreground transition-colors">Depoimentos</a>
                         </nav>
                         <div className="flex items-center gap-3">
-                            <button data-slot="button"
-                                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-9 rounded-full">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                     stroke-linejoin="round" className="lucide lucide-moon w-5 h-5">
-                                    <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
-                                </svg>
+                            <button
+                                className="inline-flex">
+                                <ThemeToggle/>
                             </button>
                             <a href="/login">
-                                <button data-slot="button"
-                                        className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[&gt;svg]:px-3 text-sm">Entrar
+                                <button
+                                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-all disabled:pointer-events-none disabled:opacity-50 shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 has-[&gt;svg]:px-3 text-sm cursor-pointer">Entrar
                                 </button>
-                            </a><a href="/login">
-                            <button data-slot="button"
-                                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[&gt;svg]:px-3 text-sm">Comecar
-                                Agora
-                            </button>
-                        </a></div>
+                            </a>
+                            <a href="/login">
+                                <button
+                                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-all disabled:pointer-events-none disabled:opacity-50 shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[&gt;svg]:px-3 text-sm cursor-pointer">
+                                    Começar Agora
+                                </button>
+                            </a></div>
                     </div>
                 </div>
             </header>
@@ -57,42 +49,26 @@ export default function Login() {
                         <div className="space-y-8">
                             <div
                                 className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 text-primary text-sm font-medium">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                     stroke-linejoin="round" className="lucide lucide-sparkles w-4 h-4">
-                                    <path
-                                        d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"></path>
-                                    <path d="M20 3v4"></path>
-                                    <path d="M22 5h-4"></path>
-                                    <path d="M4 17v2"></path>
-                                    <path d="M5 18H3"></path>
-                                </svg>
+                                <Icon name={'Sparkles'} className="w-4 h-4"/>
                                 Plataforma Educacional Gamificada
                             </div>
-                            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-tight text-balance">Transforme
-                                o aprendizado em uma <span className="text-primary">aventura</span></h1><p
-                            className="text-lg text-muted-foreground max-w-lg leading-relaxed">O Rankio combina
-                            educacao e gamificacao para criar experiencias de aprendizado envolventes. XP, medalhas,
-                            rankings e muito mais para motivar seus alunos.</p>
+                            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-foreground leading-tight text-balance">
+                                Transforme o aprendizado em uma <span className="text-primary">aventura</span>
+                            </h1>
+                            <p className="text-lg text-muted-foreground max-w-lg leading-relaxed">O Rankio combina
+                                educacao e gamificação para criar experiências de aprendizado envolventes. XP, medalhas,
+                                rankings e muito mais para motivar seus alunos.</p>
                             <div className="flex flex-col sm:flex-row gap-4"><a href="/login">
-                                <button data-slot="button"
-                                        className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-10 rounded-md px-6 has-[&gt;svg]:px-4 w-full sm:w-auto gap-2">Comecar
-                                    Gratuitamente
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round" className="lucide lucide-chevron-right w-4 h-4">
-                                        <path d="m9 18 6-6-6-6"></path>
-                                    </svg>
+                                <button
+                                    className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-10 rounded-md px-6 has-[&gt;svg]:px-4 w-full sm:w-auto gap-2 cursor-pointer">
+                                    Começar                                    Gratuitamente
+                                    <Icon name={'ChevronRight'} className="w-4 h-4"/>
                                 </button>
                             </a>
-                                <button data-slot="button"
-                                        className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 h-10 rounded-md px-6 has-[&gt;svg]:px-4 w-full sm:w-auto gap-2 bg-transparent">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round" className="lucide lucide-play w-4 h-4">
-                                        <polygon points="6 3 20 12 6 21 6 3"></polygon>
-                                    </svg>
-                                    Ver Demonstracao
+                                <button
+                                    className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive border shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50 dark:hover:text-white h-10 rounded-md px-6 has-[&gt;svg]:px-4 w-full sm:w-auto gap-2 bg-transparent cursor-pointer">
+                                    <Icon name={'Play'} className="w-4 h-4"/>
+                                    Ver Demonstração
                                 </button>
                             </div>
                         </div>
@@ -110,62 +86,28 @@ export default function Login() {
                                         </div>
                                         <div
                                             className="flex items-center gap-1 px-2 py-1 rounded-full bg-accent/20 text-accent-foreground text-sm">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                 stroke-linecap="round" stroke-linejoin="round"
-                                                 className="lucide lucide-zap w-3 h-3 text-accent">
-                                                <path
-                                                    d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"></path>
-                                            </svg>
-                                            <span className="font-medium">2,450 XP</span></div>
+                                            <Icon name={'Zap'} className="w-3 h-3 text-accent"/>
+                                            <span className="font-medium">2.450 XP</span></div>
                                     </div>
                                     <div className="space-y-1">
                                         <div className="flex justify-between text-xs text-muted-foreground"><span>Progresso para Nivel 13</span><span>75%</span>
                                         </div>
                                         <div className="h-2 bg-secondary rounded-full overflow-hidden">
-                                            <div className="h-full bg-primary rounded-full transition-all duration-500" ></div>
+                                            <div
+                                                className="h-full bg-primary rounded-full transition-all duration-500"></div>
                                         </div>
                                     </div>
                                     <div className="grid grid-cols-3 gap-3">
                                         <div className="bg-secondary/50 rounded-lg p-3 text-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                 stroke-linecap="round" stroke-linejoin="round"
-                                                 className="lucide lucide-medal w-5 h-5 text-[var(--gold)] mx-auto mb-1">
-                                                <path
-                                                    d="M7.21 15 2.66 7.14a2 2 0 0 1 .13-2.2L4.4 2.8A2 2 0 0 1 6 2h12a2 2 0 0 1 1.6.8l1.6 2.14a2 2 0 0 1 .14 2.2L16.79 15"></path>
-                                                <path d="M11 12 5.12 2.2"></path>
-                                                <path d="m13 12 5.88-9.8"></path>
-                                                <path d="M8 7h8"></path>
-                                                <circle cx="12" cy="17" r="5"></circle>
-                                                <path d="M12 18v-2h-.5"></path>
-                                            </svg>
+                                            <Icon name={'Medal'} className="w-5 h-5 text-[var(--gold)] mx-auto mb-1"/>
                                             <p className="text-lg font-bold text-foreground">5</p><p
                                             className="text-xs text-muted-foreground">Ouros</p></div>
                                         <div className="bg-secondary/50 rounded-lg p-3 text-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                 stroke-linecap="round" stroke-linejoin="round"
-                                                 className="lucide lucide-trophy w-5 h-5 text-primary mx-auto mb-1">
-                                                <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
-                                                <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
-                                                <path d="M4 22h16"></path>
-                                                <path
-                                                    d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
-                                                <path
-                                                    d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
-                                                <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
-                                            </svg>
+                                            <Icon name={'Trophy'} className="w-5 h-5 text-primary mx-auto mb-1"/>
                                             <p className="text-lg font-bold text-foreground">3o</p><p
                                             className="text-xs text-muted-foreground">Ranking</p></div>
                                         <div className="bg-secondary/50 rounded-lg p-3 text-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                 stroke-linecap="round" stroke-linejoin="round"
-                                                 className="lucide lucide-zap w-5 h-5 text-accent mx-auto mb-1">
-                                                <path
-                                                    d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"></path>
-                                            </svg>
+                                            <Icon name={'Zap'} className="w-5 h-5 text-accent mx-auto mb-1"/>
                                             <p className="text-lg font-bold text-foreground">7</p><p
                                             className="text-xs text-muted-foreground">Dias</p></div>
                                     </div>
@@ -173,13 +115,7 @@ export default function Login() {
                                         className="flex items-center gap-3 p-3 rounded-lg bg-primary/5 border border-primary/20">
                                         <div
                                             className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                 viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                                 stroke-linecap="round" stroke-linejoin="round"
-                                                 className="lucide lucide-star w-5 h-5 text-primary">
-                                                <path
-                                                    d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path>
-                                            </svg>
+                                            <Icon name={'Zap'} className="w-5 h-5 text-primary"/>
                                         </div>
                                         <div className="flex-1"><p className="text-sm font-medium text-foreground">Nova
                                             Conquista!</p><p className="text-xs text-muted-foreground">Mestre em
@@ -192,18 +128,7 @@ export default function Login() {
                                 <div className="flex items-center gap-2">
                                     <div
                                         className="w-8 h-8 rounded-full bg-[var(--gold)]/20 flex items-center justify-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                             stroke-linecap="round" stroke-linejoin="round"
-                                             className="lucide lucide-medal w-4 h-4 text-[var(--gold)]">
-                                            <path
-                                                d="M7.21 15 2.66 7.14a2 2 0 0 1 .13-2.2L4.4 2.8A2 2 0 0 1 6 2h12a2 2 0 0 1 1.6.8l1.6 2.14a2 2 0 0 1 .14 2.2L16.79 15"></path>
-                                            <path d="M11 12 5.12 2.2"></path>
-                                            <path d="m13 12 5.88-9.8"></path>
-                                            <path d="M8 7h8"></path>
-                                            <circle cx="12" cy="17" r="5"></circle>
-                                            <path d="M12 18v-2h-.5"></path>
-                                        </svg>
+                                        <Icon name={'Medal'} className="w-4 h-4 text-[var(--gold)]"/>
                                     </div>
                                     <div><p className="text-xs font-medium text-foreground">+50 XP</p><p
                                         className="text-[10px] text-muted-foreground">Medalha de Ouro!</p></div>
@@ -214,13 +139,7 @@ export default function Login() {
                                 <div className="flex items-center gap-2">
                                     <div
                                         className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                             stroke-linecap="round" stroke-linejoin="round"
-                                             className="lucide lucide-trending-up w-4 h-4 text-primary">
-                                            <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
-                                            <polyline points="16 7 22 7 22 13"></polyline>
-                                        </svg>
+                                        <Icon name={'TrendingUp'} className="w-4 h-4 text-primary"/>
                                     </div>
                                     <div><p className="text-xs font-medium text-foreground">Ranking</p><p
                                         className="text-[10px] text-primary">Subiu 2 posicoes!</p></div>
@@ -236,54 +155,31 @@ export default function Login() {
                         <div className="text-center">
                             <div
                                 className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary/10 text-primary mb-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                     stroke-linejoin="round" className="lucide lucide-users w-6 h-6">
-                                    <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"></path>
-                                    <circle cx="9" cy="7" r="4"></circle>
-                                    <path d="M22 21v-2a4 4 0 0 0-3-3.87"></path>
-                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                                </svg>
+                                <Icon name={'Users'} className="w-6 h-6"/>
                             </div>
                             <p className="text-3xl lg:text-4xl font-bold text-foreground">50k+</p><p
                             className="text-sm text-muted-foreground mt-1">Alunos ativos</p></div>
                         <div className="text-center">
                             <div
                                 className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary/10 text-primary mb-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                     stroke-linejoin="round" className="lucide lucide-trending-up w-6 h-6">
-                                    <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
-                                    <polyline points="16 7 22 7 22 13"></polyline>
-                                </svg>
+                                <Icon name={'TrendingUp'} className="w-6 h-6"/>
                             </div>
                             <p className="text-3xl lg:text-4xl font-bold text-foreground">98%</p><p
                             className="text-sm text-muted-foreground mt-1">Taxa de engajamento</p></div>
                         <div className="text-center">
                             <div
                                 className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary/10 text-primary mb-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                     stroke-linejoin="round" className="lucide lucide-target w-6 h-6">
-                                    <circle cx="12" cy="12" r="10"></circle>
-                                    <circle cx="12" cy="12" r="6"></circle>
-                                    <circle cx="12" cy="12" r="2"></circle>
-                                </svg>
+                                <Icon name={'Target'} className="w-6 h-6"/>
                             </div>
                             <p className="text-3xl lg:text-4xl font-bold text-foreground">2M+</p><p
                             className="text-sm text-muted-foreground mt-1">Atividades completadas</p></div>
                         <div className="text-center">
                             <div
                                 className="inline-flex items-center justify-center w-12 h-12 rounded-xl bg-primary/10 text-primary mb-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                     fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                     stroke-linejoin="round" className="lucide lucide-star w-6 h-6">
-                                    <path
-                                        d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path>
-                                </svg>
+                                <Icon name={'Star'} className="w-6 h-6"/>
                             </div>
                             <p className="text-3xl lg:text-4xl font-bold text-foreground">4.9</p><p
-                            className="text-sm text-muted-foreground mt-1">Avaliacao media</p></div>
+                            className="text-sm text-muted-foreground mt-1">Avaliação média</p></div>
                     </div>
                 </div>
             </section>
@@ -291,118 +187,75 @@ export default function Login() {
                 <div className="max-w-7xl mx-auto">
                     <div className="text-center mb-16"><h2
                         className="text-3xl sm:text-4xl font-bold text-foreground mb-4 text-balance">Recursos que
-                        transformam a educacao</h2><p
+                        transformam a educação</h2><p
                         className="text-lg text-muted-foreground max-w-2xl mx-auto">Ferramentas poderosas para
-                        professores e experiencias envolventes para alunos.</p></div>
+                        professores e experiências envolventes para alunos.</p></div>
                     <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        <div data-slot="card"
+                        <div
                              className="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                            <div data-slot="card-content" className="p-6">
+                            <div className="p-6">
                                 <div
                                     className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round" className="lucide lucide-trophy w-6 h-6">
-                                        <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
-                                        <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
-                                        <path d="M4 22h16"></path>
-                                        <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
-                                        <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
-                                        <path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"></path>
-                                    </svg>
+                                    <Icon name={'Trophy'} className="w-6 h-6"/>
                                 </div>
-                                <h3 className="text-lg font-semibold text-foreground mb-2">Sistema de XP e Niveis</h3><p
-                                className="text-sm text-muted-foreground leading-relaxed">Alunos ganham experiencia ao
-                                completar atividades, subindo de nivel e desbloqueando conquistas.</p></div>
+                                <h3 className="text-lg font-semibold text-foreground mb-2">Sistema de XP e Níveis</h3><p
+                                className="text-sm text-muted-foreground leading-relaxed">Alunos ganham experiência ao
+                                completar atividades, subindo de nível e desbloqueando conquistas.</p></div>
                         </div>
-                        <div data-slot="card"
+                        <div
                              className="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                            <div data-slot="card-content" className="p-6">
+                            <div className="p-6">
                                 <div
                                     className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round" className="lucide lucide-medal w-6 h-6">
-                                        <path
-                                            d="M7.21 15 2.66 7.14a2 2 0 0 1 .13-2.2L4.4 2.8A2 2 0 0 1 6 2h12a2 2 0 0 1 1.6.8l1.6 2.14a2 2 0 0 1 .14 2.2L16.79 15"></path>
-                                        <path d="M11 12 5.12 2.2"></path>
-                                        <path d="m13 12 5.88-9.8"></path>
-                                        <path d="M8 7h8"></path>
-                                        <circle cx="12" cy="17" r="5"></circle>
-                                        <path d="M12 18v-2h-.5"></path>
-                                    </svg>
+                                    <Icon name={'Medal'} className="w-6 h-6"/>
                                 </div>
                                 <h3 className="text-lg font-semibold text-foreground mb-2">Medalhas e Conquistas</h3><p
                                 className="text-sm text-muted-foreground leading-relaxed">Premie os melhores desempenhos
-                                com medalhas de ouro, prata e bronze. Motive atraves de reconhecimento.</p></div>
+                                com medalhas de ouro, prata e bronze. Motive através de reconhecimento.</p></div>
                         </div>
-                        <div data-slot="card"
+                        <div
                              className="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                            <div data-slot="card-content" className="p-6">
+                            <div className="p-6">
                                 <div
                                     className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round" className="lucide lucide-chart-column w-6 h-6">
-                                        <path d="M3 3v16a2 2 0 0 0 2 2h16"></path>
-                                        <path d="M18 17V9"></path>
-                                        <path d="M13 17V5"></path>
-                                        <path d="M8 17v-3"></path>
-                                    </svg>
+                                    <Icon name={'ChartColumn'} className="w-6 h-6"/>
                                 </div>
                                 <h3 className="text-lg font-semibold text-foreground mb-2">Rankings em Tempo Real</h3><p
-                                className="text-sm text-muted-foreground leading-relaxed">Competicao saudavel com
+                                className="text-sm text-muted-foreground leading-relaxed">Competição saudável com
                                 rankings por turma, disciplina e geral. Acompanhe o progresso de todos.</p></div>
                         </div>
-                        <div data-slot="card"
+                        <div
                              className="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                            <div data-slot="card-content" className="p-6">
+                            <div className="p-6">
                                 <div
                                     className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round" className="lucide lucide-zap w-6 h-6">
-                                        <path
-                                            d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"></path>
-                                    </svg>
+                                    <Icon name={'Zap'} className="w-6 h-6"/>
                                 </div>
-                                <h3 className="text-lg font-semibold text-foreground mb-2">Feedback Instantaneo</h3><p
-                                className="text-sm text-muted-foreground leading-relaxed">Correcao automatica e feedback
+                                <h3 className="text-lg font-semibold text-foreground mb-2">Feedback Instantâneo</h3><p
+                                className="text-sm text-muted-foreground leading-relaxed">Correção automática e feedback
                                 imediato para manter os alunos engajados e motivados.</p></div>
                         </div>
-                        <div data-slot="card"
+                        <div
                              className="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                            <div data-slot="card-content" className="p-6">
+                            <div className="p-6">
                                 <div
                                     className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round" className="lucide lucide-book-open w-6 h-6">
-                                        <path d="M12 7v14"></path>
-                                        <path
-                                            d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"></path>
-                                    </svg>
+                                    <Icon name={'BookOpen'} className="w-6 h-6"/>
                                 </div>
-                                <h3 className="text-lg font-semibold text-foreground mb-2">Gestao Completa</h3><p
+                                <h3 className="text-lg font-semibold text-foreground mb-2">Gestão Completa</h3><p
                                 className="text-sm text-muted-foreground leading-relaxed">Crie turmas, disciplinas e
-                                atividades facilmente. Acompanhe o desempenho em um so lugar.</p></div>
+                                atividades facilmente. Acompanhe o desempenho em um só lugar.</p></div>
                         </div>
-                        <div data-slot="card"
+                        <div
                              className="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm group hover:shadow-lg transition-all duration-300 hover:-translate-y-1">
-                            <div data-slot="card-content" className="p-6">
+                            <div className="p-6">
                                 <div
                                     className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round" className="lucide lucide-award w-6 h-6">
-                                        <path
-                                            d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path>
-                                        <circle cx="12" cy="8" r="6"></circle>
-                                    </svg>
+                                    <Icon name={'Award'} className="w-6 h-6"/>
                                 </div>
-                                <h3 className="text-lg font-semibold text-foreground mb-2">Sequencias de Estudo</h3><p
-                                className="text-sm text-muted-foreground leading-relaxed">Incentive a constancia com
-                                streaks diarios e semanais. Recompense a dedicacao dos alunos.</p></div>
+                                <h3 className="text-lg font-semibold text-foreground mb-2">Sequências de Estudo</h3><p
+                                className="text-sm text-muted-foreground leading-relaxed">Incentive a constância com
+                                streaks diários e semanais. Recompense a dedicação dos alunos.</p></div>
                         </div>
                     </div>
                 </div>
@@ -439,117 +292,57 @@ export default function Login() {
             <section id="depoimentos" className="py-20 px-4 sm:px-6 lg:px-8">
                 <div className="max-w-7xl mx-auto">
                     <div className="text-center mb-16"><h2
-                        className="text-3xl sm:text-4xl font-bold text-foreground mb-4">O que dizem sobre nos</h2><p
-                        className="text-lg text-muted-foreground max-w-2xl mx-auto">Professores e alunos ja
-                        transformaram suas experiencias com o Rankio.</p></div>
+                        className="text-3xl sm:text-4xl font-bold text-foreground mb-4">O que dizem sobre nós</h2><p
+                        className="text-lg text-muted-foreground max-w-2xl mx-auto">Professores e alunos já
+                        transformaram suas experiências com o Rankio.</p></div>
                     <div className="grid md:grid-cols-3 gap-6">
-                        <div data-slot="card"
+                        <div
                              className="text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm bg-card">
-                            <div data-slot="card-content" className="p-6">
+                            <div className="p-6">
                                 <div className="flex items-center gap-3 mb-4">
                                     <div
                                         className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-semibold text-sm">MS
                                     </div>
                                     <div><p className="font-medium text-foreground">Prof. Maria Santos</p><p
-                                        className="text-xs text-muted-foreground">Professora de Matematica</p></div>
+                                        className="text-xs text-muted-foreground">Professora de Matemática</p></div>
                                 </div>
                                 <p className="text-sm text-muted-foreground leading-relaxed">"O Rankio
-                                    transformou minhas aulas. Os alunos estao muito mais engajados e motivados a
+                                    transformou minhas aulas. Os alunos estão muito mais engajados e motivados a
                                     aprender."</p>
                                 <div className="flex gap-1 mt-4">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round"
-                                         className="lucide lucide-star w-4 h-4 fill-accent text-accent">
-                                        <path
-                                            d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path>
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round"
-                                         className="lucide lucide-star w-4 h-4 fill-accent text-accent">
-                                        <path
-                                            d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path>
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round"
-                                         className="lucide lucide-star w-4 h-4 fill-accent text-accent">
-                                        <path
-                                            d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path>
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round"
-                                         className="lucide lucide-star w-4 h-4 fill-accent text-accent">
-                                        <path
-                                            d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path>
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round"
-                                         className="lucide lucide-star w-4 h-4 fill-accent text-accent">
-                                        <path
-                                            d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path>
-                                    </svg>
+                                    <Icon name={'Star'} className="w-4 h-4 fill-accent text-accent"/>
+                                    <Icon name={'Star'} className="w-4 h-4 fill-accent text-accent"/>
+                                    <Icon name={'Star'} className="w-4 h-4 fill-accent text-accent"/>
+                                    <Icon name={'Star'} className="w-4 h-4 fill-accent text-accent"/>
+                                    <Icon name={'Star'} className="w-4 h-4 fill-accent text-accent"/>
                                 </div>
                             </div>
                         </div>
-                        <div data-slot="card"
+                        <div
                              className="text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm bg-card">
-                            <div data-slot="card-content" className="p-6">
+                            <div className="p-6">
                                 <div className="flex items-center gap-3 mb-4">
                                     <div
                                         className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-semibold text-sm">CL
                                     </div>
                                     <div><p className="font-medium text-foreground">Prof. Carlos Lima</p><p
-                                        className="text-xs text-muted-foreground">Professor de Ciencias</p></div>
+                                        className="text-xs text-muted-foreground">Professor de Ciências</p></div>
                                 </div>
-                                <p className="text-sm text-muted-foreground leading-relaxed">"A gamificacao fez
-                                    toda a diferenca. Meus alunos competem de forma saudavel e aprendem
+                                <p className="text-sm text-muted-foreground leading-relaxed">"A gamificação fez
+                                    toda a diferença. Meus alunos competem de forma saudável e aprendem
                                     mais."</p>
                                 <div className="flex gap-1 mt-4">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round"
-                                         className="lucide lucide-star w-4 h-4 fill-accent text-accent">
-                                        <path
-                                            d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path>
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round"
-                                         className="lucide lucide-star w-4 h-4 fill-accent text-accent">
-                                        <path
-                                            d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path>
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round"
-                                         className="lucide lucide-star w-4 h-4 fill-accent text-accent">
-                                        <path
-                                            d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path>
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round"
-                                         className="lucide lucide-star w-4 h-4 fill-accent text-accent">
-                                        <path
-                                            d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path>
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round"
-                                         className="lucide lucide-star w-4 h-4 fill-accent text-accent">
-                                        <path
-                                            d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path>
-                                    </svg>
+                                    <Icon name={'Star'} className="w-4 h-4 fill-accent text-accent"/>
+                                    <Icon name={'Star'} className="w-4 h-4 fill-accent text-accent"/>
+                                    <Icon name={'Star'} className="w-4 h-4 fill-accent text-accent"/>
+                                    <Icon name={'Star'} className="w-4 h-4 fill-accent text-accent"/>
+                                    <Icon name={'Star'} className="w-4 h-4 fill-accent text-accent"/>
                                 </div>
                             </div>
                         </div>
-                        <div data-slot="card"
+                        <div
                              className="text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm bg-card">
-                            <div data-slot="card-content" className="p-6">
+                            <div className="p-6">
                                 <div className="flex items-center gap-3 mb-4">
                                     <div
                                         className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-semibold text-sm">AJ
@@ -560,41 +353,11 @@ export default function Login() {
                                 <p className="text-sm text-muted-foreground leading-relaxed">"Adoro colecionar
                                     medalhas e ver meu progresso. Estudar virou algo divertido!"</p>
                                 <div className="flex gap-1 mt-4">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round"
-                                         className="lucide lucide-star w-4 h-4 fill-accent text-accent">
-                                        <path
-                                            d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path>
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round"
-                                         className="lucide lucide-star w-4 h-4 fill-accent text-accent">
-                                        <path
-                                            d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path>
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round"
-                                         className="lucide lucide-star w-4 h-4 fill-accent text-accent">
-                                        <path
-                                            d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path>
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round"
-                                         className="lucide lucide-star w-4 h-4 fill-accent text-accent">
-                                        <path
-                                            d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path>
-                                    </svg>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round"
-                                         className="lucide lucide-star w-4 h-4 fill-accent text-accent">
-                                        <path
-                                            d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path>
-                                    </svg>
+                                    <Icon name={'Star'} className="w-4 h-4 fill-accent text-accent"/>
+                                    <Icon name={'Star'} className="w-4 h-4 fill-accent text-accent"/>
+                                    <Icon name={'Star'} className="w-4 h-4 fill-accent text-accent"/>
+                                    <Icon name={'Star'} className="w-4 h-4 fill-accent text-accent"/>
+                                    <Icon name={'Star'} className="w-4 h-4 fill-accent text-accent"/>
                                 </div>
                             </div>
                         </div>
@@ -606,16 +369,12 @@ export default function Login() {
                     className="text-3xl sm:text-4xl font-bold text-primary-foreground mb-4 text-balance">Pronto para
                     transformar suas aulas?</h2><p
                     className="text-lg text-primary-foreground/80 mb-8 max-w-2xl mx-auto">Junte-se a milhares de
-                    professores que ja estao usando o Rankio para engajar seus alunos.</p>
+                    professores que já estão usando o Rankio para engajar seus alunos.</p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center"><a href="/login">
-                        <button data-slot="button"
-                                className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-secondary text-secondary-foreground hover:bg-secondary/80 h-10 rounded-md px-6 has-[&gt;svg]:px-4 w-full sm:w-auto gap-2">Comecar
-                            Agora - e Gratis
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                 stroke-linejoin="round" className="lucide lucide-chevron-right w-4 h-4">
-                                <path d="m9 18 6-6-6-6"></path>
-                            </svg>
+                        <button
+                            className="inline-flex items-center justify-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-secondary text-secondary-foreground hover:bg-secondary/80 h-10 rounded-md px-6 has-[&gt;svg]:px-4 w-full sm:w-auto gap-2 cursor-pointer">Começar
+                            Agora - é Grátis
+                            <Icon name={'ChevronRight'} className="w-4 h-4"/>
                         </button>
                     </a></div>
                 </div>
@@ -626,20 +385,13 @@ export default function Login() {
                         <div>
                             <div className="flex items-center gap-2 mb-4">
                                 <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round"
-                                         className="lucide lucide-graduation-cap w-5 h-5 text-primary-foreground">
-                                        <path
-                                            d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"></path>
-                                        <path d="M22 10v6"></path>
-                                        <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"></path>
-                                    </svg>
+                                    <Icon name={'GraduationCap'} className="w-5 h-5 text-primary-foreground"/>
                                 </div>
                                 <span className="text-lg font-bold text-foreground">Rankio</span></div>
-                            <p className="text-sm text-muted-foreground">Transformando a educacao atraves da
-                                gamificacao.</p></div>
-                        <div><h4 className="font-semibold text-foreground mb-4">Produto</h4>
+                            <p className="text-sm text-muted-foreground">Transformando a educação através da
+                                gamificação.</p></div>
+                        <div>
+                            <h4 className="font-semibold text-foreground mb-4">Produto</h4>
                             <ul className="space-y-2">
                                 <li><a href="#recursos"
                                        className="text-sm text-muted-foreground hover:text-foreground transition-colors">Recursos</a>

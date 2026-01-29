@@ -1,3 +1,5 @@
+import ThemeToggle from "../../components/ThemeToggle.js";
+
 export default function StudentDashboard() {
 
     return (
@@ -18,9 +20,9 @@ export default function StudentDashboard() {
                         </svg>
                     </div>
                     <span
-                        className="font-bold text-lg whitespace-nowrap transition-all duration-300 opacity-100 translate-x-0">EduGame</span></a>
-                    <button data-slot="button"
-                            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:hover:bg-accent/50 size-9 absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent transition-all duration-300">
+                        className="font-bold text-lg whitespace-nowrap transition-all duration-300 opacity-100 translate-x-0">Rankio</span></a>
+                    <button
+                            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium disabled:pointer-events-none disabled:opacity-50 shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:hover:bg-accent/50 size-9 absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent transition-all duration-300">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                              className="lucide lucide-panel-left-close w-4 h-4">
@@ -127,8 +129,8 @@ export default function StudentDashboard() {
                     </div>
                     <p className="text-xs text-sidebar-foreground/60 mt-1 transition-all duration-300">2450 XP</p></div>
                 <div className="p-2 border-t border-sidebar-border transition-all duration-300 lg:hidden">
-                    <button data-slot="tooltip-trigger"
-                            className="inline-flex items-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5 w-full justify-center text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent"
+                    <button
+                            className="inline-flex items-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[&gt;svg]:px-2.5 w-full justify-center text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent"
                             data-state="closed">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                              stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -141,15 +143,15 @@ export default function StudentDashboard() {
             </aside>
             <aside
                 className="fixed right-0 top-0 z-30 h-screen bg-card border-l border-border transition-all duration-300 flex flex-col pt-16 w-72">
-                <button data-slot="button"
-                        className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:text-accent-foreground dark:hover:bg-accent/50 size-9 absolute left-0 top-20 -translate-x-1/2 w-6 h-6 rounded-full bg-card border border-border shadow-sm hover:bg-accent">
+                <button
+                        className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:text-accent-foreground dark:hover:bg-accent/50 size-9 absolute left-0 top-20 -translate-x-1/2 w-6 h-6 rounded-full bg-card border border-border shadow-sm hover:bg-accent">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
                          className="lucide lucide-chevron-right w-3 h-3">
                         <path d="m9 18 6-6-6-6"></path>
                     </svg>
                 </button>
-                <div dir="ltr" data-slot="scroll-area" className="relative flex-1 px-4 py-4"
+                <div dir="ltr" className="relative flex-1 px-4 py-4"
                      style={{
                          position: 'relative',
                          '--radixScrollAreaCornerWidth': 0,
@@ -163,7 +165,7 @@ export default function StudentDashboard() {
                     />
                     <div
                         data-radix-scroll-area-viewport=""
-                        data-slot="scroll-area-viewport"
+                       
                         className="focus-visible:ring-ring/50 size-full rounded-[inherit] transition-[color,box-shadow] outline-none focus-visible:ring-[3px] focus-visible:outline-1"
                         style={{overflow: "hidden scroll"}}
                     >
@@ -194,9 +196,9 @@ export default function StudentDashboard() {
                                                 <path d="M5 21h14"></path>
                                             </svg>
                                         </div>
-                                        <span data-slot="avatar"
+                                        <span
                                               className="relative flex size-8 shrink-0 overflow-hidden rounded-full w-8 h-8"><span
-                                            data-slot="avatar-fallback"
+                                           
                                             className="flex size-full items-center justify-center rounded-full text-xs bg-primary/10 text-primary">AC</span></span>
                                         <div className="flex-1 min-w-0"><p className="text-sm font-medium truncate">Ana
                                             Costa</p><p className="text-xs text-muted-foreground">Nível 10 • 3200 XP</p>
@@ -218,9 +220,9 @@ export default function StudentDashboard() {
                                                 <path d="M12 18v-2h-.5"></path>
                                             </svg>
                                         </div>
-                                        <span data-slot="avatar"
+                                        <span
                                               className="relative flex size-8 shrink-0 overflow-hidden rounded-full w-8 h-8"><span
-                                            data-slot="avatar-fallback"
+                                           
                                             className="flex size-full items-center justify-center rounded-full text-xs bg-primary/10 text-primary">JS</span></span>
                                         <div className="flex-1 min-w-0"><p className="text-sm font-medium truncate">João
                                             Santos</p><p className="text-xs text-muted-foreground">Nível 8 • 2450 XP</p>
@@ -238,9 +240,9 @@ export default function StudentDashboard() {
                                                 <circle cx="12" cy="8" r="6"></circle>
                                             </svg>
                                         </div>
-                                        <span data-slot="avatar"
+                                        <span
                                               className="relative flex size-8 shrink-0 overflow-hidden rounded-full w-8 h-8"><span
-                                            data-slot="avatar-fallback"
+                                           
                                             className="flex size-full items-center justify-center rounded-full text-xs bg-primary/10 text-primary">CM</span></span>
                                         <div className="flex-1 min-w-0"><p
                                             className="text-sm font-medium truncate">Carla Mendes</p><p
@@ -250,9 +252,9 @@ export default function StudentDashboard() {
                                         className="flex items-center gap-3 p-2 rounded-lg transition-colors bg-muted/50">
                                         <div className="w-6 flex justify-center"><span
                                             className="text-xs font-bold text-muted-foreground">4</span></div>
-                                        <span data-slot="avatar"
+                                        <span
                                               className="relative flex size-8 shrink-0 overflow-hidden rounded-full w-8 h-8"><span
-                                            data-slot="avatar-fallback"
+                                           
                                             className="flex size-full items-center justify-center rounded-full text-xs bg-primary/10 text-primary">PL</span></span>
                                         <div className="flex-1 min-w-0"><p
                                             className="text-sm font-medium truncate">Pedro Lima</p><p
@@ -262,9 +264,9 @@ export default function StudentDashboard() {
                                         className="flex items-center gap-3 p-2 rounded-lg transition-colors bg-muted/50">
                                         <div className="w-6 flex justify-center"><span
                                             className="text-xs font-bold text-muted-foreground">5</span></div>
-                                        <span data-slot="avatar"
+                                        <span
                                               className="relative flex size-8 shrink-0 overflow-hidden rounded-full w-8 h-8"><span
-                                            data-slot="avatar-fallback"
+                                           
                                             className="flex size-full items-center justify-center rounded-full text-xs bg-primary/10 text-primary">LO</span></span>
                                         <div className="flex-1 min-w-0"><p
                                             className="text-sm font-medium truncate">Lucas Oliveira</p><p
@@ -293,9 +295,9 @@ export default function StudentDashboard() {
                                         </div>
                                         <p className="text-xs text-center text-muted-foreground mt-1">2450 / 2400 XP</p>
                                     </div>
-                                    <div className="flex flex-wrap gap-1"><span data-slot="badge"
+                                    <div className="flex flex-wrap gap-1"><span
                                                                                 className="inline-flex items-center justify-center rounded-md border px-2 py-0.5 font-medium w-fit whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 gap-1 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&amp;]:hover:bg-accent [a&amp;]:hover:text-accent-foreground text-xs border-bronze text-bronze">Primeiro Passo</span><span
-                                        data-slot="badge"
+                                       
                                         className="inline-flex items-center justify-center rounded-md border px-2 py-0.5 font-medium w-fit whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 gap-1 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&amp;]:hover:bg-accent [a&amp;]:hover:text-accent-foreground text-xs border-silver text-silver">Estudante Dedicado</span>
                                     </div>
                                 </div>
@@ -307,32 +309,20 @@ export default function StudentDashboard() {
             <header
                 className="fixed top-0 z-30 h-16 bg-card/80 backdrop-blur-sm border-b border-border transition-all duration-300 flex items-center justify-between px-4 left-64 right-72">
                 <div className="flex items-center gap-2"><h1 className="text-lg font-semibold hidden sm:block">Área do
-                    Aluno</h1><span data-slot="badge"
+                    Aluno</h1><span
                                     className="inline-flex items-center justify-center rounded-md border px-2 py-0.5 font-medium w-fit whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 gap-1 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden text-foreground [a&amp;]:hover:bg-accent [a&amp;]:hover:text-accent-foreground text-xs capitalize">aluno</span>
                 </div>
                 <div className="flex items-center gap-2">
-                    <button data-slot="button"
-                            className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-9 rounded-full">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                             className="lucide lucide-sun w-5 h-5">
-                            <circle cx="12" cy="12" r="4"></circle>
-                            <path d="M12 2v2"></path>
-                            <path d="M12 20v2"></path>
-                            <path d="m4.93 4.93 1.41 1.41"></path>
-                            <path d="m17.66 17.66 1.41 1.41"></path>
-                            <path d="M2 12h2"></path>
-                            <path d="M20 12h2"></path>
-                            <path d="m6.34 17.66-1.41 1.41"></path>
-                            <path d="m19.07 4.93-1.41 1.41"></path>
-                        </svg>
+                    <button
+                            className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 size-9 rounded-full">
+                        <ThemeToggle />
                         <span className="sr-only">Alternar tema</span></button>
-                    <button data-slot="dropdown-menu-trigger"
-                            className="justify-center whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 py-2 has-[&gt;svg]:px-3 flex items-center gap-2 px-2"
+                    <button
+                            className="justify-center whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 py-2 has-[&gt;svg]:px-3 flex items-center gap-2 px-2"
                             type="button" id="radix-_r_g_" aria-haspopup="menu" aria-expanded="false"
-                            data-state="closed"><span data-slot="avatar"
+                            data-state="closed"><span
                                                       className="relative flex size-8 shrink-0 overflow-hidden rounded-full w-8 h-8"><span
-                        data-slot="avatar-fallback"
+                       
                         className="flex size-full items-center justify-center rounded-full bg-primary/10 text-primary text-sm">JS</span></span><span
                         className="text-sm font-medium hidden sm:inline">João Santos</span></button>
                 </div>
@@ -352,10 +342,10 @@ export default function StudentDashboard() {
                                     className="font-semibold">2450 XP</p>
                                     <div className="flex items-center gap-2 mt-1">
                                         <div aria-valuemax="100" aria-valuemin="0" role="progressbar"
-                                             data-state="indeterminate" data-max="100" data-slot="progress"
+                                             data-state="indeterminate" data-max="100"
                                              className="bg-primary/20 relative overflow-hidden rounded-full w-24 h-2">
                                             <div data-state="indeterminate" data-max="100"
-                                                 data-slot="progress-indicator"
+                                                
                                                  className="bg-primary h-full w-full flex-1 transition-all"
                                                  style={{transform: 'translateX(-83.3333%)'}}></div>
                                         </div>
@@ -365,9 +355,9 @@ export default function StudentDashboard() {
                             </div>
                         </div>
                         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                            <div data-slot="card"
+                            <div
                                  className="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm overflow-hidden">
-                                <div data-slot="card-content" className="p-6">
+                                <div className="p-6">
                                     <div className="flex items-start justify-between">
                                         <div className="space-y-1"><p
                                             className="text-sm font-medium text-muted-foreground">Disciplinas</p><p
@@ -386,9 +376,9 @@ export default function StudentDashboard() {
                                     </div>
                                 </div>
                             </div>
-                            <div data-slot="card"
+                            <div
                                  className="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm overflow-hidden">
-                                <div data-slot="card-content" className="p-6">
+                                <div className="p-6">
                                     <div className="flex items-start justify-between">
                                         <div className="space-y-1"><p
                                             className="text-sm font-medium text-muted-foreground">Atividades
@@ -410,9 +400,9 @@ export default function StudentDashboard() {
                                     </div>
                                 </div>
                             </div>
-                            <div data-slot="card"
+                            <div
                                  className="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm overflow-hidden">
-                                <div data-slot="card-content" className="p-6">
+                                <div className="p-6">
                                     <div className="flex items-start justify-between">
                                         <div className="space-y-1"><p
                                             className="text-sm font-medium text-muted-foreground">Pontuação Total</p><p
@@ -432,9 +422,9 @@ export default function StudentDashboard() {
                                     </div>
                                 </div>
                             </div>
-                            <div data-slot="card"
+                            <div
                                  className="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm overflow-hidden">
-                                <div data-slot="card-content" className="p-6">
+                                <div className="p-6">
                                     <div className="flex items-start justify-between">
                                         <div className="space-y-1"><p
                                             className="text-sm font-medium text-muted-foreground">Nível Atual</p><p
@@ -453,11 +443,11 @@ export default function StudentDashboard() {
                                 </div>
                             </div>
                         </div>
-                        <div data-slot="card"
+                        <div
                              className="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm">
-                            <div data-slot="card-header"
+                            <div
                                  className="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6">
-                                <div data-slot="card-title" className="font-semibold flex items-center gap-2 text-base">
+                                <div className="font-semibold flex items-center gap-2 text-base">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
                                          stroke-linejoin="round" className="lucide lucide-trophy w-4 h-4 text-primary">
@@ -471,7 +461,7 @@ export default function StudentDashboard() {
                                     Minhas Conquistas
                                 </div>
                             </div>
-                            <div data-slot="card-content" className="px-6">
+                            <div className="px-6">
                                 <div className="flex flex-wrap gap-3">
                                     <div
                                         className="flex items-center gap-2 p-3 rounded-lg border bg-bronze/10 border-bronze/30">
@@ -511,20 +501,20 @@ export default function StudentDashboard() {
                                 </div>
                             </div>
                         </div>
-                        <div data-slot="card"
+                        <div
                              className="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm">
-                            <div data-slot="card-header"
+                            <div
                                  className="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6">
-                                <div data-slot="card-title" className="font-semibold text-base">Atividades Pendentes
+                                <div className="font-semibold text-base">Atividades Pendentes
                                 </div>
                             </div>
-                            <div data-slot="card-content" className="px-6">
+                            <div className="px-6">
                                 <div className="space-y-3">
                                     <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
                                         <div><p className="font-medium">Prova Bimestral</p><p
                                             className="text-sm text-muted-foreground">Matemática • Turma A - 9º Ano</p>
                                         </div>
-                                        <div className="text-right"><span data-slot="badge"
+                                        <div className="text-right"><span
                                                                           className="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 [&amp;&gt;svg]:size-3 gap-1 [&amp;&gt;svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&amp;]:hover:bg-secondary/90">21 dias</span>
                                             <p className="text-xs text-muted-foreground mt-1">+150 XP</p></div>
                                     </div>

@@ -9,7 +9,7 @@ import Home from './pages/Home';
 import Unauthorized from './pages/Unauthorized';
 
 export default function AppRoutes() {
-    return (
+    return <>
         <BrowserRouter>
             <AuthProvider>
                 <Routes>
@@ -37,5 +37,5 @@ export default function AppRoutes() {
                 </Routes>
             </AuthProvider>
         </BrowserRouter>
-    );
+    </>
 }

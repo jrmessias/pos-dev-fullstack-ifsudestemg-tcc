@@ -1,13 +1,22 @@
 <!doctype html>
-<html lang="en" class="dark" >
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="icon" type="image/svg+xml" href="/vite.svg"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Rankio</title>
-  </head>
-  <body class="font-primary font-sans antialiased ">
-    <div id="root"></div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+</head>
+<body class="font-primary font-sans antialiased ">
+<!-- INIT THEME BEFORE REACT -->
+<script>
+    (function () {
+        const theme = localStorage.getItem("theme");
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        const finalTheme = theme || (prefersDark ? "dark" : "light");
+        document.documentElement.classList.add(finalTheme);
+    })();
+</script>
+<div id="root"></div>
+<script type="module" src="/src/main.js"></script>
+</body>
 </html>

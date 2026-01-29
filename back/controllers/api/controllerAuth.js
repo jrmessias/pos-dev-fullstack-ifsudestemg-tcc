@@ -35,9 +35,14 @@ exports.login = async function (req, res) {
 
         // gera token
         const token = jwt.sign(
-            {id: user.id, email: user.email, role: user.role},
+            {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                role: user.role
+            },
             process.env.JWT_SECRET,
-            {expiresIn: '5m'}
+            {expiresIn: '15m'}
         );
 
         // cookie httpOnly
@@ -47,6 +52,7 @@ exports.login = async function (req, res) {
             token,
             user: {
                 name: user.name,
+                email: user.email,
                 role: user.role,
             },
         });
@@ -67,16 +73,8 @@ exports.login = async function (req, res) {
 
 exports.me = async function (req, res) {
     res.json({
-        id: req.userId,
-        role: req.userRole
+        ...req.user,
     });
-    //
-    // res.json({
-    //     id: user.id,
-    //     name: user.name,
-    //     email: user.email,
-    //     role: user.role,
-    // });
 }
 
 exports.logout = async function (req, res) {

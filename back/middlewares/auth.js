@@ -1,6 +1,7 @@
 const jwt = require("jsonwebtoken");
+const {User} = require("../models");
 
-function auth(req, res, next) {
+async function auth(req, res, next) {
     // const token = req.cookies;
     // console.log('Cookies recebidos:', req.cookies);
     //
@@ -20,17 +21,17 @@ function auth(req, res, next) {
 
     if (!token) {
         console.log('COOKIE NÃO RECEBIDO');
-        return res.status(401).json({ error: 'Não autenticado' });
+        return res.status(401).json({error: 'Não autenticado'});
     }
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.userId = decoded.id;
-        req.userRole = decoded.role;
+        console.log('JWT DECODADO:', decoded);
+        req.user = (await User.findByPk(decoded.id, {attributes: ['id', 'name', 'email', 'role']})).dataValues;
         next();
     } catch (err) {
         console.log('JWT INVÁLIDO', err.message);
-        return res.status(401).json({ error: 'Token inválido' });
+        return res.status(401).json({error: 'Token inválido'});
     }
 }
 
