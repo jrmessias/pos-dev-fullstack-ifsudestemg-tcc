@@ -2,7 +2,7 @@ import Icon from "../../components/Icon.js";
 import {Link, useLocation} from "react-router-dom";
 import {cn} from "../../lib/utils.js";
 
-const links = [
+const linksStudent = [
     { href: "/student/dashboard", label: "Dashboard", icon: 'LayoutDashboard' },
     { href: "/student/minhas-turmas", label: "Minhas Turmas", icon: 'Users' },
     { href: "/student/minhas-disciplinas", label: "Disciplinas", icon: 'BookOpen' },
@@ -10,9 +10,20 @@ const links = [
     { href: "/student/meu-progresso", label: "Meu Progresso", icon: 'Trophy' },
 ];
 
-export default function LeftSidebar({leftOpen, setLeftOpen}) {
+const linksTeacher = [
+    { href: "/teacher/dashboard", label: "Dashboard", icon: 'LayoutDashboard' },
+    { href: "/teacher/turmas", label: "Turmas", icon: 'Users' },
+    { href: "/teacher/disciplinas", label: "Disciplinas", icon: 'BookOpen' },
+    { href: "/teacher/atividades", label: "Atividades", icon: 'FileText' },
+    { href: "/teacher/respostas", label: "Respostas", icon: 'ClipboardCheck' },
+    { href: "/teacher/gamificacao", label: "Gamificação", icon: 'Trophy' },
+];
+
+export default function LeftSidebar({type, leftOpen, setLeftOpen}) {
     const location = useLocation();
     const pathname = location.pathname;
+    const links = type.includes("teacher") ? linksTeacher : linksStudent;
+    const isStudent = type === 'student';
 
     return <>
         <aside
@@ -25,7 +36,7 @@ export default function LeftSidebar({leftOpen, setLeftOpen}) {
                 <span
                     className={`font-bold text-lg whitespace-nowrap transition-all duration-300 ${leftOpen ? 'opacity-100 translate-x-0' : 'lg:opacity-0 lg:absolute lg:-translate-x-4 lg:pointer-events-none'}`}>Rankio</span></a>
                 <button
-                    className={`inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium disabled:pointer-events-none disabled:opacity-50 shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:hover:bg-accent/50 size-9 absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent transition-all duration-300 cursor-pointer ${ !leftOpen ? 'lg:hidden' : ''}`}
+                    className={`inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium disabled:pointer-events-none disabled:opacity-50 shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent/50 size-9 absolute right-2 top-1/2 -translate-y-1/2 h-8 w-8 text-sidebar-foreground/70 hover:text-sidebar-foreground transition-all duration-300 cursor-pointer ${ !leftOpen ? 'lg:hidden' : ''}`}
                     onClick={() => setLeftOpen(!leftOpen)}>
                     <Icon name={'PanelLeftClose'} className="w-4 h-4"/>
                     <span className="sr-only">Fechar menu</span></button>
@@ -63,6 +74,7 @@ export default function LeftSidebar({leftOpen, setLeftOpen}) {
                 })}
 
             </nav>
+            {isStudent &&
             <div
                 className="mx-3 mb-4 p-3 rounded-lg bg-muted/50 border border-sidebar-border transition-all duration-300">
                 <div className={`flex items-center gap-2 mb-2 ${!leftOpen ? 'lg:justify-center lg:mb-0' : ''}`}>
@@ -80,9 +92,10 @@ export default function LeftSidebar({leftOpen, setLeftOpen}) {
                     <p className="text-xs text-muted-foreground mt-1 transition-all duration-300">2450 XP</p>
                 </div>
             </div>
+            }
             <div className={`p-2 border-t border-sidebar-border transition-all duration-300 ${leftOpen ? 'lg:hidden' : ''}`}>
                 <button
-                    className={`cursor-pointer inline-flex items-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 w-full justify-center text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent rotate-180 ${leftOpen ? 'lg:hidden' : ''}`}
+                    className={`cursor-pointer inline-flex items-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 w-full justify-center text-sidebar-foreground/70 hover:text-sidebar-foreground rotate-180 ${leftOpen ? 'lg:hidden' : ''}`}
                     onClick={() => setLeftOpen(!leftOpen)}>
                     <Icon name={'PanelLeft'} className="w-4 h-4 self-center"/>
                     <span className="sr-only">Abrir menu</span>

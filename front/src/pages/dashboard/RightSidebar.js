@@ -1,19 +1,25 @@
 import Icon from "../../components/Icon.js";
 
-export default function RightSidebar({rightOpen, setRightOpen}) {
+export default function RightSidebar({type, rightOpen, setRightOpen}) {
+    const isStudent = type === 'student';
+
     return <>
         <aside
-            className={`fixed right-0 top-0 z-30 h-screen bg-card border-l border-border transition-all duration-300 flex flex-col pt-16 ${rightOpen ? 'w-72' : 'w-12'}`}>
+            className={`fixed right-0 top-0 z-30 h-screen bg-card border-l border-border transition-all duration-300 flex flex-col pt-16 ${rightOpen ? 'w-72' : 'w-12'}`}
+            onClick={() => setRightOpen(!rightOpen)}>
             <button
-                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:text-accent-foreground dark:hover:bg-accent/50 size-9 absolute left-0 top-20 -translate-x-1/2 w-6 h-6 rounded-full bg-card border border-border shadow-sm hover:bg-accent cursor-pointer z-40"
-                    onClick={() => setRightOpen(!rightOpen)}>
+                className="inline-flex items-center justify-center gap-2 whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:text-accent-foreground dark:hover:bg-accent/50 size-9 absolute left-0 top-20 -translate-x-1/2 w-6 h-6 rounded-full bg-card border border-border shadow-sm hover:bg-accent/50 cursor-pointer z-40">
                 <Icon name={rightOpen ? 'ChevronRight' : 'ChevronLeft'} className="w-3 h-3"/>
             </button>
             <div dir="ltr" className="relative flex-1 px-4 py-4">
                 <div className={`flex flex-col items-center gap-4 py-4 ${rightOpen ? 'hidden' : 'block'}`}>
-                    <Icon name={'Trophy'} className="w-5 h-5 text-primary" />
+                    <Icon name={'Trophy'} className="w-5 h-5 text-primary"/>
                 </div>
-                <div className={`focus-visible:ring-ring/50 size-full rounded-[inherit] transition-[color,box-shadow] outline-none focus-visible:ring-[3px] focus-visible:outline-1 overflow-y-auto ${rightOpen ? 'block' : 'hidden'}`}>
+                <div className={`flex flex-col items-center gap-4 py-4 ${rightOpen ? 'hidden' : 'block'}`}>
+                    <Icon name={'Star'} className="w-5 h-5 text-accent"/>
+                </div>
+                <div
+                    className={`focus-visible:ring-ring/50 size-full rounded-[inherit] transition-[color,box-shadow] outline-none focus-visible:ring-[3px] focus-visible:outline-1 overflow-y-auto ${rightOpen ? 'block' : 'hidden'}`}>
                     <div className="min-w-full table">
                         <div className="mb-6">
                             <div className="flex items-center gap-2 mb-3">
@@ -26,7 +32,7 @@ export default function RightSidebar({rightOpen, setRightOpen}) {
                                         <Icon name={'Crown'} className="w-4 h-4 text-gold"/>
                                     </div>
                                     <span
-                                          className="relative flex size-8 shrink-0 overflow-hidden rounded-full w-8 h-8"><span
+                                        className="relative flex size-8 shrink-0 overflow-hidden rounded-full w-8 h-8"><span
                                         className="flex size-full items-center justify-center rounded-full text-xs bg-primary/10 text-primary">AC</span></span>
                                     <div className="flex-1 min-w-0"><p className="text-sm font-medium truncate">Ana
                                         Costa</p><p className="text-xs text-muted-foreground">Nível 10 • 3200 XP</p>
@@ -38,7 +44,7 @@ export default function RightSidebar({rightOpen, setRightOpen}) {
                                         <Icon name={'Medal'} className="w-4 h-4 text-silver"/>
                                     </div>
                                     <span
-                                          className="relative flex size-8 shrink-0 overflow-hidden rounded-full w-8 h-8"><span
+                                        className="relative flex size-8 shrink-0 overflow-hidden rounded-full w-8 h-8"><span
 
                                         className="flex size-full items-center justify-center rounded-full text-xs bg-primary/10 text-primary">JS</span></span>
                                     <div className="flex-1 min-w-0"><p className="text-sm font-medium truncate">João
@@ -51,7 +57,7 @@ export default function RightSidebar({rightOpen, setRightOpen}) {
                                         <Icon name={'Award'} className="w-4 h-4 text-bronze"/>
                                     </div>
                                     <span
-                                          className="relative flex size-8 shrink-0 overflow-hidden rounded-full w-8 h-8"><span
+                                        className="relative flex size-8 shrink-0 overflow-hidden rounded-full w-8 h-8"><span
 
                                         className="flex size-full items-center justify-center rounded-full text-xs bg-primary/10 text-primary">CM</span></span>
                                     <div className="flex-1 min-w-0"><p
@@ -63,7 +69,7 @@ export default function RightSidebar({rightOpen, setRightOpen}) {
                                     <div className="w-6 flex justify-center"><span
                                         className="text-xs font-bold text-muted-foreground">4</span></div>
                                     <span
-                                          className="relative flex size-8 shrink-0 overflow-hidden rounded-full w-8 h-8"><span
+                                        className="relative flex size-8 shrink-0 overflow-hidden rounded-full w-8 h-8"><span
                                         className="flex size-full items-center justify-center rounded-full text-xs bg-primary/10 text-primary">PL</span></span>
                                     <div className="flex-1 min-w-0"><p
                                         className="text-sm font-medium truncate">Pedro Lima</p><p
@@ -74,7 +80,7 @@ export default function RightSidebar({rightOpen, setRightOpen}) {
                                     <div className="w-6 flex justify-center"><span
                                         className="text-xs font-bold text-muted-foreground">5</span></div>
                                     <span
-                                          className="relative flex size-8 shrink-0 overflow-hidden rounded-full w-8 h-8"><span
+                                        className="relative flex size-8 shrink-0 overflow-hidden rounded-full w-8 h-8"><span
 
                                         className="flex size-full items-center justify-center rounded-full text-xs bg-primary/10 text-primary">LO</span></span>
                                     <div className="flex-1 min-w-0"><p
@@ -83,6 +89,29 @@ export default function RightSidebar({rightOpen, setRightOpen}) {
                                 </div>
                             </div>
                         </div>
+                        {isStudent &&
+                            <div className="mb-6">
+                                <div className="flex items-center gap-2 mb-3">
+                                    <Icon name={'Star'} className="w-4 h-4 text-accent"/>
+                                    <h3 className="font-semibold text-sm">Seu Progresso</h3></div>
+                                <div className="p-3 rounded-lg bg-muted/50 space-y-3">
+                                    <div>
+                                        <div className="flex justify-between items-center mb-1"><span
+                                            className="text-xs text-muted-foreground">Nível 8</span><span
+                                            className="text-xs text-muted-foreground">Nível 9</span></div>
+                                        <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
+                                            <div
+                                                className="h-full bg-gradient-to-r from-primary to-accent rounded-full transition-all w-1/6"></div>
+                                        </div>
+                                        <p className="text-xs text-center text-muted-foreground mt-1">2450 / 2400 XP</p>
+                                    </div>
+                                    <div className="flex flex-wrap gap-1"><span
+                                        className="inline-flex items-center justify-center rounded-md border px-2 py-0.5 font-medium w-fit whitespace-nowrap shrink-0 gap-1 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&]:hover:bg-accent [a&]:hover:text-accent-foreground text-xs border-bronze text-bronze">Primeiro Passo</span><span
+                                        className="inline-flex items-center justify-center rounded-md border px-2 py-0.5 font-medium w-fit whitespace-nowrap shrink-0 gap-1 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&]:hover:bg-accent [a&]:hover:text-accent-foreground text-xs border-silver text-silver">Estudante Dedicado</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
 
                     </div>
                 </div>

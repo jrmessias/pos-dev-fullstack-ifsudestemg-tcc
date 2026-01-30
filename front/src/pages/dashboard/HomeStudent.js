@@ -1,7 +1,7 @@
 import Icon from "../../components/Icon.js";
 import {userStore} from "../../stores/userStore.js";
 
-export default function Content({leftOpen, rightOpen}) {
+export default function HomeStudent({leftOpen, rightOpen}) {
     const user = userStore((state) => state.user);
 
     return <>
@@ -132,7 +132,7 @@ export default function Content({leftOpen, rightOpen}) {
                                         className="text-sm text-muted-foreground">Matemática • Turma A - 9º Ano</p>
                                     </div>
                                     <div className="text-right"><span
-                                        className="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 gap-1 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&amp;]:hover:bg-secondary/90">21 dias</span>
+                                        className="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 gap-1 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90">21 dias</span>
                                         <p className="text-xs text-muted-foreground mt-1">+150 XP</p></div>
                                 </div>
                             </div>

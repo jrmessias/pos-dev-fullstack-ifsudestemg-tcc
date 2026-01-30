@@ -1,7 +1,7 @@
 import Icon from "../../components/Icon.js";
 import {userStore} from "../../stores/userStore.js";
 
-export default function Content({leftOpen, rightOpen}) {
+export default function HomeTeacher({leftOpen, rightOpen}) {
     const user = userStore((state) => state.user);
 
     return <>
