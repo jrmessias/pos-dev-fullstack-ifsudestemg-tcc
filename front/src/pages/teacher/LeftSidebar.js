@@ -45,7 +45,7 @@ export default function LeftSidebar({leftOpen, setLeftOpen}) {
                                 "flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200",
                                 isActive
                                     ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                                    : "text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                                    : "text-sidebar-foreground/70 hover:bg-primary/10 dark:hover:text-sidebar-accent-foreground hover:text-sidebar-accent",
                                 !leftOpen && "lg:justify-center lg:px-2.5"
                             )}
                         >

@@ -43,7 +43,7 @@ export default function LeftSidebar({leftOpen, setLeftOpen}) {
                                 "flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all duration-200",
                                 isActive
                                     ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                                    : "text-sidebar-foreground/70 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                                    : "text-sidebar-foreground/70 hover:bg-primary/10 dark:hover:text-sidebar-accent-foreground hover:text-sidebar-accent",
                                 !leftOpen && "lg:justify-center lg:px-2.5"
                             )}
                         >
@@ -64,11 +64,11 @@ export default function LeftSidebar({leftOpen, setLeftOpen}) {
 
             </nav>
             <div
-                className="mx-3 mb-4 p-3 rounded-lg bg-sidebar-accent/50 border border-sidebar-border transition-all duration-300">
+                className="mx-3 mb-4 p-3 rounded-lg bg-muted/50 border border-sidebar-border transition-all duration-300">
                 <div className={`flex items-center gap-2 mb-2 ${!leftOpen ? 'lg:justify-center lg:mb-0' : ''}`}>
                     <Icon name={'Gamepad2'} className="w-4 h-4 text-primary shrink-0" />
                     <span
-                        className={`text-xs font-medium whitespace-nowrap transition-all duration-300 ${!leftOpen ? 'lg:hidden' : ''}`}>Nivel 8</span>
+                        className={`text-xs font-medium whitespace-nowrap transition-all duration-300 text-muted-foreground ${!leftOpen ? 'lg:hidden' : ''}`}>Nivel 8</span>
                 </div>
                 <div className={!leftOpen ? 'lg:hidden' : ''}>
                     <div
@@ -77,7 +77,7 @@ export default function LeftSidebar({leftOpen, setLeftOpen}) {
                             className="h-full bg-primary rounded-full transition-all w-1/6"
                         />
                     </div>
-                    <p className="text-xs text-sidebar-foreground/60 mt-1 transition-all duration-300">2450 XP</p>
+                    <p className="text-xs text-muted-foreground mt-1 transition-all duration-300">2450 XP</p>
                 </div>
             </div>
             <div className={`p-2 border-t border-sidebar-border transition-all duration-300 ${leftOpen ? 'lg:hidden' : ''}`}>
