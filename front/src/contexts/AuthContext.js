@@ -1,12 +1,24 @@
 import {createContext, useEffect, useState} from 'react';
-import {meRequest} from "../services/authService.js";
-import {setAuthToken} from "../services/api.js";
+import {logoutRequest, meRequest} from "../services/authService.js";
+import {api, setAuthToken} from "../services/api.js";
 
 export const AuthContext = createContext({});
 
 export function AuthProvider({children}) {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+
+    async function logout() {
+        try {
+            await logoutRequest();
+        } catch (error) {
+            console.error("Erro ao encerrar sessão no servidor", error);
+        }
+        localStorage.clear();
+        api.defaults.headers.Authorization = undefined;
+
+        setUser(null);
+    }
 
     async function loadUser() {
         try {

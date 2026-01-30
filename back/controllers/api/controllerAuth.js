@@ -78,9 +78,16 @@ exports.me = async function (req, res) {
 }
 
 exports.logout = async function (req, res) {
-    res.clearCookie('token', cookieOptions);
+    req.session.destroy((err) => {
+        if (err) {
+            return res.status(500).json({ message: "Erro ao fechar sessão" });
+        }
+        res.clearCookie('token', cookieOptions);
 
-    return res.sendStatus(204);
+        res.clearCookie('connect.sid'); // 'connect.sid' é o nome padrão, verifique se mudou
+
+        return res.status(200).json({ message: "Logout realizado com sucesso" });
+    });
 }
 
 module.exports = exports;

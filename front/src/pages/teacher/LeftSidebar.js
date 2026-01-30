@@ -66,14 +66,13 @@ export default function LeftSidebar({leftOpen, setLeftOpen}) {
 
             </nav>
 
-            {/* Toggle button at bottom - visible when collapsed */}
             <div className={`p-2 border-t border-sidebar-border transition-all duration-300 ${leftOpen ? 'lg:hidden' : ''}`}>
-            <button
-                    className={`cursor-pointer inline-flex items-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 w-full justify-center text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent rotate-180 ${leftOpen ? 'lg:hidden' : ''}`}
-                    onClick={() => setLeftOpen(!leftOpen)}>
-                <Icon name={'PanelRightOpen'} className="w-4 h-4 self-center"/>
-                <span className="sr-only">Abrir menu</span>
-            </button>
+                <button
+                        className={`cursor-pointer inline-flex items-center whitespace-nowrap text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive dark:hover:bg-accent/50 h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5 w-full justify-center text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent rotate-180 ${leftOpen ? 'lg:hidden' : ''}`}
+                        onClick={() => setLeftOpen(!leftOpen)}>
+                    <Icon name={'PanelLeft'} className="w-4 h-4 self-center"/>
+                    <span className="sr-only">Abrir menu</span>
+                </button>
             </div>
         </aside>
     </>

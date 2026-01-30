@@ -42,7 +42,6 @@ export default function Login() {
 
             if (!userData) throw new Error("Dados do usuário não retornados pelo /me");
 
-            // 🔥 sincroniza contexto (bloqueio resolvido aqui)
             setUser(userData);
 
             const role = userData.role;
@@ -51,10 +50,6 @@ export default function Login() {
 
             // const role = meResponse?.data?.role;
             navigate(targetRoute, {replace: true});
-            console.warn(role === 'teacher' ? 'Professor' : 'Aluno')
-            console.log("TOKEN:", token);
-            console.log("ME RESPONSE:", meResponse);
-            console.log("ROLE:", role);
         } catch (err) {
             setError(err?.response?.data?.message || err.message || 'Erro ao autenticar');
 

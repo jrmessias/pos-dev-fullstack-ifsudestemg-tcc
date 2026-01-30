@@ -4,6 +4,9 @@ var path = require('path');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser')
 const {sequelize} = require('./models');
+const {engine} = require('express-handlebars');
+const session = require('express-session')
+const flash = require('connect-flash')
 const routesWeb = require('./routes/web.routes')
 const routesApi = require('./routes/api.routes')
 const cors = require('cors')
@@ -22,10 +25,20 @@ var app = express();
     }
 })();
 
+// app.engine('hbs', engine({
+//     extname: '.hbs',
+//     defaultLayout: 'admin',
+//     viewsDir: path.join(__dirname, 'views'),
+//     layoutsDir: path.join(__dirname, 'views/layouts'),
+//     partialsDir: path.join(__dirname, 'views/partials'),
+//     helpers: require('./helpers/handlebars')
+// }));
+// app.set('view engine', 'hbs');
+
 app.use(logger('dev'));
 app.use(express.urlencoded({extended: false}));
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: 'http://127.0.0.1:5173',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
@@ -34,7 +47,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 // Rotas
-app.use('/', routesWeb);
+// app.use('/', routesWeb);
 app.use('/api', routesApi);
 
 // catch 404 and forward to error handler
