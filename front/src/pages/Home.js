@@ -25,10 +25,10 @@ export default function Login() {
                                className="text-sm text-muted-foreground hover:text-foreground transition-colors">Depoimentos</a>
                         </nav>
                         <div className="flex items-center gap-3">
-                            <button
+                            <div
                                 className="inline-flex">
                                 <ThemeToggle/>
-                            </button>
+                            </div>
                             <a href="/login">
                                 <button
                                     className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md font-medium transition-all disabled:pointer-events-none disabled:opacity-50 shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50 h-9 px-4 py-2 text-sm cursor-pointer">Entrar

@@ -1,6 +1,7 @@
-import ThemeToggle from "../components/ThemeToggle.js";
+import ThemeToggle from "../../components/ThemeToggle.js";
+import Icon from "../../components/Icon.js";
 
-export default function NotFound() {
+export default function UnauthorizedPage() {
     return (
         <main className="min-h-screen bg-background flex items-center justify-center p-4">
             <div className="absolute top-4 right-4">
@@ -11,12 +12,12 @@ export default function NotFound() {
                 <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-accent/15 rounded-full blur-3xl"></div>
             </div>
             <div className="text-center">
-                <p className="text-base font-semibold text-primary">404</p>
-                <h1 className="mt-4 text-5xl font-semibold tracking-tight text-balance text-slate-900 dark:text-slate-50 sm:text-7xl">Página
-                    não encontrada</h1>
-                <p className="mt-6 text-lg font-medium text-pretty text-gray-400 sm:text-xl/8">Desculpe, não conseguimos
-                    encontrar
-                    a página que você está procurando.</p>
+                <p className="text-lg font-semibold text-primary flex justify-center items-center gap-2">
+                    <Icon name={'LockKeyhole'} className="w-5 h-5" />
+                </p>
+                <p className="text-base font-semibold text-primary">401</p>
+                <h1 className="mt-4 text-5xl font-semibold tracking-tight text-balance text-slate-900 dark:text-slate-50 sm:text-7xl">Acesso não autorizado</h1>
+                <p className="mt-6 text-lg font-medium text-pretty text-gray-400 sm:text-xl/8">Faça login com as credenciais apropriadas para acessar este recurso.</p>
                 <div className="mt-10 flex items-center justify-center gap-x-6">
                     <a href="/"
                        className="rounded-md px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs bg-primary hover:bg-green-800 focus-visible:outline-2 focus-visible:outline-offset-2">
