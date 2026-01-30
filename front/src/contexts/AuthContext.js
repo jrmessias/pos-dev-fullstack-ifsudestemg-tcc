@@ -1,12 +1,14 @@
 import {createContext, useEffect, useState} from 'react';
 import {logoutRequest, meRequest} from "../services/authService.js";
 import {api, setAuthToken} from "../services/api.js";
+import {userStore} from "../stores/userStore.js";
 
 export const AuthContext = createContext({});
 
 export function AuthProvider({children}) {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
+    const setUserStore = userStore((state) => state.setUser);
 
     async function logout() {
         try {
@@ -25,6 +27,7 @@ export function AuthProvider({children}) {
             const res = await meRequest();
             const userData = res.data.user || res.data;
             setUser(userData);
+            setUserStore(userData);
         } catch {
             setUser(null);
             localStorage.removeItem("token");

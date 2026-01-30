@@ -1,12 +1,15 @@
 import Icon from "../../components/Icon.js";
+import {userStore} from "../../stores/userStore.js";
 
 export default function Content({leftOpen, rightOpen}) {
+    const user = userStore((state) => state.user);
+
     return <>
         <main className={`pt-16 min-h-screen transition-all duration-300 ${leftOpen ? 'ml-64' : 'ml-16'} ${rightOpen ? 'mr-72' : 'mr-12'}`}>
             <div className="p-6">
                 <div className="space-y-6">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                        <div><h1 className="text-2xl font-bold">Olá, João!</h1><p
+                        <div><h1 className="text-2xl font-bold">Olá, {user.name}!</h1><p
                             className="text-muted-foreground">Continue evoluindo e conquistando novos objetivos</p>
                         </div>
                         <div className="flex items-center gap-3 p-4 rounded-xl bg-card border">

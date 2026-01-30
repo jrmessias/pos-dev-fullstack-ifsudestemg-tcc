@@ -1,6 +1,8 @@
 import Icon from "../../components/Icon.js";
+import {userStore} from "../../stores/userStore.js";
 
 export default function Content({leftOpen, rightOpen}) {
+    const user = userStore((state) => state.user);
 
     return <>
         <main className={`pt-16 min-h-screen transition-all duration-300 ${leftOpen ? 'ml-64' : 'ml-16'} ${rightOpen ? 'mr-72' : 'mr-12'}`}>

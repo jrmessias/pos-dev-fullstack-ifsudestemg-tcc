@@ -3,10 +3,14 @@ import Icon from "../../components/Icon.js";
 import {useContext} from "react";
 import {AuthContext} from "../../contexts/AuthContext.js";
 import {useNavigate} from "react-router-dom";
+import {userStore} from "../../stores/userStore.js";
+import {getInitials} from "../../lib/stringUtils.js";
 
 export default function Header({leftOpen, rightOpen}) {
     const {logout} = useContext(AuthContext);
     const navigate = useNavigate();
+    const user = userStore((state) => state.user);
+    const initials = getInitials(user.name);
 
     const handleLogout = async () => {
         try {
@@ -44,8 +48,8 @@ export default function Header({leftOpen, rightOpen}) {
                     className="relative flex size-8 shrink-0 overflow-hidden rounded-full w-8 h-8">
                         <span
 
-                    className="flex size-full items-center justify-center rounded-full bg-primary/10 text-primary text-sm">JS</span></span><span
-                    className="text-sm font-medium hidden sm:inline">João Santos</span></button>
+                    className="flex size-full items-center justify-center rounded-full bg-primary/10 text-primary text-sm">{initials}</span></span><span
+                    className="text-sm font-medium hidden sm:inline">{user.name}</span></button>
             </div>
         </header>
     </>
