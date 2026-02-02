@@ -11,6 +11,11 @@ import Dashboard from "./dashboard/Dashboard.js";
 import InternalServerErrorPage from "./errors/InternalServerErrorPage.js";
 import ForbiddenPage from "./errors/ForbiddenPage.js";
 import MaintenancePage from "./errors/MaintenancePage.js";
+import ClassIndexPage from "./teacher/ClassIndexPage.js";
+import DisciplineIndexPage from "./teacher/DisciplineIndexPage.js";
+import ActivityIndexPage from "./teacher/ActivityIndexPage.js";
+import AnswerIndexPage from "./teacher/AnswerIndexPage.js";
+import GameIndexPage from "./teacher/GameIndexPage.js";
 
 function App() {
     return <>
@@ -34,7 +39,11 @@ function App() {
                     <Route element={<ProtectedRoute role='teacher' />}>
                         <Route path="/teacher" element={<LayoutSystem />}>
                             <Route index element={<Dashboard />} />
-                            {/*<Route path="classes" element={<TeacherClasses />} />*/}
+                            <Route path="class" element={<ClassIndexPage />} />
+                            <Route path="discipline" element={<DisciplineIndexPage />} />
+                            <Route path="activity" element={<ActivityIndexPage />} />
+                            <Route path="answer" element={<AnswerIndexPage />} />
+                            <Route path="game" element={<GameIndexPage />} />
                         </Route>
                     </Route>
 

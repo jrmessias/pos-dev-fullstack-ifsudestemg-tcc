@@ -3,20 +3,20 @@ import {Link, useLocation} from "react-router-dom";
 import {cn} from "../../lib/utils.js";
 
 const linksStudent = [
-    { href: "/student/dashboard", label: "Dashboard", icon: 'LayoutDashboard' },
-    { href: "/student/minhas-turmas", label: "Minhas Turmas", icon: 'Users' },
-    { href: "/student/minhas-disciplinas", label: "Disciplinas", icon: 'BookOpen' },
-    { href: "/student/minhas-atividades", label: "Atividades", icon: 'FileText' },
-    { href: "/student/meu-progresso", label: "Meu Progresso", icon: 'Trophy' },
+    { href: "/student", label: "Dashboard", icon: 'LayoutDashboard' },
+    { href: "/student/class", label: "Minhas Turmas", icon: 'Users' },
+    { href: "/student/discipline", label: "Disciplinas", icon: 'BookOpen' },
+    { href: "/student/activity", label: "Atividades", icon: 'FileText' },
+    { href: "/student/progress", label: "Meu Progresso", icon: 'Trophy' },
 ];
 
 const linksTeacher = [
-    { href: "/teacher/dashboard", label: "Dashboard", icon: 'LayoutDashboard' },
-    { href: "/teacher/turmas", label: "Turmas", icon: 'Users' },
-    { href: "/teacher/disciplinas", label: "Disciplinas", icon: 'BookOpen' },
-    { href: "/teacher/atividades", label: "Atividades", icon: 'FileText' },
-    { href: "/teacher/respostas", label: "Respostas", icon: 'ClipboardCheck' },
-    { href: "/teacher/gamificacao", label: "Gamificação", icon: 'Trophy' },
+    { href: "/teacher", label: "Dashboard", icon: 'LayoutDashboard' },
+    { href: "/teacher/class", label: "Turmas", icon: 'Users' },
+    { href: "/teacher/discipline", label: "Disciplinas", icon: 'BookOpen' },
+    { href: "/teacher/activity", label: "Atividades", icon: 'FileText' },
+    { href: "/teacher/answer", label: "Respostas", icon: 'ClipboardCheck' },
+    { href: "/teacher/game", label: "Gamificação", icon: 'Trophy' },
 ];
 
 export default function LeftSidebar({type, leftOpen, setLeftOpen}) {
@@ -28,8 +28,9 @@ export default function LeftSidebar({type, leftOpen, setLeftOpen}) {
     return <>
         <aside
             className={`fixed left-0 top-0 z-40 h-screen bg-sidebar text-sidebar-foreground border-r border-sidebar-border flex flex-col transition-all duration-300 ease-in-out max-lg:translate-x-0 ${leftOpen ? 'w-64' : 'w-16 max-lg:-translate-x-full max-lg:w-64'}`}>
-            <div className="h-16 flex items-center px-4 border-b border-sidebar-border relative"><a
-                className="flex items-center gap-3 transition-all duration-300" href="/student">
+            <div className="h-16 flex items-center px-4 border-b border-sidebar-border relative">
+                <a
+                className="flex items-center gap-3 transition-all duration-300" href={type === 'student' ? '/student' : '/teacher'}>
                 <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center shrink-0">
                     <Icon name={'GraduationCap'} className="w-5 h-5 text-primary-foreground"/>
                 </div>

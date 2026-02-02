@@ -1,11 +1,8 @@
 import Icon from "../../components/Icon.js";
-import {userStore} from "../../stores/userStore.js";
 
-export default function HomeTeacher({leftOpen, rightOpen}) {
-    const user = userStore((state) => state.user);
+export default function HomeTeacher() {
 
     return <>
-        <main className={`pt-16 min-h-screen transition-all duration-300 ${leftOpen ? 'ml-64' : 'ml-16'} ${rightOpen ? 'mr-72' : 'mr-12'}`}>
             <div className="p-6">
                 <div className="space-y-6">
                     <div><h1 className="text-2xl font-bold">Dashboard do Professor</h1><p
@@ -125,6 +122,5 @@ export default function HomeTeacher({leftOpen, rightOpen}) {
                     </div>
                 </div>
             </div>
-        </main>
     </>
 }
