@@ -16,10 +16,12 @@ export function AuthProvider({children}) {
         } catch (error) {
             console.error("Erro ao encerrar sessão no servidor", error);
         }
-        localStorage.clear();
-        api.defaults.headers.Authorization = undefined;
-
+        console.log('logout executado');
         setUser(null);
+        setUserStore(null); // É boa prática limpar a store do Zustand também
+        localStorage.removeItem("token");
+        localStorage.clear();
+        delete api.defaults.headers.Authorization; // Forma correta de limpar header no axios
     }
 
     async function loadUser() {
@@ -47,7 +49,7 @@ export function AuthProvider({children}) {
     }, []);
 
     return (
-        <AuthContext.Provider value={{user, loading, setUser}}>
+        <AuthContext.Provider value={{user, loading, setUser, logout}}>
             {children}
         </AuthContext.Provider>
     );

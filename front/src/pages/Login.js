@@ -2,7 +2,7 @@ import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {loginSchema} from "../validators/loginSchema";
 import {loginRequest, meRequest} from "../services/authService";
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import ThemeToggle from "../components/ThemeToggle.js";
 import Icon from "../components/Icon.js";
@@ -12,7 +12,7 @@ import {AuthContext} from "../contexts/AuthContext.js";
 export default function Login() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const { setUser } = useContext(AuthContext);
+    const { user, setUser } = useContext(AuthContext);
 
     const navigate = useNavigate();
 
@@ -23,6 +23,14 @@ export default function Login() {
     } = useForm({
         resolver: zodResolver(loginSchema),
     });
+
+    useEffect(() => {
+        if (user) {
+            const role = user.role;
+            const targetRoute = role === 'teacher' ? '/teacher' : '/student';
+            navigate(targetRoute, { replace: true });
+        }
+    }, [user, navigate]);
 
     async function onSubmit(data) {
         try {

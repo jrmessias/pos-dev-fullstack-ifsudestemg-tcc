@@ -3,19 +3,18 @@ import Icon from "../../components/Icon.js";
 import {useContext} from "react";
 import {AuthContext} from "../../contexts/AuthContext.js";
 import {useNavigate} from "react-router-dom";
-import {userStore} from "../../stores/userStore.js";
 import {getInitials} from "../../lib/stringUtils.js";
 
 export default function Header({type, leftOpen, rightOpen}) {
-    const {logout} = useContext(AuthContext);
+    const {logout, user} = useContext(AuthContext);
     const navigate = useNavigate();
-    const user = userStore((state) => state.user);
+    if (!user) return null;
     const initials = getInitials(user.name);
     const subject = type.includes("teacher") ? "Professor" : "Aluno";
 
     const handleLogout = async () => {
         try {
-            logout();
+            await logout();
             navigate('/login');
         } catch (error) {
             console.error("Erro ao fazer logout", error);
