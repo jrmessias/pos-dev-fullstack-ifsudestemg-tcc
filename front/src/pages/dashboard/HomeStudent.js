@@ -1,8 +1,10 @@
 import Icon from "../../components/Icon.js";
 import {userStore} from "../../stores/userStore.js";
+import {useContext} from "react";
+import {AuthContext} from "../../contexts/AuthContext.js";
 
 export default function HomeStudent() {
-    const user = userStore((state) => state.user);
+    const {user} = useContext(AuthContext);
 
     return <>
         <div className="p-6">
@@ -22,7 +24,6 @@ export default function HomeStudent() {
                                      data-state="indeterminate" data-max="100"
                                      className="bg-primary/20 relative overflow-hidden rounded-full w-24 h-2">
                                     <div data-state="indeterminate" data-max="100"
-
                                          className="bg-primary h-full w-full flex-1 transition-all"
                                          style={{transform: 'translateX(-83.3333%)'}}></div>
                                 </div>

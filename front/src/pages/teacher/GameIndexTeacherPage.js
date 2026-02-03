@@ -1,4 +1,4 @@
-export default function GameIndexPage (){
+export default function GameIndexTeacherPage (){
     return <>
         <div className="p-6">
             <div className="space-y-6">

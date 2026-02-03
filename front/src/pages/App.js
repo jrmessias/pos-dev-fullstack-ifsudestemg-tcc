@@ -8,11 +8,15 @@ import ProtectedRoute from "../components/ProtectedRoute.js";
 import LayoutSystem from "../layouts/LayoutSystem.js";
 import Dashboard from "./dashboard/Dashboard.js";
 import ForbiddenPage from "./errors/ForbiddenPage.js";
-import ClassIndexPage from "./teacher/ClassIndexPage.js";
-import DisciplineIndexPage from "./teacher/DisciplineIndexPage.js";
-import ActivityIndexPage from "./teacher/ActivityIndexPage.js";
-import AnswerIndexPage from "./teacher/AnswerIndexPage.js";
-import GameIndexPage from "./teacher/GameIndexPage.js";
+import ClassIndexTeacherPage from "./teacher/ClassIndexTeacherPage.js";
+import DisciplineIndexTeacherPage from "./teacher/DisciplineIndexTeacherPage.js";
+import ActivityIndexTeacherPage from "./teacher/ActivityIndexTeacherPage.js";
+import AnswerIndexTeacherPage from "./teacher/AnswerIndexTeacherPage.js";
+import GameIndexTeacherPage from "./teacher/GameIndexTeacherPage.js";
+import ClassIndexStudentPage from "./student/ClassIndexStudentPage.js";
+import DisciplineIndexStudentPage from "./student/DisciplineIndexStudentPage.js";
+import ActivityIndexStudentPage from "./student/ActivityIndexStudentPage.js";
+import ProgressIndexStudentPage from "./student/ProgressIndexStudentPage.js";
 
 function App() {
     return <>
@@ -36,11 +40,11 @@ function App() {
                     <Route element={<ProtectedRoute role='teacher'/>}>
                         <Route path="/teacher" element={<LayoutSystem/>}>
                             <Route index element={<Dashboard/>}/>
-                            <Route path="class" element={<ClassIndexPage/>}/>
-                            <Route path="discipline" element={<DisciplineIndexPage/>}/>
-                            <Route path="activity" element={<ActivityIndexPage/>}/>
-                            <Route path="answer" element={<AnswerIndexPage/>}/>
-                            <Route path="game" element={<GameIndexPage/>}/>
+                            <Route path="class" element={<ClassIndexTeacherPage/>}/>
+                            <Route path="discipline" element={<DisciplineIndexTeacherPage/>}/>
+                            <Route path="activity" element={<ActivityIndexTeacherPage/>}/>
+                            <Route path="answer" element={<AnswerIndexTeacherPage/>}/>
+                            <Route path="game" element={<GameIndexTeacherPage/>}/>
                         </Route>
                     </Route>
 
@@ -48,7 +52,10 @@ function App() {
                     <Route element={<ProtectedRoute role='student'/>}>
                         <Route path="/student" element={<LayoutSystem/>}>
                             <Route index element={<Dashboard/>}/>
-                            {/*<Route path="courses" element={<StudentCourses />} />*/}
+                            <Route path="class" element={<ClassIndexStudentPage />} />
+                            <Route path="discipline" element={<DisciplineIndexStudentPage />} />
+                            <Route path="activity" element={<ActivityIndexStudentPage />} />
+                            <Route path="progress" element={<ProgressIndexStudentPage />} />
                         </Route>
                     </Route>
                 </Routes>
