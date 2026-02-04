@@ -1,5 +1,4 @@
 import Icon from "../../components/Icon.js";
-import {userStore} from "../../stores/userStore.js";
 import {useContext} from "react";
 import {AuthContext} from "../../contexts/AuthContext.js";
 

@@ -13,7 +13,7 @@ export default function InternalServerErrorPage() {
             </div>
             <div className="text-center">
                 <p className="text-lg font-semibold text-primary flex justify-center items-center gap-2">
-                    <Icon name={'ServerOff'} className="w-5 h-5" />
+                    <Icon name={'ServerOff'} className="w-5 h-5"/>
                 </p>
                 <p className="text-base font-semibold text-primary">500</p>
                 <h1 className="mt-4 text-5xl font-semibold tracking-tight text-balance text-slate-900 dark:text-slate-50 sm:text-7xl">Erro</h1>

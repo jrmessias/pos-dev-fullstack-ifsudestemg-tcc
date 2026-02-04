@@ -8,6 +8,7 @@
     "dev": "nodemon ./bin/www"
   },
   "dependencies": {
+    "@tanstack/react-table": "^8.21.3",
     "bcryptjs": "^3.0.3",
     "connect-flash": "^0.1.1",
     "cookie-parser": "^1.4.7",

@@ -1,6 +1,5 @@
 export const menuItems = [
     { label: "Dashboard", path: "/" },
-    { label: "Minhas Turmas", path: "/turmas" },
     { label: "Disciplinas", path: "/disciplinas" },
     { label: "Atividades", path: "/atividades" },
 ];

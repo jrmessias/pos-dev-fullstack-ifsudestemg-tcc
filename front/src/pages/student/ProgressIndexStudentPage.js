@@ -1,4 +1,4 @@
-export default function ProgressIndexStudentPage (){
+export default function ProgressIndexStudentPage() {
     return <>
         <div className="p-6">
             <div className="space-y-6">
@@ -6,7 +6,7 @@ export default function ProgressIndexStudentPage (){
                     sua evolução e conquistas</p></div>
                 <div data-slot="card"
                      className="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm overflow-hidden">
-                    <div className="bg-gradient-to-r from-primary/20 via-accent/20 to-primary/20 p-6">
+                    <div className="p-6">
                         <div className="flex flex-col sm:flex-row sm:items-center gap-6">
                             <div className="relative"><span data-slot="avatar"
                                                             className="relative flex size-8 shrink-0 overflow-hidden rounded-full w-24 h-24 border-4 border-background"><span
