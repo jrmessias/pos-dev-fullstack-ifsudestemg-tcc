@@ -13,11 +13,13 @@ export default function MaintenancePage() {
             </div>
             <div className="text-center">
                 <p className="text-lg font-semibold text-primary flex justify-center items-center gap-2">
-                    <Icon name={'Construction'} className="w-5 h-5" />
+                    <Icon name={'Construction'} className="w-5 h-5"/>
                 </p>
                 <p className="text-base font-semibold text-primary">503</p>
-                <h1 className="mt-4 text-5xl font-semibold tracking-tight text-balance text-slate-900 dark:text-slate-50 sm:text-7xl">Em manutenção</h1>
-                <p className="mt-6 text-lg font-medium text-pretty text-gray-400 sm:text-xl/8">Não disponível no momento. Logo voltaremos on-line.</p>
+                <h1 className="mt-4 text-5xl font-semibold tracking-tight text-balance text-slate-900 dark:text-slate-50 sm:text-7xl">Em
+                    manutenção</h1>
+                <p className="mt-6 text-lg font-medium text-pretty text-gray-400 sm:text-xl/8">Não disponível no
+                    momento. Logo voltaremos on-line.</p>
                 <div className="mt-10 flex items-center justify-center gap-x-6">
                     <a href="/"
                        className="rounded-md px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs bg-primary hover:bg-green-800 focus-visible:outline-2 focus-visible:outline-offset-2">

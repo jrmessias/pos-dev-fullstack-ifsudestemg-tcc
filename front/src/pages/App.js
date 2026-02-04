@@ -8,12 +8,10 @@ import ProtectedRoute from "../components/ProtectedRoute.js";
 import LayoutSystem from "../layouts/LayoutSystem.js";
 import Dashboard from "./dashboard/Dashboard.js";
 import ForbiddenPage from "./errors/ForbiddenPage.js";
-import ClassIndexTeacherPage from "./teacher/ClassIndexTeacherPage.js";
 import DisciplineIndexTeacherPage from "./teacher/DisciplineIndexTeacherPage.js";
 import ActivityIndexTeacherPage from "./teacher/ActivityIndexTeacherPage.js";
 import AnswerIndexTeacherPage from "./teacher/AnswerIndexTeacherPage.js";
 import GameIndexTeacherPage from "./teacher/GameIndexTeacherPage.js";
-import ClassIndexStudentPage from "./student/ClassIndexStudentPage.js";
 import DisciplineIndexStudentPage from "./student/DisciplineIndexStudentPage.js";
 import ActivityIndexStudentPage from "./student/ActivityIndexStudentPage.js";
 import ProgressIndexStudentPage from "./student/ProgressIndexStudentPage.js";
@@ -40,7 +38,6 @@ function App() {
                     <Route element={<ProtectedRoute role='teacher'/>}>
                         <Route path="/teacher" element={<LayoutSystem/>}>
                             <Route index element={<Dashboard/>}/>
-                            <Route path="class" element={<ClassIndexTeacherPage/>}/>
                             <Route path="discipline" element={<DisciplineIndexTeacherPage/>}/>
                             <Route path="activity" element={<ActivityIndexTeacherPage/>}/>
                             <Route path="answer" element={<AnswerIndexTeacherPage/>}/>
@@ -52,7 +49,6 @@ function App() {
                     <Route element={<ProtectedRoute role='student'/>}>
                         <Route path="/student" element={<LayoutSystem/>}>
                             <Route index element={<Dashboard/>}/>
-                            <Route path="class" element={<ClassIndexStudentPage />} />
                             <Route path="discipline" element={<DisciplineIndexStudentPage />} />
                             <Route path="activity" element={<ActivityIndexStudentPage />} />
                             <Route path="progress" element={<ProgressIndexStudentPage />} />

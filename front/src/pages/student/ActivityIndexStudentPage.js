@@ -1,4 +1,4 @@
-export default function ActivityIndexStudentPage (){
+export default function ActivityIndexStudentPage() {
     return <>
         <div className="p-6">
             <div className="space-y-6">

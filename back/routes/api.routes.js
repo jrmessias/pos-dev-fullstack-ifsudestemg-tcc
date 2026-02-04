@@ -5,5 +5,6 @@ const router = express.Router();
 router.use('/auth', require('./api/routesAuth'));
 
 router.use(auth);
+router.use('/discipline', require('./api/routesDiscipline'));
 
 module.exports = router;

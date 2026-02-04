@@ -1,4 +1,5 @@
 import Icon from "../../components/Icon.js";
+import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip.jsx";
 
 export default function RightSidebar({type, rightOpen, setRightOpen}) {
     const isStudent = type === 'student';
@@ -13,11 +14,24 @@ export default function RightSidebar({type, rightOpen, setRightOpen}) {
             </button>
             <div dir="ltr" className="relative flex-1 px-4 py-4">
                 <div className={`flex flex-col items-center gap-4 py-4 ${rightOpen ? 'hidden' : 'block'}`}>
-                    <Icon name={'Trophy'} className="w-5 h-5 text-primary"/>
+                    <Tooltip>
+                        <TooltipTrigger><Icon name={'Trophy'} className="w-5 h-5 text-primary"/></TooltipTrigger>
+                        <TooltipContent side={'left'}>
+                            <p>Ranking Geral</p>
+                        </TooltipContent>
+                    </Tooltip>
                 </div>
-                <div className={`flex flex-col items-center gap-4 py-4 ${rightOpen ? 'hidden' : 'block'}`}>
-                    <Icon name={'Star'} className="w-5 h-5 text-accent"/>
-                </div>
+                {isStudent &&
+                    <div className={`flex flex-col items-center gap-4 py-4 ${rightOpen ? 'hidden' : 'block'}`}>
+                        <Tooltip>
+                            <TooltipTrigger>
+                                <Icon name={'Star'} className="w-5 h-5 text-accent"/>
+                            </TooltipTrigger>
+                            <TooltipContent side={'left'}>
+                                <p>Seu progresso</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </div>}
                 <div
                     className={`focus-visible:ring-ring/50 size-full rounded-[inherit] transition-[color,box-shadow] outline-none focus-visible:ring-[3px] focus-visible:outline-1 overflow-y-auto ${rightOpen ? 'block' : 'hidden'}`}>
                     <div className="min-w-full table">
