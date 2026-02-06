@@ -10,7 +10,6 @@ User.init(
         email: { type: DataTypes.STRING(45), allowNull: false, unique: true },
         password: { type: DataTypes.STRING(100), allowNull: false },
         role: { type: DataTypes.STRING(10), allowNull: false },
-        nickname: { type: DataTypes.STRING(45) }
     },
     {
         sequelize,

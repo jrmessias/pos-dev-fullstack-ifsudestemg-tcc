@@ -16,8 +16,13 @@ export default function LayoutSystem() {
             <LeftSidebar leftOpen={leftOpen} setLeftOpen={setLeftOpen} type={type}/>
             <RightSidebar rightOpen={rightOpen} setRightOpen={setRightOpen} type={type}/>
             <Header leftOpen={leftOpen} rightOpen={rightOpen} type={type}/>
-            <main className={`pt-16 min-h-screen transition-all duration-300 ${leftOpen ? 'ml-64' : 'ml-16'} ${rightOpen ? 'mr-72' : 'mr-12'}`}>
-            <Outlet/>
+            <main
+                className={`pt-16 min-h-screen transition-all duration-300 ${leftOpen ? 'ml-64' : 'ml-16'} ${rightOpen ? 'mr-72' : 'mr-12'}`}>
+                <div className="p-6">
+                    <div className="space-y-6">
+                        <Outlet/>
+                    </div>
+                </div>
             </main>
         </div>
     </>

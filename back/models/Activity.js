@@ -55,5 +55,4 @@ Activity.associate = (models) => {
     });
 };
 
-
 module.exports = Activity;

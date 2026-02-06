@@ -13,7 +13,6 @@ const linksTeacher = [
     {href: "/teacher", label: "Dashboard", icon: 'LayoutDashboard'},
     {href: "/teacher/discipline", label: "Disciplinas", icon: 'BookOpen'},
     {href: "/teacher/activity", label: "Atividades", icon: 'FileText'},
-    {href: "/teacher/answer", label: "Respostas", icon: 'ClipboardCheck'},
     {href: "/teacher/game", label: "Gamificação", icon: 'Trophy'},
 ];
 

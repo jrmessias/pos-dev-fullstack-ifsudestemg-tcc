@@ -6,5 +6,6 @@ router.use('/auth', require('./api/routesAuth'));
 
 router.use(auth);
 router.use('/discipline', require('./api/routesDiscipline'));
+router.use('/activity', require('./api/routesActivity'));
 
 module.exports = router;

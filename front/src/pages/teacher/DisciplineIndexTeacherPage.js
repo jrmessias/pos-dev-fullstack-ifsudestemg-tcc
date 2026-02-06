@@ -7,12 +7,35 @@ import {Loading} from "@/components/Loading.js";
 import {DataTable} from "@/components/Datatable.js";
 import {Badge} from "@/components/ui/badge.jsx";
 import {Button} from "@/components/ui/button.jsx";
+import { Modal, ConfirmModal } from "@/components/ui/modal.jsx";
 
 export default function DisciplineIndexTeacherPage() {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([]);
+    const [selectedDiscipline, setSelectedDiscipline] = useState(null);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const navigate = useNavigate();
     const {user} = useContext(AuthContext);
+
+    const getData = async () => {
+        const disciplineResponse = await disciplineIndex()
+        setData(disciplineResponse.data)
+        setLoading(false);
+    }
+
+    const openDeleteModal = (item) => {
+        setSelectedDiscipline(item);
+        setIsDeleteModalOpen(true);
+    };
+
+    const handleDelete = async () => {
+        if (selectedDiscipline) {
+            // deleteDiscipline(selectedDiscipline.id);
+            setIsDeleteModalOpen(false);
+            await getData();
+            setSelectedDiscipline(null);
+        }
+    };
 
     const columns = [
         {
@@ -27,6 +50,16 @@ export default function DisciplineIndexTeacherPage() {
                     <span className="font-medium ml-1">{item.name}</span>
                 </div>
             )
+        },
+        {
+            header: "Chave",
+            key: "key",
+            sortable: false,
+            render: (item) => (
+                <Badge variant={"secondary"}>
+                    {item.key}
+                </Badge>
+            ),
         },
         {
             header: "Status",
@@ -63,6 +96,17 @@ export default function DisciplineIndexTeacherPage() {
                             // openEditModal(disciplina);
                         }}
                     >
+                        <Icon name="Users" className="w-4 h-4" />
+                    </Button>
+                    <Button
+                        className={'cursor-pointer'}
+                        variant="ghost"
+                        size="icon"
+                        onClick={(event) => {
+                            // e.stopPropagation();
+                            // openEditModal(disciplina);
+                        }}
+                    >
                         <Icon name="Edit" className="w-4 h-4" />
                     </Button>
                     <Button
@@ -70,8 +114,8 @@ export default function DisciplineIndexTeacherPage() {
                         size="icon"
                         className="text-destructive hover:text-destructive cursor-pointer"
                         onClick={(event) => {
-                            // e.stopPropagation();
-                            // openDeleteModal(disciplina);
+                            event.stopPropagation();
+                            openDeleteModal(item);
                         }}
                     >
                         <Icon name="Trash2" className="w-4 h-4" />
@@ -82,17 +126,11 @@ export default function DisciplineIndexTeacherPage() {
     ];
 
     useEffect(() => {
-        const getData = async () => {
-            const disciplineResponse = await disciplineIndex()
-            setData(disciplineResponse.data)
-            setLoading(false);
-        }
         getData()
     }, [])
 
     return <>
-        <div className="p-6">
-            <div className="space-y-6">
+
                 <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                     <div><h1 className="text-2xl font-bold">Disciplinas</h1><p
                         className="text-muted-foreground">Gerencie suas disciplinas e conteúdos</p></div>
@@ -108,13 +146,67 @@ export default function DisciplineIndexTeacherPage() {
                         {!loading && <DataTable data={data}
                                                 columns={columns}
                                                 searchKey="name" // Define que a busca filtrará pelo campo 'name'
-                                                searchPlaceholder="Buscar por nome..."
+                                                searchPlaceholder="Buscar por disciplina..."
                                                 pageSize={5}
                                                 onRowClick={(row) => console.log("Linha clicada:", row)}/>}
                         {loading && !data && <Loading/>}
                     </div>
                 </div>
-            </div>
-        </div>
+           <ConfirmModal
+            open={isDeleteModalOpen}
+            onOpenChange={setIsDeleteModalOpen}
+            title="Excluir Disciplina"
+            description={`Tem certeza que deseja excluir a disciplina "${selectedDiscipline?.name}"? Esta ação não pode ser desfeita.`}
+            onConfirm={handleDelete}
+            confirmText="Excluir"
+            variant="destructive"
+        />
+        {/*<Modal*/}
+        {/*    open={isModalOpen}*/}
+        {/*    onOpenChange={setIsModalOpen}*/}
+        {/*    title={isEditing ? "Editar Disciplina" : "Nova Disciplina"}*/}
+        {/*    description={*/}
+        {/*        isEditing*/}
+        {/*            ? "Atualize as informações da disciplina"*/}
+        {/*            : "Preencha os dados para criar uma nova disciplina"*/}
+        {/*    }*/}
+        {/*    footer={*/}
+        {/*        <div className="flex gap-2">*/}
+        {/*            <Button variant="outline" onClick={() => setIsModalOpen(false)}>*/}
+        {/*                Cancelar*/}
+        {/*            </Button>*/}
+        {/*            <Button onClick={handleSubmit(onSubmit)}>*/}
+        {/*                {isEditing ? "Salvar" : "Criar"}*/}
+        {/*            </Button>*/}
+        {/*        </div>*/}
+        {/*    }*/}
+        {/*>*/}
+        {/*    <form className="space-y-4">*/}
+        {/*        <div className="space-y-2">*/}
+        {/*            <Label htmlFor="name">Nome da Disciplina</Label>*/}
+        {/*            <Input*/}
+        {/*                id="name"*/}
+        {/*                placeholder="Ex: Matemática"*/}
+        {/*                {...register("name")}*/}
+        {/*            />*/}
+        {/*            {errors.name && (*/}
+        {/*                <p className="text-sm text-destructive">{errors.name.message}</p>*/}
+        {/*            )}*/}
+        {/*        </div>*/}
+        {/*        <div className="space-y-2">*/}
+        {/*            <Label htmlFor="description">Descrição</Label>*/}
+        {/*            <Textarea*/}
+        {/*                id="description"*/}
+        {/*                placeholder="Descreva a disciplina..."*/}
+        {/*                {...register("description")}*/}
+        {/*            />*/}
+        {/*            {errors.description && (*/}
+        {/*                <p className="text-sm text-destructive">*/}
+        {/*                    {errors.description.message}*/}
+        {/*                </p>*/}
+        {/*            )}*/}
+        {/*        </div>*/}
+        {/*    </form>*/}
+        {/*</Modal>*/}
     </>
 }
