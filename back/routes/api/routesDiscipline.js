@@ -4,14 +4,14 @@ const router = createRouter("/discipline");
 
 router.get('/', controllerDiscipline.index);
 
+router.get('/:id/students', controllerDiscipline.students);
+
 router.post('/store', controllerDiscipline.store);
 
-router.post('/update/:id', controllerDiscipline.update);
+router.post('/:id', controllerDiscipline.update);
 
-router.get('/delete/:id', controllerDiscipline.delete);
+router.delete('/:id', controllerDiscipline.delete);
 
-router.get('/active/:id', controllerDiscipline.active);
-
-router.get('/inactive/:id', controllerDiscipline.inactive);
+router.get('/toggle/:id', controllerDiscipline.active);
 
 module.exports = router;

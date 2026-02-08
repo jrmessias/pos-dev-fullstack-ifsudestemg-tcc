@@ -1,6 +1,6 @@
 var controllerActivity = require('../../controllers/api/controllerActivity')
 const createRouter = require("../../utils/createRouter");
-const router = createRouter("/discipline");
+const router = createRouter("/activity");
 
 router.get('/', controllerActivity.index);
 

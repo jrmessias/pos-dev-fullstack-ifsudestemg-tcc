@@ -56,6 +56,35 @@ exports.store = async function (req, res) {
     }
 };
 
+exports.students = async function (req, res) {
+    try {
+        const parsedParams = disciplineParamsSchema.safeParse(req.params);
+        if (!parsedParams.success) {
+            return validationError(res, parsedParams);
+        }
+
+        const { id } = parsedParams.data;
+
+        const discipline = await Discipline.findOne({
+            where: { id, user_id: req.user.id },
+        });
+
+        if (!discipline) {
+            return res.status(404).json({ message: "Disciplina não encontrada" });
+        }
+
+        const students = await discipline.getUsers({
+            attributes: ["name"],
+            where: { role: "student" },
+            through: { attributes: [] },
+        });
+
+        return res.json(students.map((student) => student.name));
+    } catch (error) {
+        return res.status(500).json({ message: "Erro ao listar alunos da disciplina" });
+    }
+};
+
 exports.update = async function (req, res) {
     try {
         const parsedParams = disciplineParamsSchema.safeParse(req.params);
@@ -139,11 +168,11 @@ exports.active = async function (req, res) {
             return res.status(404).json({ message: "Disciplina não encontrada" });
         }
 
-        await discipline.update({ active: true });
+        const nextActive = !Boolean(discipline.active);
+        await discipline.update({ active: nextActive });
 
         return res.json({
-            message: `Disciplina ${discipline.name} ativada com sucesso`,
-            discipline,
+            message: `Disciplina ${discipline.name} ${nextActive ? "ativada" : "inativada"} com sucesso`,
         });
     } catch (error) {
         return res.status(500).json({ message: "Erro ao ativar disciplina" });

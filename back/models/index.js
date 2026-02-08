@@ -8,6 +8,11 @@ const Answer = require('./Answer');
 const DisciplineUser = require('./DisciplineUser');
 
 User.hasMany(Discipline, { foreignKey: 'user_id' });
+User.belongsToMany(Discipline, {
+    through: DisciplineUser,
+    foreignKey: 'user_id',
+    otherKey: 'discipline_id',
+});
 
 Discipline.belongsTo(User, { foreignKey: 'user_id' });
 Discipline.hasMany(Activity, { foreignKey: 'discipline_id' });
