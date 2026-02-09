@@ -9,6 +9,7 @@ DisciplineUser.init(
         discipline_id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
+            nullable: false,
             references: {
                 model: 'discipline',
                 key: 'id'
@@ -17,6 +18,7 @@ DisciplineUser.init(
         user_id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
+            nullable: false,
             references: {
                 model: 'user',
                 key: 'id'

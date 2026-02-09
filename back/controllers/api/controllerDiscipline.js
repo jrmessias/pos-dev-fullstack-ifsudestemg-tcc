@@ -77,10 +77,16 @@ exports.students = async function (req, res) {
             attributes: ["name"],
             where: { role: "student" },
             through: { attributes: [] },
+            order: [["name"]],
         });
 
         return res.json(students.map((student) => student.name));
     } catch (error) {
+        console.error("Erro ao listar alunos da disciplina", {
+            disciplineId: req.params?.id,
+            userId: req.user?.id,
+            error: error.message,
+        });
         return res.status(500).json({ message: "Erro ao listar alunos da disciplina" });
     }
 };
@@ -116,7 +122,6 @@ exports.update = async function (req, res) {
 
         return res.json({
             message: `Disciplina ${discipline.name} atualizada com sucesso`,
-            discipline,
         });
     } catch (error) {
         return res.status(500).json({ message: "Erro ao atualizar disciplina" });
@@ -151,7 +156,7 @@ exports.delete = async function (req, res) {
     }
 };
 
-exports.active = async function (req, res) {
+exports.toggle = async function (req, res) {
     try {
         const parsedParams = disciplineParamsSchema.safeParse(req.params);
         if (!parsedParams.success) {
@@ -176,34 +181,6 @@ exports.active = async function (req, res) {
         });
     } catch (error) {
         return res.status(500).json({ message: "Erro ao ativar disciplina" });
-    }
-};
-
-exports.inactive = async function (req, res) {
-    try {
-        const parsedParams = disciplineParamsSchema.safeParse(req.params);
-        if (!parsedParams.success) {
-            return validationError(res, parsedParams);
-        }
-
-        const { id } = parsedParams.data;
-
-        const discipline = await Discipline.findOne({
-            where: { id, user_id: req.user.id },
-        });
-
-        if (!discipline) {
-            return res.status(404).json({ message: "Disciplina não encontrada" });
-        }
-
-        await discipline.update({ active: false });
-
-        return res.json({
-            message: `Disciplina ${discipline.name} inativada com sucesso`,
-            discipline,
-        });
-    } catch (error) {
-        return res.status(500).json({ message: "Erro ao inativar disciplina" });
     }
 };
 

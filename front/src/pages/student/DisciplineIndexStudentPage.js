@@ -12,8 +12,8 @@ export default function DisciplineIndexStudentPage() {
                             <div className="flex items-start justify-between">
                                 <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round"
+                                         fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                                         strokeLinejoin="round"
                                          className="lucide lucide-book-open w-6 h-6 text-primary">
                                         <path d="M12 7v14"></path>
                                         <path
@@ -43,8 +43,8 @@ export default function DisciplineIndexStudentPage() {
                                 <div className="grid grid-cols-2 gap-3">
                                     <div className="flex items-center gap-2 text-sm">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                             stroke-linecap="round" stroke-linejoin="round"
+                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                                             strokeLinecap="round" strokeLinejoin="round"
                                              className="lucide lucide-file-text w-4 h-4 text-muted-foreground">
                                             <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
                                             <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
@@ -55,8 +55,8 @@ export default function DisciplineIndexStudentPage() {
                                         <span>3 atividades</span></div>
                                     <div className="flex items-center gap-2 text-sm">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                             stroke-linecap="round" stroke-linejoin="round"
+                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                                             strokeLinecap="round" strokeLinejoin="round"
                                              className="lucide lucide-trophy w-4 h-4 text-accent">
                                             <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
                                             <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
@@ -78,8 +78,8 @@ export default function DisciplineIndexStudentPage() {
                             <div className="flex items-start justify-between">
                                 <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round"
+                                         fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                                         strokeLinejoin="round"
                                          className="lucide lucide-book-open w-6 h-6 text-primary">
                                         <path d="M12 7v14"></path>
                                         <path
@@ -107,8 +107,8 @@ export default function DisciplineIndexStudentPage() {
                                 <div className="grid grid-cols-2 gap-3">
                                     <div className="flex items-center gap-2 text-sm">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                             stroke-linecap="round" stroke-linejoin="round"
+                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                                             strokeLinecap="round" strokeLinejoin="round"
                                              className="lucide lucide-file-text w-4 h-4 text-muted-foreground">
                                             <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
                                             <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
@@ -119,8 +119,8 @@ export default function DisciplineIndexStudentPage() {
                                         <span>1 atividades</span></div>
                                     <div className="flex items-center gap-2 text-sm">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                             stroke-linecap="round" stroke-linejoin="round"
+                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                                             strokeLinecap="round" strokeLinejoin="round"
                                              className="lucide lucide-trophy w-4 h-4 text-accent">
                                             <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
                                             <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
@@ -142,8 +142,8 @@ export default function DisciplineIndexStudentPage() {
                             <div className="flex items-start justify-between">
                                 <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round"
+                                         fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                                         strokeLinejoin="round"
                                          className="lucide lucide-book-open w-6 h-6 text-primary">
                                         <path d="M12 7v14"></path>
                                         <path
@@ -171,8 +171,8 @@ export default function DisciplineIndexStudentPage() {
                                 <div className="grid grid-cols-2 gap-3">
                                     <div className="flex items-center gap-2 text-sm">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                             stroke-linecap="round" stroke-linejoin="round"
+                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                                             strokeLinecap="round" strokeLinejoin="round"
                                              className="lucide lucide-file-text w-4 h-4 text-muted-foreground">
                                             <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"></path>
                                             <path d="M14 2v4a2 2 0 0 0 2 2h4"></path>
@@ -183,8 +183,8 @@ export default function DisciplineIndexStudentPage() {
                                         <span>0 atividades</span></div>
                                     <div className="flex items-center gap-2 text-sm">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                                             stroke-linecap="round" stroke-linejoin="round"
+                                             viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                                             strokeLinecap="round" strokeLinejoin="round"
                                              className="lucide lucide-trophy w-4 h-4 text-accent">
                                             <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
                                             <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>

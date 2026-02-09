@@ -4,6 +4,10 @@ const router = createRouter("/activity");
 
 router.get('/', controllerActivity.index);
 
+router.get('/toggle/:id', controllerActivity.toggle);
+
+router.delete('/:id', controllerActivity.delete);
+
 // router.get('/create', controllerActivity.create);
 //
 // router.post('/store', controllerActivity.store);

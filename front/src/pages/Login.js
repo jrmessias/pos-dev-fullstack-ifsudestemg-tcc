@@ -6,7 +6,6 @@ import {useContext, useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import ThemeToggle from "../components/ThemeToggle.js";
 import Icon from "../components/Icon.js";
-import {setAuthToken} from "../services/api.js";
 import {AuthContext} from "../contexts/AuthContext.js";
 
 export default function Login() {
@@ -37,12 +36,7 @@ export default function Login() {
             setLoading(true);
             setError(null);
 
-            const loginResponse = await loginRequest(data);
-
-            const token = loginResponse.token || loginResponse.data.token;
-
-            localStorage.setItem("token", token);
-            setAuthToken(token);
+            await loginRequest(data);
 
             const meResponse = await meRequest('/me');
 
@@ -60,9 +54,6 @@ export default function Login() {
             navigate(targetRoute, {replace: true});
         } catch (err) {
             setError(err?.response?.data?.message || err.message || 'Erro ao autenticar');
-
-            // setError(err.message);
-            localStorage.removeItem("token");
         } finally {
             setLoading(false);
         }

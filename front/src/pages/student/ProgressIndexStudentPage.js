@@ -19,8 +19,8 @@ export default function ProgressIndexStudentPage() {
                             <div className="flex-1"><h2 className="text-2xl font-bold">João Santos</h2>
                                 <div className="flex items-center gap-2 mt-1">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round" className="lucide lucide-medal w-5 h-5 text-silver">
+                                         fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                                         strokeLinejoin="round" className="lucide lucide-medal w-5 h-5 text-silver">
                                         <path
                                             d="M7.21 15 2.66 7.14a2 2 0 0 1 .13-2.2L4.4 2.8A2 2 0 0 1 6 2h12a2 2 0 0 1 1.6.8l1.6 2.14a2 2 0 0 1 .14 2.2L16.79 15"></path>
                                         <path d="M11 12 5.12 2.2"></path>
@@ -53,8 +53,8 @@ export default function ProgressIndexStudentPage() {
                             <div className="flex items-center gap-4">
                                 <div className="p-3 rounded-xl bg-primary/10">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round" className="lucide lucide-star w-6 h-6 text-primary">
+                                         fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                                         strokeLinejoin="round" className="lucide lucide-star w-6 h-6 text-primary">
                                         <path
                                             d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z"></path>
                                     </svg>
@@ -70,8 +70,8 @@ export default function ProgressIndexStudentPage() {
                             <div className="flex items-center gap-4">
                                 <div className="p-3 rounded-xl bg-accent/10">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round" className="lucide lucide-target w-6 h-6 text-accent">
+                                         fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                                         strokeLinejoin="round" className="lucide lucide-target w-6 h-6 text-accent">
                                         <circle cx="12" cy="12" r="10"></circle>
                                         <circle cx="12" cy="12" r="6"></circle>
                                         <circle cx="12" cy="12" r="2"></circle>
@@ -88,8 +88,8 @@ export default function ProgressIndexStudentPage() {
                             <div className="flex items-center gap-4">
                                 <div className="p-3 rounded-xl bg-success/10">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round"
+                                         fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                                         strokeLinejoin="round"
                                          className="lucide lucide-trending-up w-6 h-6 text-success">
                                         <polyline points="22 7 13.5 15.5 8.5 10.5 2 17"></polyline>
                                         <polyline points="16 7 22 7 22 13"></polyline>
@@ -106,8 +106,8 @@ export default function ProgressIndexStudentPage() {
                             <div className="flex items-center gap-4">
                                 <div className="p-3 rounded-xl bg-gold/10">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round" className="lucide lucide-trophy w-6 h-6 text-gold">
+                                         fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                                         strokeLinejoin="round" className="lucide lucide-trophy w-6 h-6 text-gold">
                                         <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
                                         <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
                                         <path d="M4 22h16"></path>
@@ -128,8 +128,8 @@ export default function ProgressIndexStudentPage() {
                          className="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6">
                         <div data-slot="card-title" className="leading-none font-semibold flex items-center gap-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                 stroke-linejoin="round" className="lucide lucide-trophy w-5 h-5 text-primary">
+                                 fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                                 strokeLinejoin="round" className="lucide lucide-trophy w-5 h-5 text-primary">
                                 <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
                                 <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
                                 <path d="M4 22h16"></path>
@@ -146,8 +146,8 @@ export default function ProgressIndexStudentPage() {
                                 className="flex items-center gap-3 p-4 rounded-xl border bg-bronze/10 border-bronze/30">
                                 <div className="w-12 h-12 rounded-full flex items-center justify-center bg-bronze/20">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round" className="lucide lucide-trophy w-6 h-6 text-bronze">
+                                         fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                                         strokeLinejoin="round" className="lucide lucide-trophy w-6 h-6 text-bronze">
                                         <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
                                         <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
                                         <path d="M4 22h16"></path>
@@ -163,8 +163,8 @@ export default function ProgressIndexStudentPage() {
                                 className="flex items-center gap-3 p-4 rounded-xl border bg-silver/10 border-silver/30">
                                 <div className="w-12 h-12 rounded-full flex items-center justify-center bg-silver/20">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round" className="lucide lucide-trophy w-6 h-6 text-silver">
+                                         fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                                         strokeLinejoin="round" className="lucide lucide-trophy w-6 h-6 text-silver">
                                         <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
                                         <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
                                         <path d="M4 22h16"></path>
@@ -185,8 +185,8 @@ export default function ProgressIndexStudentPage() {
                          className="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6">
                         <div data-slot="card-title" className="font-semibold flex items-center gap-2 text-base">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                 fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                 stroke-linejoin="round" className="lucide lucide-trophy w-4 h-4 text-primary">
+                                 fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                                 strokeLinejoin="round" className="lucide lucide-trophy w-4 h-4 text-primary">
                                 <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
                                 <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
                                 <path d="M4 22h16"></path>
@@ -202,8 +202,8 @@ export default function ProgressIndexStudentPage() {
                             <div className="flex items-center gap-4 p-3 rounded-lg bg-muted/30">
                                 <div className="w-8 flex justify-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round" className="lucide lucide-crown w-5 h-5 text-gold">
+                                         fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                                         strokeLinejoin="round" className="lucide lucide-crown w-5 h-5 text-gold">
                                         <path
                                             d="M11.562 3.266a.5.5 0 0 1 .876 0L15.39 8.87a1 1 0 0 0 1.516.294L21.183 5.5a.5.5 0 0 1 .798.519l-2.834 10.246a1 1 0 0 1-.956.734H5.81a1 1 0 0 1-.957-.734L2.02 6.02a.5.5 0 0 1 .798-.519l4.276 3.664a1 1 0 0 0 1.516-.294z"></path>
                                         <path d="M5 21h14"></path>
@@ -221,8 +221,8 @@ export default function ProgressIndexStudentPage() {
                                 className="flex items-center gap-4 p-3 rounded-lg bg-primary/10 border border-primary/30">
                                 <div className="w-8 flex justify-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round" className="lucide lucide-medal w-5 h-5 text-silver">
+                                         fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                                         strokeLinejoin="round" className="lucide lucide-medal w-5 h-5 text-silver">
                                         <path
                                             d="M7.21 15 2.66 7.14a2 2 0 0 1 .13-2.2L4.4 2.8A2 2 0 0 1 6 2h12a2 2 0 0 1 1.6.8l1.6 2.14a2 2 0 0 1 .14 2.2L16.79 15"></path>
                                         <path d="M11 12 5.12 2.2"></path>
@@ -243,8 +243,8 @@ export default function ProgressIndexStudentPage() {
                             <div className="flex items-center gap-4 p-3 rounded-lg bg-muted/30">
                                 <div className="w-8 flex justify-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                         stroke-linejoin="round" className="lucide lucide-award w-5 h-5 text-bronze">
+                                         fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"
+                                         strokeLinejoin="round" className="lucide lucide-award w-5 h-5 text-bronze">
                                         <path
                                             d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526"></path>
                                         <circle cx="12" cy="8" r="6"></circle>

@@ -2,8 +2,9 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const {loginSchema} = require("../../validators/authValidator");
 const {findUserByEmail} = require("../../repositories/userRepository");
+const {User} = require("../../models");
 
-cookieOptions = {
+const accessCookieOptions = {
     // domain: "127.0.0.1",
     httpOnly: true,
     secure: false,//process.env.NODE_ENV === "production", // true só em HTTPS
@@ -12,18 +13,47 @@ cookieOptions = {
     // maxAge: 5 * 60 * 1000, // 5 minutes * 60 seconds * 1000 milliseconds = 300000 ms
 };
 
+const refreshCookieOptions = {
+    httpOnly: true,
+    secure: false,
+    sameSite: 'lax',
+    path: '/'
+};
+
+function buildAccessTokenPayload(user) {
+    return {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role
+    };
+}
+
+function generateAccessToken(user) {
+    return jwt.sign(
+        buildAccessTokenPayload(user),
+        process.env.JWT_SECRET,
+        {expiresIn: '15m'}
+    );
+}
+
+function generateRefreshToken(user) {
+    return jwt.sign(
+        {id: user.id},
+        process.env.JWT_REFRESH_SECRET || process.env.JWT_SECRET,
+        {expiresIn: '1d'}
+    );
+}
+
 exports.login = async function (req, res) {
     try {
-        // validação do payload
         const data = loginSchema.parse(req.body);
 
-        // busca usuário
         const user = await findUserByEmail(data.email);
         if (!user) {
             return res.status(401).json({message: "Credenciais inválidas"});
         }
 
-        // // valida senha
         const passwordMatch = await bcrypt.compare(
             data.password,
             user.password
@@ -33,20 +63,12 @@ exports.login = async function (req, res) {
             return res.status(401).json({message: "Credenciais inválidas"});
         }
 
-        // gera token
-        const token = jwt.sign(
-            {
-                id: user.id,
-                name: user.name,
-                email: user.email,
-                role: user.role
-            },
-            process.env.JWT_SECRET,
-            {expiresIn: '15m'}
-        );
 
-        // cookie httpOnly
-        res.cookie("token", token, cookieOptions);
+        const token = generateAccessToken(user);
+        const refreshToken = generateRefreshToken(user);
+
+        res.cookie("token", token, accessCookieOptions);
+        res.cookie("refresh_token", refreshToken, refreshCookieOptions);
 
         return res.json({
             token,
@@ -57,15 +79,12 @@ exports.login = async function (req, res) {
             },
         });
     } catch (err) {
-        // console.log(err);
         if (err.name === "ZodError") {
             return res.status(400).json({
                 message: "Dados inválidos",
                 errors: err.errors,
             });
         }
-
-        // console.log(err);
 
         return res.status(500).json({message: "Erro interno"});
     }
@@ -77,14 +96,53 @@ exports.me = async function (req, res) {
     });
 }
 
+exports.refreshToken = async function (req, res) {
+    const refreshToken = req.cookies.refresh_token;
+
+    if (!refreshToken) {
+        return res.status(401).json({error: 'Refresh token ausente', code: 'REFRESH_TOKEN_MISSING'});
+    }
+
+    try {
+        const decoded = jwt.verify(
+            refreshToken,
+            process.env.JWT_REFRESH_SECRET || process.env.JWT_SECRET
+        );
+
+        const user = await User.findByPk(decoded.id, {
+            attributes: ['id', 'name', 'email', 'role']
+        });
+
+        if (!user) {
+            return res.status(401).json({error: 'Usuário não encontrado', code: 'REFRESH_USER_NOT_FOUND'});
+        }
+
+        const newAccessToken = generateAccessToken(user);
+        res.cookie('token', newAccessToken, accessCookieOptions);
+
+        return res.json({message: 'Token atualizado com sucesso'});
+    } catch (err) {
+        return res.status(401).json({error: 'Refresh token inválido', code: 'REFRESH_TOKEN_INVALID'});
+    }
+}
+
 exports.logout = async function (req, res) {
+    const clearCookies = () => {
+        res.clearCookie('token', accessCookieOptions);
+        res.clearCookie('refresh_token', refreshCookieOptions);
+        res.clearCookie('connect.sid');
+    };
+
+    if (!req.session) {
+        clearCookies();
+        return res.status(200).json({message: "Logout realizado com sucesso"});
+    }
+
     req.session.destroy((err) => {
         if (err) {
             return res.status(500).json({ message: "Erro ao fechar sessão" });
         }
-        res.clearCookie('token', cookieOptions);
-
-        res.clearCookie('connect.sid'); // 'connect.sid' é o nome padrão, verifique se mudou
+        clearCookies();
 
         return res.status(200).json({ message: "Logout realizado com sucesso" });
     });

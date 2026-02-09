@@ -1,5 +1,8 @@
 const { Discipline, Activity } = require("../../models");
-const { activityIndexQuerySchema } = require("../../validators/activityValidator");
+const {
+    activityIndexQuerySchema,
+    activityParamsSchema,
+} = require("../../validators/activityValidator");
 
 function validationError(res, parsed) {
     return res.status(400).json({
@@ -35,6 +38,78 @@ exports.index = async function (req, res) {
         return res.json(activities);
     } catch (error) {
         return res.status(500).json({ message: "Erro ao listar atividades" });
+    }
+};
+
+exports.delete = async function (req, res) {
+    try {
+        const parsedParams = activityParamsSchema.safeParse(req.params);
+        if (!parsedParams.success) {
+            return validationError(res, parsedParams);
+        }
+
+        const { id } = parsedParams.data;
+
+        const activity = await Activity.findOne({
+            where: { id },
+            include: [
+                {
+                    model: Discipline,
+                    attributes: ["id"],
+                    required: true,
+                    where: { user_id: req.user.id },
+                },
+            ],
+        });
+
+        if (!activity) {
+            return res.status(404).json({ message: "Atividade não encontrada" });
+        }
+
+        const activityName = activity.name;
+        await activity.destroy();
+
+        return res.json({
+            message: `Atividade ${activityName} excluída com sucesso`,
+        });
+    } catch (error) {
+        return res.status(500).json({ message: "Erro ao excluir atividade" });
+    }
+};
+
+exports.toggle = async function (req, res) {
+    try {
+        const parsedParams = activityParamsSchema.safeParse(req.params);
+        if (!parsedParams.success) {
+            return validationError(res, parsedParams);
+        }
+
+        const { id } = parsedParams.data;
+
+        const activity = await Activity.findOne({
+            where: { id },
+            include: [
+                {
+                    model: Discipline,
+                    attributes: ["id"],
+                    required: true,
+                    where: { user_id: req.user.id },
+                },
+            ],
+        });
+
+        if (!activity) {
+            return res.status(404).json({ message: "Atividade não encontrada" });
+        }
+
+        const nextActive = !Boolean(activity.active);
+        await activity.update({ active: nextActive });
+
+        return res.json({
+            message: `Atividade ${activity.name} ${nextActive ? "ativada" : "inativada"} com sucesso`,
+        });
+    } catch (error) {
+        return res.status(500).json({ message: "Erro ao alterar status da atividade" });
     }
 };
 

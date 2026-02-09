@@ -385,7 +385,7 @@ export default function DisciplineIndexTeacherPage() {
             title={`Alunos - ${studentsTitle}`}
             description="Listagem de alunos associados a disciplina"
         >
-            <div className="space-y-2">
+            <div className="max-h-[70vh] overflow-y-auto space-y-2 rounded-md border p-3 pr-2 sm:max-h-[60vh]">
                 {students.length === 0 ? (
                     <p className="text-sm text-muted-foreground">Nenhum aluno associado.</p>
                 ) : (

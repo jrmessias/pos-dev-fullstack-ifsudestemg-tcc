@@ -12,6 +12,6 @@ router.post('/:id', controllerDiscipline.update);
 
 router.delete('/:id', controllerDiscipline.delete);
 
-router.get('/toggle/:id', controllerDiscipline.active);
+router.get('/toggle/:id', controllerDiscipline.toggle);
 
 module.exports = router;

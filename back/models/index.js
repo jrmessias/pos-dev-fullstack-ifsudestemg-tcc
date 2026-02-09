@@ -19,6 +19,7 @@ Discipline.hasMany(Activity, { foreignKey: 'discipline_id' });
 Discipline.belongsToMany(User, {
     through: DisciplineUser,
     foreignKey: 'discipline_id',
+    otherKey: 'user_id',
 });
 
 Activity.belongsTo(Discipline, { foreignKey: 'discipline_id' });

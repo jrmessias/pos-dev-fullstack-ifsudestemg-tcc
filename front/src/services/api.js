@@ -5,27 +5,39 @@ export const api = axios.create({
     withCredentials: true,
 });
 
-export const setAuthToken = (token) => {
-    if (token) {
-        api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-    } else {
-        delete api.defaults.headers.common['Authorization'];
-    }
-};
+let isRefreshing = false;
+let refreshPromise = null;
 
-// api.interceptors.request.use((config) => {
-//     const token = localStorage.getItem("token");
-//     if (token) {
-//         config.headers.Authorization = `Bearer ${token}`;
-//     }
-//     return config;
-// });
-//
-// api.interceptors.response.use(
-//     (response) => response.data,
-//     (error) => {
-//         const message =
-//             error.response?.data?.message || "Erro inesperado";
-//         return Promise.reject(new Error(message));
-//     }
-// );
+api.interceptors.response.use(
+    (response) => response,
+    async (error) => {
+        const originalRequest = error.config;
+        const status = error?.response?.status;
+        const code = error?.response?.data?.code;
+        const isRefreshEndpoint = originalRequest?.url?.includes('/auth/refresh');
+
+        if (status !== 401 || code !== 'TOKEN_EXPIRED' || originalRequest?._retry || isRefreshEndpoint) {
+            return Promise.reject(error);
+        }
+
+        originalRequest._retry = true;
+
+        try {
+            if (!isRefreshing) {
+                isRefreshing = true;
+                refreshPromise = api.post('/auth/refresh');
+            }
+
+            await refreshPromise;
+            return api(originalRequest);
+        } catch (refreshError) {
+            if (typeof window !== 'undefined') {
+                window.dispatchEvent(new CustomEvent('auth:session-expired'));
+            }
+            return Promise.reject(refreshError);
+        } finally {
+            isRefreshing = false;
+            refreshPromise = null;
+        }
+    }
+);

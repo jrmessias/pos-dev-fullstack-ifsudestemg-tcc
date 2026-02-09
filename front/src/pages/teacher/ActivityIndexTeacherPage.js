@@ -1,14 +1,69 @@
 import {useEffect, useState} from "react";
-import {activityIndex} from "@/services/activityService.js";
+import {activityDelete, activityIndex, activityToggle} from "@/services/activityService.js";
 import Icon from "@/components/Icon.js";
-import {Badge} from "@/components/ui/badge.jsx";
 import {Button} from "@/components/ui/button.jsx";
 import {DataTable} from "@/components/Datatable.js";
 import {Loading} from "@/components/Loading.js";
+import {ConfirmModal} from "@/components/ui/modal.jsx";
+import {Toaster} from "@/components/ui/sonner.jsx";
+import {toast} from "sonner";
 
 export default function ActivityIndexTeacherPage() {
     const [loading, setLoading] = useState(true);
+    const [togglingId, setTogglingId] = useState(null);
     const [data, setData] = useState([]);
+    const [activityToDelete, setActivityToDelete] = useState(null);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [deleting, setDeleting] = useState(false);
+
+    const getData = async () => {
+        try {
+            setLoading(true);
+            const activityResponse = await activityIndex();
+            setData(activityResponse.data || []);
+        } catch {
+            toast.error("Não foi possivel carregar as atividades.", {position: "top-center"});
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    const handleToggleStatus = async (item) => {
+        try {
+            setTogglingId(item.id);
+            const response = await activityToggle(item.id);
+            toast.success(response?.data?.message || "Status da atividade atualizado.", {position: "top-center"});
+            await getData();
+        } catch {
+            toast.error("Não foi possivel alterar o status da atividade.", {position: "top-center"});
+        } finally {
+            setTogglingId(null);
+        }
+    };
+
+    const openDeleteModal = (item) => {
+        setActivityToDelete(item);
+        setIsDeleteModalOpen(true);
+    };
+
+    const handleDelete = async () => {
+        if (!activityToDelete) {
+            return;
+        }
+
+        try {
+            setDeleting(true);
+            const deleteResponse = await activityDelete(activityToDelete.id);
+            toast.success(deleteResponse?.data?.message || "Atividade excluída com sucesso.", {position: "top-center"});
+            setIsDeleteModalOpen(false);
+            setActivityToDelete(null);
+            await getData();
+        } catch {
+            toast.error("Não foi possivel excluir a atividade. Tente novamente mais tarde.", {position: "top-center"});
+        } finally {
+            setDeleting(false);
+        }
+    };
 
     const columns = [
         {
@@ -39,9 +94,25 @@ export default function ActivityIndexTeacherPage() {
             key: "active",
             sortable: true,
             render: (item) => (
-                <Badge variant={item.active === 1 ? "default" : "destructive"}>
-                    {item.active === 1 ? "Ativo" : "Inativo"}
-                </Badge>
+                <Button
+                    variant={item.active === 1 || item.active === true ? "default" : "destructive"}
+                    size="sm"
+                    className="cursor-pointer"
+                    disabled={togglingId === item.id}
+                    onClick={(event) => {
+                        event.stopPropagation();
+                        handleToggleStatus(item);
+                    }}
+                >
+                    {togglingId === item.id ? (
+                        <>
+                            <Icon name="Loader2" className="w-4 h-4 mr-2 animate-spin"/>
+                            Atualizando...
+                        </>
+                    ) : (
+                        item.active === 1 || item.active === true ? "Ativa" : "Inativa"
+                    )}
+                </Button>
             ),
         },
         {
@@ -53,7 +124,7 @@ export default function ActivityIndexTeacherPage() {
                         className={'cursor-pointer'}
                         variant="ghost"
                         size="icon"
-                        onClick={(event) => {
+                        onClick={() => {
                             // e.stopPropagation();
                             // openEditModal(disciplina);
                         }}
@@ -64,7 +135,7 @@ export default function ActivityIndexTeacherPage() {
                         className={'cursor-pointer'}
                         variant="ghost"
                         size="icon"
-                        onClick={(event) => {
+                        onClick={() => {
                             // e.stopPropagation();
                             // openEditModal(disciplina);
                         }}
@@ -76,8 +147,8 @@ export default function ActivityIndexTeacherPage() {
                         size="icon"
                         className="text-destructive hover:text-destructive cursor-pointer"
                         onClick={(event) => {
-                            // e.stopPropagation();
-                            // openDeleteModal(disciplina);
+                            event.stopPropagation();
+                            openDeleteModal(item);
                         }}
                     >
                         <Icon name="Trash2" className="w-4 h-4"/>
@@ -88,12 +159,7 @@ export default function ActivityIndexTeacherPage() {
     ];
 
     useEffect(() => {
-        const getData = async () => {
-            const activityResponse = await activityIndex()
-            setData(activityResponse.data)
-            setLoading(false);
-        }
-        getData()
+        getData();
     }, [])
 
     return <>
@@ -104,7 +170,7 @@ export default function ActivityIndexTeacherPage() {
             <button data-slot="button"
                     className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[&gt;svg]:px-3">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                     stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
                      className="lucide lucide-plus w-4 h-4 mr-2">
                     <path d="M5 12h14"></path>
                     <path d="M12 5v14"></path>
@@ -121,8 +187,24 @@ export default function ActivityIndexTeacherPage() {
                                         searchPlaceholder="Buscar por atividade..."
                                         pageSize={5}
                                         onRowClick={(row) => console.log("Linha clicada:", row)}/>}
-                {loading && !data && <Loading/>}
+                {loading && <Loading/>}
             </div>
         </div>
+        <ConfirmModal
+            open={isDeleteModalOpen}
+            onOpenChange={(open) => {
+                setIsDeleteModalOpen(open);
+                if (!open && !deleting) {
+                    setActivityToDelete(null);
+                }
+            }}
+            title="Excluir Atividade"
+            description={`Tem certeza que deseja excluir a atividade "${activityToDelete?.name}"? Esta ação não pode ser desfeita.`}
+            onConfirm={handleDelete}
+            isLoading={deleting}
+            confirmText="Excluir"
+            variant="destructive"
+        />
+        <Toaster richColors/>
     </>
 }
