@@ -21,7 +21,7 @@ Question.init({
     name: {
         type: DataTypes.STRING(255)
     },
-    description: {
+    text: {
         type: DataTypes.STRING(255)
     },
     type: {

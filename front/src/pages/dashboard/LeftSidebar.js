@@ -18,7 +18,7 @@ const linksTeacher = [
 
 export default function LeftSidebar({type, leftOpen, setLeftOpen}) {
     const location = useLocation();
-    const pathname = location.pathname;
+    const linkHref = location.pathname.split('/').slice(0, 3).join('/');
     const links = type.includes("teacher") ? linksTeacher : linksStudent;
     const isStudent = type === 'student';
 
@@ -43,7 +43,7 @@ export default function LeftSidebar({type, leftOpen, setLeftOpen}) {
             <nav className="flex-1 py-4 px-2 space-y-1 overflow-y-auto overflow-x-hidden">
                 {links.map((link) => {
                     const Icon_ = link.icon;
-                    const isActive = pathname === link.href;
+                    const isActive = linkHref === link.href;
 
                     const linkContent = (
                         <Link

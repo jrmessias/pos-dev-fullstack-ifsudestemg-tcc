@@ -10,6 +10,7 @@ import Dashboard from "./dashboard/Dashboard.js";
 import ForbiddenPage from "./errors/ForbiddenPage.js";
 import DisciplineIndexTeacherPage from "./teacher/DisciplineIndexTeacherPage.js";
 import ActivityIndexTeacherPage from "./teacher/ActivityIndexTeacherPage.js";
+import ActivityCreateTeacherPage from "./teacher/ActivityCreateTeacherPage.js";
 import AnswerIndexTeacherPage from "./teacher/AnswerIndexTeacherPage.js";
 import GameIndexTeacherPage from "./teacher/GameIndexTeacherPage.js";
 import DisciplineIndexStudentPage from "./student/DisciplineIndexStudentPage.js";
@@ -40,6 +41,7 @@ function App() {
                             <Route index element={<Dashboard/>}/>
                             <Route path="discipline" element={<DisciplineIndexTeacherPage/>}/>
                             <Route path="activity" element={<ActivityIndexTeacherPage/>}/>
+                            <Route path="activity/new" element={<ActivityCreateTeacherPage/>}/>
                             <Route path="answer" element={<AnswerIndexTeacherPage/>}/>
                             <Route path="game" element={<GameIndexTeacherPage/>}/>
                         </Route>

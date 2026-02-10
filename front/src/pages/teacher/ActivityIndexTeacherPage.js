@@ -1,20 +1,34 @@
 import {useEffect, useState} from "react";
-import {activityDelete, activityIndex, activityToggle} from "@/services/activityService.js";
+import {activityDelete, activityIndex, activityShow, activityToggle} from "@/services/activityService.js";
 import Icon from "@/components/Icon.js";
 import {Button} from "@/components/ui/button.jsx";
 import {DataTable} from "@/components/Datatable.js";
 import {Loading} from "@/components/Loading.js";
-import {ConfirmModal} from "@/components/ui/modal.jsx";
+import {ConfirmModal, Modal} from "@/components/ui/modal.jsx";
 import {Toaster} from "@/components/ui/sonner.jsx";
 import {toast} from "sonner";
+import {useNavigate} from "react-router-dom";
 
 export default function ActivityIndexTeacherPage() {
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [togglingId, setTogglingId] = useState(null);
     const [data, setData] = useState([]);
     const [activityToDelete, setActivityToDelete] = useState(null);
+    const [selectedActivity, setSelectedActivity] = useState(null);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
+    const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+    const [loadingActivityDetails, setLoadingActivityDetails] = useState(false);
     const [deleting, setDeleting] = useState(false);
+    const publicApiBase = import.meta.env.VITE_API_URL?.replace(/\/api\/?$/, "") || "";
+
+    const getQuestionImageUrl = (relativePath) => {
+        if (!relativePath) return "";
+        if (relativePath.startsWith("http://") || relativePath.startsWith("https://")) {
+            return relativePath;
+        }
+        return `${publicApiBase}${relativePath}`;
+    };
 
     const getData = async () => {
         try {
@@ -44,6 +58,21 @@ export default function ActivityIndexTeacherPage() {
     const openDeleteModal = (item) => {
         setActivityToDelete(item);
         setIsDeleteModalOpen(true);
+    };
+
+    const openViewModal = async (item) => {
+        try {
+            setSelectedActivity(null);
+            setIsViewModalOpen(true);
+            setLoadingActivityDetails(true);
+            const response = await activityShow(item.id);
+            setSelectedActivity(response?.data || null);
+        } catch {
+            setIsViewModalOpen(false);
+            toast.error("Não foi possível carregar os detalhes da atividade.", {position: "top-center"});
+        } finally {
+            setLoadingActivityDetails(false);
+        }
     };
 
     const handleDelete = async () => {
@@ -124,23 +153,13 @@ export default function ActivityIndexTeacherPage() {
                         className={'cursor-pointer'}
                         variant="ghost"
                         size="icon"
-                        onClick={() => {
-                            // e.stopPropagation();
-                            // openEditModal(disciplina);
+                        disabled={loadingActivityDetails}
+                        onClick={(event) => {
+                            event.stopPropagation();
+                            openViewModal(item);
                         }}
                     >
-                        <Icon name="ClipboardCheck" className="w-4 h-4"/>
-                    </Button>
-                    <Button
-                        className={'cursor-pointer'}
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => {
-                            // e.stopPropagation();
-                            // openEditModal(disciplina);
-                        }}
-                    >
-                        <Icon name="Edit" className="w-4 h-4"/>
+                        <Icon name="Eye" className="w-4 h-4"/>
                     </Button>
                     <Button
                         variant="ghost"
@@ -167,16 +186,10 @@ export default function ActivityIndexTeacherPage() {
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div><h1 className="text-2xl font-bold">Atividades</h1><p className="text-muted-foreground">Gerencie
                 atividades, quizzes e provas</p></div>
-            <button data-slot="button"
-                    className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 [&amp;_svg]:pointer-events-none [&amp;_svg:not([class*='size-'])]:size-4 shrink-0 [&amp;_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 has-[&gt;svg]:px-3">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                     stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-                     className="lucide lucide-plus w-4 h-4 mr-2">
-                    <path d="M5 12h14"></path>
-                    <path d="M12 5v14"></path>
-                </svg>
+            <Button className="cursor-pointer" onClick={() => navigate("/teacher/activity/new")}>
+                <Icon name="Plus" className="w-4 h-4 mr-2"/>
                 Nova Atividade
-            </button>
+            </Button>
         </div>
         <div data-slot="card"
              className="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm">
@@ -205,6 +218,69 @@ export default function ActivityIndexTeacherPage() {
             confirmText="Excluir"
             variant="destructive"
         />
+        <Modal
+            open={isViewModalOpen}
+            onOpenChange={(open) => {
+                setIsViewModalOpen(open);
+                if (!open) {
+                    setSelectedActivity(null);
+                }
+            }}
+            title={selectedActivity?.name || "Detalhes da Atividade"}
+            description="Visualização das perguntas e respostas da atividade"
+        >
+            {loadingActivityDetails || !selectedActivity ? (
+                <div className="py-3">
+                    <Loading/>
+                </div>
+            ) : (
+                <div className="space-y-4 max-h-[70vh] overflow-y-auto pr-1">
+                    <div className="rounded-md border p-3 space-y-1">
+                        <p className="text-sm"><span className="font-semibold">Disciplina:</span> {selectedActivity?.Discipline?.name || "-"}</p>
+                        <p className="text-sm"><span className="font-semibold">Status:</span> {(selectedActivity?.active === 1 || selectedActivity?.active === true) ? "Ativa" : "Inativa"}</p>
+                        <p className="text-sm"><span className="font-semibold">Descrição:</span> {selectedActivity?.text || "Sem descrição"}</p>
+                    </div>
+
+                    <div className="space-y-3">
+                        {(selectedActivity?.Questions || []).length === 0 ? (
+                            <p className="text-sm text-muted-foreground">Nenhuma pergunta cadastrada nesta atividade.</p>
+                        ) : (
+                            (selectedActivity?.Questions || []).map((question, questionIndex) => (
+                                <div key={question.id} className="rounded-md border p-3 space-y-3">
+                                    <div className="space-y-1">
+                                        <p className="font-semibold">Pergunta {questionIndex + 1}</p>
+                                        <p className="text-sm">{question.name}</p>
+                                        <p className="text-xs text-muted-foreground">Tipo: {question.type === "true_false" ? "Verdadeiro ou Falso" : "Quiz"}</p>
+                                    </div>
+
+                                    {question.text ? (
+                                        <img
+                                            src={getQuestionImageUrl(question.text)}
+                                            alt={`Imagem da pergunta ${questionIndex + 1}`}
+                                            className="w-full max-h-52 object-cover rounded-md border"
+                                        />
+                                    ) : null}
+
+                                    <div className="space-y-2">
+                                        {(question.Answers || []).map((answer) => (
+                                            <div
+                                                key={answer.id}
+                                                className={`rounded-md border px-3 py-2 text-sm flex items-center justify-between gap-2 ${answer.correct ? "border-green-500 bg-green-50" : ""}`}
+                                            >
+                                                <span>{answer.title}) {answer.text}</span>
+                                                {answer.correct ? (
+                                                    <span className="text-xs font-semibold text-green-700">Correta</span>
+                                                ) : null}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))
+                        )}
+                    </div>
+                </div>
+            )}
+        </Modal>
         <Toaster richColors/>
     </>
 }

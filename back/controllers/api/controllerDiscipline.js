@@ -21,6 +21,7 @@ exports.index = async function (req, res) {
             raw: true,
             nest: true,
             where: { user_id: req.user.id },
+            order: [["name"]],
         });
 
         return res.json(disciplines);
