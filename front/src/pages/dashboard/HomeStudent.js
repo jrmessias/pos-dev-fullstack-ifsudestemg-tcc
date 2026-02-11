@@ -35,7 +35,7 @@ export default function HomeStudent() {
         totalActivities: 0,
         totalCompletedActivities: 0,
         totalPendingActivities: 0,
-        pendingActivities: [],
+        data: [],
     });
 
     useEffect(() => {
@@ -45,12 +45,13 @@ export default function HomeStudent() {
 
             try {
                 const response = await studentDashboard();
-                setDashboard(response.data || {
-                    totalEnrolledDisciplines: 0,
-                    totalActivities: 0,
-                    totalCompletedActivities: 0,
-                    totalPendingActivities: 0,
-                    pendingActivities: [],
+                const apiData = response.data || {};
+                setDashboard({
+                    totalEnrolledDisciplines: apiData.totalEnrolledDisciplines || 0,
+                    totalActivities: apiData.totalActivities || 0,
+                    totalCompletedActivities: apiData.totalCompletedActivities || 0,
+                    totalPendingActivities: apiData.totalPendingActivities || 0,
+                    data: apiData.data || [],
                 });
             } catch (err) {
                 const message = err?.response?.data?.message || "Não foi possível carregar as atividades do aluno.";
@@ -60,7 +61,7 @@ export default function HomeStudent() {
                     totalActivities: 0,
                     totalCompletedActivities: 0,
                     totalPendingActivities: 0,
-                    pendingActivities: [],
+                    data: [],
                 });
             } finally {
                 setLoading(false);
@@ -213,10 +214,10 @@ export default function HomeStudent() {
                         <p className="text-sm text-muted-foreground">Carregando atividades...</p>
                     ) : error ? (
                         <p className="text-sm text-muted-foreground">{error}</p>
-                    ) : dashboard.pendingActivities?.length === 0 ? (
+                    ) : dashboard.data.length === 0 ? (
                         <p className="text-sm text-muted-foreground">Nenhuma atividade pendente.</p>
                     ) : (
-                        dashboard.pendingActivities?.map((activity) => (
+                        dashboard.data.map((activity) => (
                             <div key={activity.id} className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
                                 <div>
                                     <p className="font-medium">{activity.name}</p>
