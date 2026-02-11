@@ -35,15 +35,4 @@ Question.init({
     timestamps: true,
 });
 
-Question.associate = (models) => {
-    Question.belongsTo(models.Activity, {
-        foreignKey: 'activity_id'
-    });
-
-    Question.hasMany(models.Answer, {
-        foreignKey: 'question_id'
-    });
-};
-
-
 module.exports = Question;

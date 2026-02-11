@@ -265,7 +265,7 @@ export default function ActivityIndexTeacherPage() {
                                         {(question.Answers || []).map((answer) => (
                                             <div
                                                 key={answer.id}
-                                                className={`rounded-md border px-3 py-2 text-sm flex items-center justify-between gap-2 ${answer.correct ? "border-green-500 bg-green-50" : ""}`}
+                                                className={`rounded-md border px-3 py-2 text-sm flex items-center justify-between gap-2 ${answer.correct ? "border-green-500 bg-green-50 dark:border-green-800 dark:bg-green-400/10" : ""}`}
                                             >
                                                 <span>{answer.title}) {answer.text}</span>
                                                 {answer.correct ? (

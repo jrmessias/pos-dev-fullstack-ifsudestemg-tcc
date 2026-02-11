@@ -20,12 +20,4 @@ User.init(
     }
 );
 
-User.associate = (models) => {
-    User.hasMany(models.Discipline, { foreignKey: 'user_id' });
-    User.belongsToMany(models.Discipline, {
-        through: models.DisciplineUser,
-        foreignKey: 'user_id'
-    });
-};
-
 module.exports = User;

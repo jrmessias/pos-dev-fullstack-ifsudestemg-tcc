@@ -1,7 +1,11 @@
 node_modules
 .idea
-package-lock.json
-.env*
 _
 seeder
+plans
 
+package-lock.json
+.env*
+*.md
+
+!README.md

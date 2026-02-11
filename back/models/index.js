@@ -6,6 +6,7 @@ const Activity = require('./Activity');
 const Question = require('./Question');
 const Answer = require('./Answer');
 const DisciplineUser = require('./DisciplineUser');
+const ActivityAnswerUser = require('./ActivityAnswerUser');
 
 User.hasMany(Discipline, { foreignKey: 'user_id' });
 User.belongsToMany(Discipline, {
@@ -13,6 +14,7 @@ User.belongsToMany(Discipline, {
     foreignKey: 'user_id',
     otherKey: 'discipline_id',
 });
+User.hasMany(ActivityAnswerUser, { foreignKey: 'user_id' });
 
 Discipline.belongsTo(User, { foreignKey: 'user_id' });
 Discipline.hasMany(Activity, { foreignKey: 'discipline_id' });
@@ -24,11 +26,17 @@ Discipline.belongsToMany(User, {
 
 Activity.belongsTo(Discipline, { foreignKey: 'discipline_id' });
 Activity.hasMany(Question, { foreignKey: 'activity_id' });
+Activity.hasMany(ActivityAnswerUser, { foreignKey: 'activity_id' });
 
 Question.belongsTo(Activity, { foreignKey: 'activity_id' });
 Question.hasMany(Answer, { foreignKey: 'question_id' });
 
 Answer.belongsTo(Question, { foreignKey: 'question_id' });
+Answer.hasMany(ActivityAnswerUser, { foreignKey: 'answer_id' });
+
+ActivityAnswerUser.belongsTo(User, { foreignKey: 'user_id' });
+ActivityAnswerUser.belongsTo(Activity, { foreignKey: 'activity_id' });
+ActivityAnswerUser.belongsTo(Answer, { foreignKey: 'answer_id' });
 
 module.exports = {
     sequelize,
@@ -38,4 +46,5 @@ module.exports = {
     Question,
     Answer,
     DisciplineUser,
+    ActivityAnswerUser,
 };

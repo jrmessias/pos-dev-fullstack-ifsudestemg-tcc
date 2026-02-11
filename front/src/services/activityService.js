@@ -15,6 +15,9 @@ export const activityStore = (data) =>
 export const activityShow = (id) =>
     api.get(`/activity/${id}`);
 
+export const studentActivities = (params) =>
+    api.get('/student/activities', { params });
+
 export const activityUploadQuestionImage = (formData) =>
     api.post("/activity/upload-question-image", formData, {
         headers: {

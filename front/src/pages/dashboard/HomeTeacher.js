@@ -1,6 +1,7 @@
 import Icon from "../../components/Icon.js";
 import { useEffect, useState } from "react";
 import { teacherDashboard } from "../../services/teacherService.js";
+import useCountUp from "../../hooks/useCountUp.js";
 
 function formatDate(date) {
     if (!date) {
@@ -27,6 +28,21 @@ export default function HomeTeacher() {
     });
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    const animatedTotalStudents = useCountUp({
+        target: dashboard.totalStudents,
+        startWhen: !loading,
+    });
+
+    const animatedTotalActiveDisciplines = useCountUp({
+        target: dashboard.totalActiveDisciplines,
+        startWhen: !loading,
+    });
+
+    const animatedTotalActiveActivities = useCountUp({
+        target: dashboard.totalActiveActivities,
+        startWhen: !loading,
+    });
 
     useEffect(() => {
         async function loadDashboard() {
@@ -64,9 +80,9 @@ export default function HomeTeacher() {
                         <div className="p-6">
                             <div className="flex items-start justify-between">
                                  <div className="space-y-1">
-                                     <p
-                                     className="text-sm font-medium text-muted-foreground">Total de Alunos</p><p
-                                     className="text-3xl font-bold">{loading ? "..." : dashboard.totalStudents}</p></div>
+                                      <p
+                                      className="text-sm font-medium text-muted-foreground">Total de Alunos</p><p
+                                      className="text-3xl font-bold">{loading ? "..." : animatedTotalStudents}</p></div>
                                  <div className="p-3 rounded-xl bg-primary/10">
                                      <Icon name={'GraduationCap'} className="w-6 h-6 text-primary"/>
                                  </div>
@@ -77,9 +93,9 @@ export default function HomeTeacher() {
                         className="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm overflow-hidden">
                         <div className="p-6">
                             <div className="flex items-start justify-between">
-                                 <div className="space-y-1"><p
-                                     className="text-sm font-medium text-muted-foreground">Total de
-                                     Disciplinas Ativas</p><p className="text-3xl font-bold">{loading ? "..." : dashboard.totalActiveDisciplines}</p></div>
+                                  <div className="space-y-1"><p
+                                      className="text-sm font-medium text-muted-foreground">Total de
+                                      Disciplinas Ativas</p><p className="text-3xl font-bold">{loading ? "..." : animatedTotalActiveDisciplines}</p></div>
                                  <div className="p-3 rounded-xl bg-primary/10">
                                      <Icon name={'BookOpen'} className="w-6 h-6 text-primary"/>
                                  </div>
@@ -90,11 +106,11 @@ export default function HomeTeacher() {
                         className="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm overflow-hidden">
                         <div className="p-6">
                             <div className="flex items-start justify-between">
-                                 <div className="space-y-1"><p
-                                     className="text-sm font-medium text-muted-foreground">Total de
-                                     Atividades Ativas</p>
-                                     <p className="text-3xl font-bold">{loading ? "..." : dashboard.totalActiveActivities}</p>
-                                  </div>
+                                  <div className="space-y-1"><p
+                                      className="text-sm font-medium text-muted-foreground">Total de
+                                      Atividades Ativas</p>
+                                      <p className="text-3xl font-bold">{loading ? "..." : animatedTotalActiveActivities}</p>
+                                   </div>
                                  <div className="p-3 rounded-xl bg-primary/10">
                                      <Icon name={'FileText'} className="w-6 h-6 text-primary"/>
                                 </div>

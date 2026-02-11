@@ -21,22 +21,4 @@ Discipline.init(
     }
 );
 
-Discipline.associate = (models) => {
-    Discipline.belongsTo(models.User, {
-        foreignKey: 'user_id',
-        as: 'owner'
-    });
-
-    Discipline.belongsToMany(models.User, {
-        through: models.DisciplineUser,
-        foreignKey: 'discipline_id',
-        otherKey: 'user_id',
-        as: 'users'
-    });
-
-    Discipline.hasMany(models.Activity, {
-        foreignKey: 'discipline_id'
-    });
-};
-
 module.exports = Discipline;

@@ -9,7 +9,7 @@ DisciplineUser.init(
         discipline_id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
-            nullable: false,
+            allowNull: false,
             references: {
                 model: 'discipline',
                 key: 'id'
@@ -18,7 +18,7 @@ DisciplineUser.init(
         user_id: {
             type: DataTypes.INTEGER,
             primaryKey: true,
-            nullable: false,
+            allowNull: false,
             references: {
                 model: 'user',
                 key: 'id'
@@ -33,15 +33,5 @@ DisciplineUser.init(
         timestamps: true
     }
 );
-
-DisciplineUser.associate = (models) => {
-    DisciplineUser.belongsTo(models.User, {
-        foreignKey: 'user_id'
-    });
-
-    DisciplineUser.belongsTo(models.Discipline, {
-        foreignKey: 'discipline_id'
-    });
-};
 
 module.exports = DisciplineUser;

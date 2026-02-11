@@ -57,15 +57,4 @@ Answer.init(
     }
 );
 
-Answer.associate = (models) => {
-    Answer.belongsTo(models.Question, {
-        foreignKey: 'question_id'
-    });
-
-    Answer.hasMany(models.ActivityAnswerUser, {
-        foreignKey: 'answer_id'
-    });
-};
-
-
 module.exports = Answer;

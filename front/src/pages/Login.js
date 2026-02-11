@@ -12,6 +12,7 @@ export default function Login() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
     const { user, setUser } = useContext(AuthContext);
+    const [showPassword, setShowPassword] = useState(false);
 
     const navigate = useNavigate();
 
@@ -111,7 +112,10 @@ export default function Login() {
                                     className="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive pl-10"
                                     id="password"
                                     {...register("password")}
-                                    placeholder="••••••••" type="password" name="password"/>
+                                    placeholder="••••••••" type={showPassword ? 'text' : 'password'} name="password"/>
+                                <button type="button" aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'} title={showPassword ? 'Ocultar senha' : 'Mostrar senha'} onClick={() => setShowPassword(s => !s)} className="absolute right-3 top-1/2 -translate-y-1/2 inline-flex items-center justify-center p-1 rounded">
+                                    <Icon name={showPassword ? 'EyeOff' : 'Eye'} className="w-4 h-4 text-muted-foreground" />
+                                </button>
                                 {errors.password && (
                                     <div
                                         className="mb-3 text-sm p-2 rounded bg-red-100 text-red-800 dark:text-red-800 dark:bg-red-200 text-center">

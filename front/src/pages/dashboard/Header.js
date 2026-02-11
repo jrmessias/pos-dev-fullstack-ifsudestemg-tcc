@@ -21,7 +21,7 @@ export default function Header({type, leftOpen, rightOpen}) {
     const navigate = useNavigate();
     if (!user) return null;
     const initials = getInitials(user.name);
-    const isTeacher = type.includes("teacher") ? "Professor" : "Aluno";
+    const isTeacher = type.includes("teacher");
     const subject = isTeacher ? "Professor" : "Aluno";
 
     const handleLogout = async () => {
@@ -39,8 +39,8 @@ export default function Header({type, leftOpen, rightOpen}) {
             className={`fixed top-0 z-30 h-16 bg-card/80 backdrop-blur-sm border-b border-border transition-all duration-300 flex items-center justify-between px-4 ${leftOpen ? "left-64" : "left-16"} ${rightOpen ? "right-72" : "right-12"}`}>
             <div className="flex items-center gap-2">
                 <h1 className="text-lg font-semibold hidden sm:block">Área do {subject}</h1>
-                <span
-                    className="inline-flex items-center justify-center rounded-md border px-2 py-0.5 font-medium w-fit whitespace-nowrap shrink-0 gap-1 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground text-xs capitalize">{subject}</span>
+                {/*<span*/}
+                {/*    className="inline-flex items-center justify-center rounded-md border px-2 py-0.5 font-medium w-fit whitespace-nowrap shrink-0 gap-1 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden text-foreground [a&]:hover:bg-accent [a&]:hover:text-accent-foreground text-xs capitalize">{subject}</span>*/}
             </div>
             <div className="flex items-center gap-2">
                 <Greeting/>
