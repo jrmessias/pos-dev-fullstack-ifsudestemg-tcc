@@ -1,36 +1,100 @@
-import {useEffect, useState} from "react";
+import {useCallback, useEffect, useState} from "react";
 import Icon from "@/components/Icon.js";
 import {Loading} from "@/components/Loading.js";
-import {studentDisciplines} from "@/services/studentService.js";
+import {studentDisciplines, studentEnroll} from "@/services/studentService.js";
+import {Button} from "@/components/ui/button.jsx";
+import {Input} from "@/components/ui/input.jsx";
+import {Modal} from "@/components/ui/modal.jsx";
+import {toast} from "sonner";
 
 export default function DisciplineIndexStudentPage() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
     const [disciplines, setDisciplines] = useState([]);
+    const [enrollModalOpen, setEnrollModalOpen] = useState(false);
+    const [enrollKey, setEnrollKey] = useState("");
+    const [enrollLoading, setEnrollLoading] = useState(false);
 
-    useEffect(() => {
-        async function loadDisciplines() {
-            setLoading(true);
-            setError("");
+    const loadDisciplines = useCallback(async () => {
+        setLoading(true);
+        setError("");
 
-            try {
-                const response = await studentDisciplines();
-                setDisciplines(response?.data || []);
-            } catch (err) {
-                const message = err?.response?.data?.message || "Nao foi possivel carregar suas disciplinas.";
-                setError(message);
-                setDisciplines([]);
-            } finally {
-                setLoading(false);
-            }
+        try {
+            const response = await studentDisciplines();
+            setDisciplines(response?.data || []);
+        } catch (err) {
+            const message = err?.response?.data?.message || "Nao foi possivel carregar suas disciplinas.";
+            setError(message);
+            setDisciplines([]);
+        } finally {
+            setLoading(false);
         }
-
-        loadDisciplines();
     }, []);
 
+    useEffect(() => {
+        loadDisciplines();
+    }, [loadDisciplines]);
+
+    async function handleEnroll(e) {
+        e.preventDefault();
+        if (!enrollKey.trim()) return;
+
+        setEnrollLoading(true);
+        try {
+            const response = await studentEnroll({key: enrollKey.trim()});
+            toast.success(response?.data?.message || "Inscrição realizada com sucesso!", {position: "top-center"});
+            setEnrollModalOpen(false);
+            setEnrollKey("");
+            loadDisciplines();
+        } catch (err) {
+            toast.error(err?.response?.data?.message || "Erro ao realizar inscrição.", {position: "top-center"});
+        } finally {
+            setEnrollLoading(false);
+        }
+    }
+
     return <>
-        <div><h1 className="text-2xl font-bold">Minhas Disciplinas</h1><p
-            className="text-muted-foreground">Acompanhe seu progresso em cada disciplina</p></div>
+        <div className="flex items-center justify-between">
+            <div>
+                <h1 className="text-2xl font-bold">Minhas Disciplinas</h1>
+                <p className="text-muted-foreground">Acompanhe seu progresso em cada disciplina</p>
+            </div>
+            <Button onClick={() => setEnrollModalOpen(true)} className="cursor-pointer">
+                <Icon name="Plus" className="w-4 h-4"/>
+                Inscrever-se
+            </Button>
+        </div>
+
+        <Modal
+            open={enrollModalOpen}
+            onOpenChange={(open) => { setEnrollModalOpen(open); if (!open) setEnrollKey(""); }}
+            title="Inscrever-se em Disciplina"
+            description="Insira a chave fornecida pelo professor para se inscrever na disciplina."
+            footer={
+                <>
+                    <Button variant="outline" onClick={() => setEnrollModalOpen(false)} disabled={enrollLoading} className="cursor-pointer">
+                        Cancelar
+                    </Button>
+                    <Button onClick={handleEnroll} disabled={enrollLoading || !enrollKey.trim()} className="cursor-pointer">
+                        {enrollLoading ? (
+                            <><Icon name="Loader2" className="w-4 h-4 animate-spin"/>Aguarde...</>
+                        ) : (
+                            "Inscrever-se"
+                        )}
+                    </Button>
+                </>
+            }
+        >
+            <form onSubmit={handleEnroll}>
+                <Input
+                    placeholder="Digite a chave da disciplina"
+                    value={enrollKey}
+                    onChange={(e) => setEnrollKey(e.target.value)}
+                    disabled={enrollLoading}
+                    autoFocus
+                />
+            </form>
+        </Modal>
 
         {loading ? (
             <Loading size="lg"/>

@@ -187,7 +187,39 @@ exports.disciplines = async function (req, res) {
     }
 };
 
-const { studentActivitiesQuerySchema } = require('../../validators/studentValidator');
+const { studentActivitiesQuerySchema, enrollSchema } = require('../../validators/studentValidator');
+
+exports.enroll = async function (req, res) {
+    try {
+        const parsed = enrollSchema.safeParse(req.body);
+        if (!parsed.success) {
+            return res.status(400).json({ message: "Dados inválidos", errors: parsed.error.issues });
+        }
+
+        const discipline = await Discipline.findOne({
+            where: { key: parsed.data.key, active: true },
+        });
+
+        if (!discipline) {
+            return res.status(404).json({ message: "Disciplina não encontrada ou inativa." });
+        }
+
+        const existing = await DisciplineUser.findOne({
+            where: { discipline_id: discipline.id, user_id: req.user.id },
+        });
+
+        if (existing) {
+            return res.status(409).json({ message: "Você já está inscrito nesta disciplina." });
+        }
+
+        await DisciplineUser.create({ discipline_id: discipline.id, user_id: req.user.id });
+
+        return res.status(201).json({ message: "Inscrição realizada com sucesso!" });
+    } catch (error) {
+        console.error("Erro ao inscrever aluno na disciplina:", error);
+        return res.status(500).json({ message: "Erro ao realizar inscrição." });
+    }
+};
 
 exports.index = async function (req, res) {
     try {

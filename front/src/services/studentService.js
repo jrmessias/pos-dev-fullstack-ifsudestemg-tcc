@@ -5,3 +5,6 @@ export const studentDashboard = () =>
 
 export const studentDisciplines = () =>
     api.get("/student/disciplines");
+
+export const studentEnroll = (data) =>
+    api.post("/student/enroll", data);

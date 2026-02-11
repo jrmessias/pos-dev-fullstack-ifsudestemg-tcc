@@ -6,6 +6,11 @@ const studentActivitiesQuerySchema = z.object({
     pageSize: z.coerce.number().int().positive().optional(),
 }).strict();
 
+const enrollSchema = z.object({
+    key: z.string().min(1, "A chave da disciplina é obrigatória.").max(50),
+}).strict();
+
 module.exports = {
     studentActivitiesQuerySchema,
+    enrollSchema,
 };

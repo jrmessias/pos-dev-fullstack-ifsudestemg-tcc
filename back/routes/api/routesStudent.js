@@ -3,6 +3,7 @@ const createRouter = require("../../utils/createRouter");
 const router = createRouter("/student");
 
 router.get('/disciplines', controllerStudent.disciplines);
+router.post('/enroll', controllerStudent.enroll);
 
 router.get('/', controllerStudent.index);
 
