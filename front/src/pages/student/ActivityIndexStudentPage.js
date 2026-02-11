@@ -43,7 +43,7 @@ export default function ActivityIndexStudentPage() {
         <div className="grid gap-4 sm:grid-cols-3">
             <div data-slot="card"
                  className="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm">
-                <div data-slot="card-content" className="px-6 pt-6">
+                <div data-slot="card-content" className="px-6">
                     <div className="flex items-center gap-4">
                         <div className="p-3 rounded-xl bg-warning/10">
                             <Icon name="Clock" className={`w-6 h-6 text-warning`}/>
@@ -55,7 +55,7 @@ export default function ActivityIndexStudentPage() {
             </div>
             <div data-slot="card"
                  className="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm">
-                <div data-slot="card-content" className="px-6 pt-6">
+                <div data-slot="card-content" className="px-6">
                     <div className="flex items-center gap-4">
                         <div className="p-3 rounded-xl bg-success/10">
                             <Icon name="CircleCheckBig" className={`w-6 h-6 text-success`}/>
@@ -67,10 +67,10 @@ export default function ActivityIndexStudentPage() {
             </div>
             <div data-slot="card"
                  className="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm">
-                <div data-slot="card-content" className="px-6 pt-6">
+                <div data-slot="card-content" className="px-6">
                     <div className="flex items-center gap-4">
                         <div className="p-3 rounded-xl bg-primary/10">
-                            <Icon name="FileText" className={`w-6 h-6 text-primary`}/>
+                            <Icon name="FileText" className={`w-6 h-6 text-blue-500`}/>
                         </div>
                         <div><p className="text-sm text-muted-foreground">Total</p><p
                             className="text-2xl font-bold">{meta ? meta.total : '...'}</p></div>
