@@ -1,0 +1,232 @@
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
+import {registerSchema} from "../validators/registerSchema";
+import {registerRequest} from "../services/authService";
+import {useState} from "react";
+import {useNavigate} from "react-router-dom";
+import ThemeToggle from "../components/ThemeToggle.js";
+import Icon from "../components/Icon.js";
+import {Label} from "@/components/ui/label.jsx";
+import {Switch} from "@/components/ui/switch.jsx";
+
+export default function Register() {
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(null);
+    const [showPassword, setShowPassword] = useState(false);
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+    const {
+        register,
+        handleSubmit,
+        formState: {errors},
+    } = useForm({
+        resolver: zodResolver(registerSchema),
+        defaultValues: {
+            role: "student"
+        }
+    });
+
+    const navigate = useNavigate();
+
+    async function onSubmit(data) {
+        try {
+            setLoading(true);
+            setError(null);
+            setSuccess(null);
+
+            const { confirmPassword, ...registerData } = data;
+            
+            await registerRequest(registerData);
+            
+            setSuccess("Registro realizado com sucesso! Redirecionando para o login...");
+            
+            setTimeout(() => {
+                navigate('/login', {
+                    replace: true,
+                    state: { message: "Conta criada com sucesso! Faça login para continuar." }
+                });
+            }, 2000);
+        } catch (err) {
+            setError(err?.response?.data?.message || err.message || 'Erro ao registrar');
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    return <>
+        <div className="min-h-screen bg-background flex items-center justify-center p-4">
+            <div className="absolute top-4 right-4">
+                <ThemeToggle/>
+            </div>
+            <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                <div className="absolute -top-40 -right-40 w-80 h-80 bg-primary/20 rounded-full blur-3xl"></div>
+                <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-accent/15 rounded-full blur-3xl"></div>
+            </div>
+            <div
+                className="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 w-full max-w-md relative z-10 shadow-xl border-border/50">
+                <div
+                    className="@container/card-header grid auto-rows-min grid-rows-[auto_auto] items-start gap-2 px-6 has-data-[slot=card-action]:grid-cols-[1fr_auto] [.border-b]:pb-6 text-center pb-2">
+                    <div className="mx-auto w-16 h-16 rounded-2xl bg-primary flex items-center justify-center mb-4">
+                        <Icon name={'GraduationCap'} className="w-8 h-8 text-primary-foreground"/>
+                    </div>
+                    <div className="text-2xl font-bold">Rankio</div>
+                    <div className="text-muted-foreground text-sm">Crie sua conta
+                    </div>
+                </div>
+                <div className="px-6 space-y-4">
+                    <form className="space-y-4" onSubmit={handleSubmit(onSubmit)}>
+                        <div className="space-y-2">
+                            <label
+                                className="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+                                htmlFor="name">Nome</label>
+                            <div className="relative">
+                                <Icon name={'User'}
+                                    className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"/>
+                                <input
+                                    className="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive pl-10"
+                                    id="name"
+                                    {...register("name")}
+                                    placeholder="Seu nome completo" type="text" name="name"/>
+                                {errors.name && (
+                                    <div
+                                        className="mb-3 text-sm p-2 rounded bg-red-100 text-red-800 dark:text-red-800 dark:bg-red-200 text-center">
+                                        {errors.name.message}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                        
+                        <div className="space-y-2">
+                            <label
+                                className="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+                                htmlFor="email">Email</label>
+                            <div className="relative">
+                                <Icon name={'Mail'}
+                                    className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"/>
+                                <input
+                                    className="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive pl-10"
+                                    id="email"
+                                    {...register("email")}
+                                    placeholder="seu@email.com" type="email" name="email"/>
+                                {errors.email && (
+                                    <div
+                                        className="mb-3 text-sm p-2 rounded bg-red-100 text-red-800 dark:text-red-800 dark:bg-red-200 text-center">
+                                        {errors.email.message}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                        
+                        <div className="space-y-2">
+                            <label
+                                className="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+                                htmlFor="password">Senha</label>
+                            <div className="relative">
+                                <Icon name={'Lock'}
+                                    className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"/>
+                                <input
+                                    className="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive pl-10"
+                                    id="password"
+                                    {...register("password")}
+                                    placeholder="••••••••" type={showPassword ? 'text' : 'password'} name="password"/>
+                                <button type="button" aria-label={showPassword ? 'Ocultar senha' : 'Mostrar senha'} title={showPassword ? 'Ocultar senha' : 'Mostrar senha'} onClick={() => setShowPassword(s => !s)} className="absolute right-3 top-1/2 -translate-y-1/2 inline-flex items-center justify-center p-1 rounded">
+                                    <Icon name={showPassword ? 'EyeOff' : 'Eye'} className="w-4 h-4 text-muted-foreground" />
+                                </button>
+                                {errors.password && (
+                                    <div
+                                        className="mb-3 text-sm p-2 rounded bg-red-100 text-red-800 dark:text-red-800 dark:bg-red-200 text-center">
+                                        {errors.password.message}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                        
+                        <div className="space-y-2">
+                            <label
+                                className="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50"
+                                htmlFor="confirmPassword">Confirmar Senha</label>
+                            <div className="relative">
+                                <Icon name={'Lock'}
+                                    className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground"/>
+                                <input
+                                    className="file:text-foreground placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground dark:bg-input/30 border-input h-9 w-full min-w-0 rounded-md border bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50 md:text-sm focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive pl-10"
+                                    id="confirmPassword"
+                                    {...register("confirmPassword")}
+                                    placeholder="••••••••" type={showConfirmPassword ? 'text' : 'password'} name="confirmPassword"/>
+                                <button type="button" aria-label={showConfirmPassword ? 'Ocultar senha' : 'Mostrar senha'} title={showConfirmPassword ? 'Ocultar senha' : 'Mostrar senha'} onClick={() => setShowConfirmPassword(s => !s)} className="absolute right-3 top-1/2 -translate-y-1/2 inline-flex items-center justify-center p-1 rounded">
+                                    <Icon name={showConfirmPassword ? 'EyeOff' : 'Eye'} className="w-4 h-4 text-muted-foreground" />
+                                </button>
+                                {errors.confirmPassword && (
+                                    <div
+                                        className="mb-3 text-sm p-2 rounded bg-red-100 text-red-800 dark:text-red-800 dark:bg-red-200 text-center">
+                                        {errors.confirmPassword.message}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className="space-y-2">
+                            <label
+                                className="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50">
+                                Tipo de Usuário</label>
+                            <div className="flex flex-col space-y-2">
+                                <label className="flex items-center space-x-2 cursor-pointer">
+                                    <input
+                                        type="radio"
+                                        {...register("role")}
+                                        value="student"
+                                        className="form-radio h-4 w-4 text-primary border-input"
+                                    />
+                                    <span className="text-sm">Estudante</span>
+                                </label>
+                                <label className="flex items-center space-x-2 cursor-pointer">
+                                    <input
+                                        type="radio"
+                                        {...register("role")}
+                                        value="teacher"
+                                        className="form-radio h-4 w-4 text-primary border-input"
+                                    />
+                                    <span className="text-sm">Professor</span>
+                                </label>
+                                {errors.role && (
+                                    <div
+                                        className="mb-3 text-sm p-2 rounded bg-red-100 text-red-800 dark:text-red-800 dark:bg-red-200 text-center">
+                                        {errors.role.message}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                        
+                        {error && (
+                            <div
+                                className="mb-3 text-sm p-2 rounded bg-red-100 text-red-800 dark:text-red-800 dark:bg-red-200 text-center">
+                                {error}
+                            </div>
+                        )}
+                        
+                        {success && (
+                            <div
+                                className="mb-3 text-sm p-2 rounded bg-green-100 text-green-800 dark:text-green-800 dark:bg-green-200 text-center">
+                                {success}
+                            </div>
+                        )}
+                        
+                        <button
+                            disabled={loading}
+                            className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 w-full"
+                            type="submit">{loading ? "Registrando..." : "Registrar"}
+                        </button>
+                        
+                        <div className="text-center text-sm">
+                            Já tem uma conta?{" "}
+                            <a href="/login" className="text-primary hover:underline">
+                                Entre aqui
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </>
+}

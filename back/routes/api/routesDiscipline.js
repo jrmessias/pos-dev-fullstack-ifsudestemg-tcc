@@ -5,6 +5,7 @@ const router = createRouter("/discipline");
 router.get('/', controllerDiscipline.index);
 
 router.get('/:id/students', controllerDiscipline.students);
+router.delete('/:id/students/:studentId', controllerDiscipline.removeStudent);
 
 router.post('/store', controllerDiscipline.store);
 

@@ -3,7 +3,7 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {loginSchema} from "../validators/loginSchema";
 import {loginRequest, meRequest} from "../services/authService";
 import {useContext, useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import ThemeToggle from "../components/ThemeToggle.js";
 import Icon from "../components/Icon.js";
 import {AuthContext} from "../contexts/AuthContext.js";
@@ -11,10 +11,12 @@ import {AuthContext} from "../contexts/AuthContext.js";
 export default function Login() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [success, setSuccess] = useState(null);
     const { user, setUser } = useContext(AuthContext);
     const [showPassword, setShowPassword] = useState(false);
 
     const navigate = useNavigate();
+    const location = useLocation();
 
     const {
         register,
@@ -31,6 +33,14 @@ export default function Login() {
             navigate(targetRoute, { replace: true });
         }
     }, [user, navigate]);
+    
+    useEffect(() => {
+        if (location.state?.message) {
+            setSuccess(location.state.message);
+            // Clear the message from location state
+            navigate(location.pathname, { replace: true, state: {} });
+        }
+    }, [location, navigate]);
 
     async function onSubmit(data) {
         try {
@@ -128,14 +138,27 @@ export default function Login() {
                                     className="mb-3 text-sm p-2 rounded bg-red-100 text-red-800 dark:text-red-800 dark:bg-red-200 text-center">
                                     {error}
                                 </div>
-                            )
-                            }
+                            )}
+                            
+                            {success && (
+                                <div
+                                    className="mb-3 text-sm p-2 rounded bg-green-100 text-green-800 dark:text-green-800 dark:bg-green-200 text-center">
+                                    {success}
+                                </div>
+                            )}
                         </div>
                         <button
                             disabled={loading}
                             className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium transition-all disabled:pointer-events-none disabled:opacity-50 shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive bg-primary text-primary-foreground hover:bg-primary/90 h-9 px-4 py-2 w-full"
                             type="submit">{loading ? "Entrando..." : "Entrar"}
                         </button>
+                        
+                        <div className="text-center text-sm">
+                            Não tem uma conta?{" "}
+                            <a href="/register" className="text-primary hover:underline">
+                                Registre-se aqui
+                            </a>
+                        </div>
                     </form>
                 </div>
             </div>

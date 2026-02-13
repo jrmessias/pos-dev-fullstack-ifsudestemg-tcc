@@ -75,13 +75,18 @@ exports.students = async function (req, res) {
         }
 
         const students = await discipline.getUsers({
-            attributes: ["name"],
+            attributes: ["id", "name", "email", "created_at"],
             where: { role: "student" },
-            through: { attributes: [] },
+            through: { attributes: ["created_at"] },
             order: [["name"]],
         });
 
-        return res.json(students.map((student) => student.name));
+        return res.json(students.map((student) => ({
+            id: student.id,
+            name: student.name,
+            email: student.email,
+            enrolled_at: student.DisciplineUser.created_at
+        })));
     } catch (error) {
         console.error("Erro ao listar alunos da disciplina", {
             disciplineId: req.params?.id,
@@ -182,6 +187,55 @@ exports.toggle = async function (req, res) {
         });
     } catch (error) {
         return res.status(500).json({ message: "Erro ao ativar disciplina" });
+    }
+};
+
+exports.removeStudent = async function (req, res) {
+    try {
+        const parsedParams = disciplineParamsSchema.safeParse({
+            id: req.params.id
+        });
+        
+        if (!parsedParams.success) {
+            return validationError(res, parsedParams);
+        }
+
+        const { id } = parsedParams.data;
+        const studentId = req.params.studentId;
+
+        if (!studentId) {
+            return res.status(400).json({ message: "ID do aluno não informado" });
+        }
+
+        const discipline = await Discipline.findOne({
+            where: { id, user_id: req.user.id },
+        });
+
+        if (!discipline) {
+            return res.status(404).json({ message: "Disciplina não encontrada" });
+        }
+
+        const DisciplineUser = discipline.sequelize.model('DisciplineUser');
+        
+        const enrollment = await DisciplineUser.findOne({
+            where: { discipline_id: id, user_id: studentId }
+        });
+
+        if (!enrollment) {
+            return res.status(404).json({ message: "Aluno não encontrado nesta disciplina" });
+        }
+
+        await enrollment.destroy();
+
+        return res.json({ message: "Aluno removido da disciplina com sucesso" });
+    } catch (error) {
+        console.error("Erro ao remover aluno da disciplina", {
+            disciplineId: req.params?.id,
+            studentId: req.params?.studentId,
+            userId: req.user?.id,
+            error: error.message,
+        });
+        return res.status(500).json({ message: "Erro ao remover aluno da disciplina" });
     }
 };
 

@@ -3,6 +3,7 @@ import {studentActivities} from '@/services/activityService.js';
 import {ActivityTabs} from '@/components/activity/ActivityTabs';
 import {ActivityList} from '@/components/activity/ActivityList';
 import Icon from "@/components/Icon.js";
+import {Toaster} from "@/components/ui/sonner.jsx";
 
 export default function ActivityIndexStudentPage() {
     const [status, setStatus] = useState('pending');

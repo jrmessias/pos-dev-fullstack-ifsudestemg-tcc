@@ -9,6 +9,9 @@ export const disciplineDelete = (id) =>
 export const disciplineStudents = (id) =>
     api.get(`/discipline/${id}/students`);
 
+export const disciplineRemoveStudent = (disciplineId, studentId) =>
+    api.delete(`/discipline/${disciplineId}/students/${studentId}`);
+
 export const disciplineStore = (data) =>
     api.post("/discipline/store", data);
 

@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-const {loginSchema} = require("../../validators/authValidator");
-const {findUserByEmail} = require("../../repositories/userRepository");
+const {loginSchema, registerSchema} = require("../../validators/authValidator");
+const {findUserByEmail, createUser} = require("../../repositories/userRepository");
 const {User} = require("../../models");
 
 const accessCookieOptions = {
@@ -146,6 +146,50 @@ exports.logout = async function (req, res) {
 
         return res.status(200).json({ message: "Logout realizado com sucesso" });
     });
+}
+
+exports.register = async function (req, res) {
+    try {
+        const data = registerSchema.parse(req.body);
+        
+        const existingUser = await findUserByEmail(data.email);
+        if (existingUser) {
+            return res.status(409).json({
+                message: "Email já cadastrado",
+            });
+        }
+        
+        const hashedPassword = await bcrypt.hash(data.password, 10);
+        
+        const user = await createUser({
+            name: data.name,
+            email: data.email,
+            password: hashedPassword,
+            role: data.role,
+        });
+
+        return res.status(201).json({
+            message: "Usuário registrado com sucesso",
+            user: {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                role: user.role,
+            },
+        });
+    } catch (err) {
+        if (err.name === "ZodError") {
+            return res.status(400).json({
+                message: "Dados inválidos",
+                errors: err.errors,
+            });
+        }
+        
+        console.error(err);
+        return res.status(500).json({
+            message: "Erro ao registrar usuário",
+        });
+    }
 }
 
 module.exports = exports;

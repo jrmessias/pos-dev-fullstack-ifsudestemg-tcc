@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
+import {useNavigate} from "react-router-dom";
 import {
     disciplineDelete,
     disciplineIndex,
@@ -24,6 +25,7 @@ import {disciplineSchema} from "@/validators/disciplineSchema.js";
 import {toast} from "sonner";
 
 export default function DisciplineIndexTeacherPage() {
+    const navigate = useNavigate();
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
     const [togglingId, setTogglingId] = useState(null);
@@ -246,7 +248,7 @@ export default function DisciplineIndexTeacherPage() {
                         size="icon"
                         onClick={(event) => {
                             event.stopPropagation();
-                            openStudentsModal(item);
+                            navigate(`/teacher/discipline/${item.id}/students`);
                         }}
                     >
                         <Icon name="Users" className="w-4 h-4"/>

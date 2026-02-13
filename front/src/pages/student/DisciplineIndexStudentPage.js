@@ -6,6 +6,7 @@ import {Button} from "@/components/ui/button.jsx";
 import {Input} from "@/components/ui/input.jsx";
 import {Modal} from "@/components/ui/modal.jsx";
 import {toast} from "sonner";
+import {Toaster} from "@/components/ui/sonner.jsx";
 
 export default function DisciplineIndexStudentPage() {
     const [loading, setLoading] = useState(true);
@@ -23,7 +24,7 @@ export default function DisciplineIndexStudentPage() {
             const response = await studentDisciplines();
             setDisciplines(response?.data || []);
         } catch (err) {
-            const message = err?.response?.data?.message || "Nao foi possivel carregar suas disciplinas.";
+            const message = err?.response?.data?.message || "Não foi possivel carregar suas disciplinas.";
             setError(message);
             setDisciplines([]);
         } finally {
@@ -47,13 +48,14 @@ export default function DisciplineIndexStudentPage() {
             setEnrollKey("");
             loadDisciplines();
         } catch (err) {
-            toast.error(err?.response?.data?.message || "Erro ao realizar inscrição.", {position: "top-center"});
+            toast.error(err?.response?.data?.message || "Erro ao realizar inscrição.", {position: "top-center", autoClose: 5000});
         } finally {
             setEnrollLoading(false);
         }
     }
 
     return <>
+        <Toaster richColors/>
         <div className="flex items-center justify-between">
             <div>
                 <h1 className="text-2xl font-bold">Minhas Disciplinas</h1>
@@ -72,7 +74,7 @@ export default function DisciplineIndexStudentPage() {
             description="Insira a chave fornecida pelo professor para se inscrever na disciplina."
             footer={
                 <>
-                    <Button variant="outline" onClick={() => setEnrollModalOpen(false)} disabled={enrollLoading} className="cursor-pointer">
+                    <Button variant="outline" onClick={() => setEnrollModalOpen(false)} disabled={enrollLoading} className="cursor-pointer dark:hover:text-muted-foreground">
                         Cancelar
                     </Button>
                     <Button onClick={handleEnroll} disabled={enrollLoading || !enrollKey.trim()} className="cursor-pointer">

@@ -7,6 +7,8 @@ const router = createRouter("/api/auth");
 
 router.post('/login', controllerAuth.login);
 
+router.post('/register', controllerAuth.register);
+
 router.get('/me', auth, controllerAuth.me);
 
 router.post('/logout', controllerAuth.logout);
