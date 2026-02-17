@@ -1,7 +1,7 @@
 var controllerActivity = require('../../controllers/api/controllerActivity')
 const createRouter = require("../../utils/createRouter");
 const uploadQuestionImage = require("../../middlewares/uploadQuestionImage");
-const router = createRouter("/activity");
+const router = createRouter("/api/activity");
 
 router.get('/', controllerActivity.index);
 

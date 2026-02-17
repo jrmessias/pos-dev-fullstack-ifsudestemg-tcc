@@ -1,6 +1,6 @@
 var controllerStudent = require('../../controllers/api/controllerStudent')
 const createRouter = require("../../utils/createRouter");
-const router = createRouter("/student");
+const router = createRouter("/api/student");
 
 router.get('/disciplines', controllerStudent.disciplines);
 router.post('/enroll', controllerStudent.enroll);

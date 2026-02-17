@@ -1,6 +1,6 @@
 var controllerDiscipline = require('../../controllers/api/controllerDiscipline')
 const createRouter = require("../../utils/createRouter");
-const router = createRouter("/discipline");
+const router = createRouter("/api/discipline");
 
 router.get('/', controllerDiscipline.index);
 

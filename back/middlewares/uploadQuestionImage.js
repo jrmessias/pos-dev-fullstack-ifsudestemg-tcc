@@ -23,7 +23,7 @@ function fileFilter(req, file, cb) {
     const allowedMime = file.mimetype === "image/jpeg" || file.mimetype === "image/png";
 
     if (!allowedExtension || !allowedMime) {
-        return cb(new Error("Apenas arquivos JPG e PNG sao permitidos"));
+        return cb(new Error("Apenas arquivos JPG e PNG são permitidos"));
     }
 
     cb(null, true);
