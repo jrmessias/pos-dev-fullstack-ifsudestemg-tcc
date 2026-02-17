@@ -9,7 +9,9 @@ import {
     disciplineStudents,
     disciplineToggle,
     disciplineUpdate,
+    disciplineActivities,
 } from "@/services/disciplineService.js";
+import { activityShow } from "@/services/activityService.js";
 import Icon from "@/components/Icon.js";
 import {Loading} from "@/components/Loading.js";
 import {DataTable} from "@/components/Datatable.js";
@@ -38,6 +40,23 @@ export default function DisciplineIndexTeacherPage() {
     const [students, setStudents] = useState([]);
     const [studentsTitle, setStudentsTitle] = useState("");
     const [isStudentsModalOpen, setIsStudentsModalOpen] = useState(false);
+    const [activities, setActivities] = useState([]);
+    const [activitiesTitle, setActivitiesTitle] = useState("");
+    const [isActivitiesModalOpen, setIsActivitiesModalOpen] = useState(false);
+    const [loadingActivities, setLoadingActivities] = useState(false);
+    
+    const [isViewModalOpen, setIsViewModalOpen] = useState(false);
+    const [selectedActivity, setSelectedActivity] = useState(null);
+    const [loadingActivityDetails, setLoadingActivityDetails] = useState(false);
+    const publicApiBase = import.meta.env.VITE_API_URL?.replace(/\/api\/?$/, "") || "";
+    
+    const getQuestionImageUrl = (relativePath) => {
+        if (!relativePath) return "";
+        if (relativePath.startsWith("http://") || relativePath.startsWith("https://")) {
+            return relativePath;
+        }
+        return `${publicApiBase}${relativePath}`;
+    };
 
     const {
         register,
@@ -140,6 +159,38 @@ export default function DisciplineIndexTeacherPage() {
             setIsStudentsModalOpen(true);
         } catch {
             toast.error("Não foi possível carregar os alunos da disciplina.", {position: "top-center"});
+        }
+    }
+    
+    const openActivitiesModal = async (item) => {
+        try {
+            setActivities([]);
+            setLoadingActivities(true);
+            setActivitiesTitle(item.name);
+            setIsActivitiesModalOpen(true);
+            
+            const activitiesResponse = await disciplineActivities(item.id);
+            setActivities(activitiesResponse.data || []);
+        } catch {
+            toast.error("Não foi possível carregar as atividades da disciplina.", {position: "top-center"});
+        } finally {
+            setLoadingActivities(false);
+        }
+    }
+    
+    const openActivityDetailsModal = async (activityId) => {
+        try {
+            setSelectedActivity(null);
+            setIsViewModalOpen(true);
+            setLoadingActivityDetails(true);
+            
+            const response = await activityShow(activityId);
+            setSelectedActivity(response?.data || null);
+        } catch {
+            setIsViewModalOpen(false);
+            toast.error("Não foi possível carregar os detalhes da atividade.", {position: "top-center"});
+        } finally {
+            setLoadingActivityDetails(false);
         }
     }
 
@@ -246,6 +297,7 @@ export default function DisciplineIndexTeacherPage() {
                         className={'cursor-pointer'}
                         variant="ghost"
                         size="icon"
+                        title={"Estudantes"}
                         onClick={(event) => {
                             event.stopPropagation();
                             navigate(`/teacher/discipline/${item.id}/students`);
@@ -255,8 +307,21 @@ export default function DisciplineIndexTeacherPage() {
                     </Button>
                     <Button
                         className={'cursor-pointer'}
+                        title={"Atividades"}
                         variant="ghost"
                         size="icon"
+                        onClick={(event) => {
+                            event.stopPropagation();
+                            openActivitiesModal(item);
+                        }}
+                    >
+                        <Icon name="FileText" className="w-4 h-4"/>
+                    </Button>
+                    <Button
+                        className={'cursor-pointer'}
+                        variant="ghost"
+                        size="icon"
+                        title={"Editar"}
                         onClick={() => {
                             openEditModal(item);
                         }}
@@ -266,6 +331,7 @@ export default function DisciplineIndexTeacherPage() {
                     <Button
                         variant="ghost"
                         size="icon"
+                        title={"Excluir"}
                         className="text-destructive hover:text-destructive cursor-pointer"
                         onClick={(event) => {
                             event.stopPropagation();
@@ -396,6 +462,112 @@ export default function DisciplineIndexTeacherPage() {
                     ))
                 )}
             </div>
+        </Modal>
+        <Modal
+            open={isActivitiesModalOpen}
+            onOpenChange={setIsActivitiesModalOpen}
+            title={`Atividades - ${activitiesTitle}`}
+            description="Listagem de atividades desta disciplina"
+        >
+            <div className="max-h-[70vh] overflow-y-auto space-y-2 rounded-md border p-3 pr-2 sm:max-h-[60vh]">
+                {loadingActivities ? (
+                    <Loading />
+                ) : activities.length === 0 ? (
+                    <p className="text-sm text-muted-foreground">Nenhuma atividade encontrada para esta disciplina.</p>
+                ) : (
+                    activities.map((activity) => (
+                        <div 
+                            key={activity.id} 
+                            className="flex items-center justify-between p-2 text-sm border rounded-md hover:bg-muted/50"
+                        >
+                            <div className="flex items-center gap-2">
+                                <div className="w-6 h-6 rounded-md bg-primary/10 flex items-center justify-center">
+                                    <Icon name="FileText" className="w-3 h-3 text-primary"/>
+                                </div>
+                                <span>{activity.name}</span>
+                            </div>
+                            <div>
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="h-6 w-6 cursor-pointer"
+                                    onClick={(event) => {
+                                        event.stopPropagation();
+                                        openActivityDetailsModal(activity.id);
+                                    }}
+                                    title="Ver detalhes da atividade"
+                                    disabled={loadingActivityDetails}
+                                >
+                                    <Icon name="Eye" className="w-3 h-3" />
+                                </Button>
+                            </div>
+                        </div>
+                    ))
+                )}
+            </div>
+        </Modal>
+        <Modal
+            open={isViewModalOpen}
+            onOpenChange={(open) => {
+                setIsViewModalOpen(open);
+                if (!open) {
+                    setSelectedActivity(null);
+                }
+            }}
+            title={selectedActivity?.name || "Detalhes da Atividade"}
+            description="Visualização das perguntas e respostas da atividade"
+        >
+            {loadingActivityDetails || !selectedActivity ? (
+                <div className="py-3">
+                    <Loading/>
+                </div>
+            ) : (
+                <div className="space-y-4 max-h-[70vh] overflow-y-auto pr-1">
+                    <div className="rounded-md border p-3 space-y-1">
+                        <p className="text-sm"><span className="font-semibold">Disciplina:</span> {selectedActivity?.Discipline?.name || "-"}</p>
+                        <p className="text-sm"><span className="font-semibold">Status:</span> {(selectedActivity?.active === 1 || selectedActivity?.active === true) ? "Ativa" : "Inativa"}</p>
+                        <p className="text-sm"><span className="font-semibold">Descrição:</span> {selectedActivity?.text || "Sem descrição"}</p>
+                    </div>
+
+                    <div className="space-y-3">
+                        {(selectedActivity?.Questions || []).length === 0 ? (
+                            <p className="text-sm text-muted-foreground">Nenhuma pergunta cadastrada nesta atividade.</p>
+                        ) : (
+                            (selectedActivity?.Questions || []).map((question, questionIndex) => (
+                                <div key={question.id} className="rounded-md border p-3 space-y-3">
+                                    <div className="space-y-1">
+                                        <p className="font-semibold">Pergunta {questionIndex + 1}</p>
+                                        <p className="text-sm">{question.name}</p>
+                                        <p className="text-xs text-muted-foreground">Tipo: {question.type === "true_false" ? "Verdadeiro ou Falso" : "Quiz"}</p>
+                                    </div>
+
+                                    {question.text ? (
+                                        <img
+                                            src={getQuestionImageUrl(question.text)}
+                                            alt={`Imagem da pergunta ${questionIndex + 1}`}
+                                            className="w-full max-h-52 object-cover rounded-md border"
+                                        />
+                                    ) : null}
+
+                                    <div className="space-y-2">
+                                        {(question.Answers || []).map((answer) => (
+                                            <div
+                                                key={answer.id}
+                                                className={`rounded-md border px-3 py-2 text-sm flex items-center justify-between gap-2 ${answer.correct ? "border-green-500 bg-green-50 dark:border-green-800 dark:bg-green-400/10" : ""}`}
+                                            >
+                                                <span>{answer.title}) {answer.text}</span>
+                                                {answer.correct ? (
+                                                    <span className="text-xs font-semibold text-green-700">Correta</span>
+                                                ) : null}
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            ))
+                        )}
+                    </div>
+                </div>
+            )}
         </Modal>
         <Toaster richColors/>
         <ConfirmModal

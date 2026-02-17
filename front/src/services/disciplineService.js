@@ -20,3 +20,6 @@ export const disciplineUpdate = (id, data) =>
 
 export const disciplineToggle = (id) =>
     api.get(`/discipline/toggle/${id}`);
+
+export const disciplineActivities = (id) =>
+    api.get(`/activity?discipline=${id}`);

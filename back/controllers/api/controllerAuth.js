@@ -63,7 +63,6 @@ exports.login = async function (req, res) {
             return res.status(401).json({message: "Credenciais inválidas"});
         }
 
-
         const token = generateAccessToken(user);
         const refreshToken = generateRefreshToken(user);
 
