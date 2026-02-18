@@ -1,5 +1,5 @@
 const { Op } = require("sequelize");
-const { Discipline, DisciplineUser, Activity, Question, Answer, ActivityAnswerUser } = require("../../models");
+const { User, Discipline, DisciplineUser, Activity, Question, Answer, ActivityAnswerUser, Achievement, AchievementUser } = require("../../models");
 
 exports.disciplines = async function (req, res) {
     try {
@@ -409,6 +409,34 @@ exports.index = async function (req, res) {
     } catch (error) {
         console.error("Erro ao carregar dashboard do aluno:", error);
         return res.status(500).json({ message: "Erro ao carregar dashboard do aluno" });
+    }
+};
+
+exports.achievements = async function (req, res) {
+    try {
+        const user = await User.findByPk(req.user.id);
+
+        if (!user) {
+            return res.status(404).json({ message: "Usuário não encontrado" });
+        }
+
+        const achievements = await user.getAchievements({
+            attributes: ["id", "name", "type", "text"],
+            through: { attributes: ["created_at"] },
+            order: [["name", "ASC"]],
+        });
+
+        return res.json(
+            achievements.map((a) => ({
+                id: a.id,
+                name: a.name,
+                type: a.type,
+                text: a.text,
+                achieved_at: a.AchievementUser?.created_at ?? null,
+            }))
+        );
+    } catch (error) {
+        return res.status(500).json({ message: "Erro ao listar conquistas do aluno" });
     }
 };
 

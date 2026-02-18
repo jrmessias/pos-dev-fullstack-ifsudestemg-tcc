@@ -1,8 +1,26 @@
 import Icon from "../../components/Icon.js";
 import {useContext, useEffect, useMemo, useState} from "react";
 import {AuthContext} from "../../contexts/AuthContext.js";
-import {studentDashboard} from "../../services/studentService.js";
+import {studentDashboard, studentAchievements} from "../../services/studentService.js";
 import useCountUp from "../../hooks/useCountUp.js";
+
+const typeBadge = {
+    gold: {
+        border: "border-yellow-400/30",
+        bg: "bg-yellow-400/10",
+        iconColor: "text-yellow-500",
+    },
+    silver: {
+        border: "border-gray-400/30",
+        bg: "bg-gray-400/10",
+        iconColor: "text-gray-400",
+    },
+    bronze: {
+        border: "border-orange-400/30",
+        bg: "bg-orange-400/10",
+        iconColor: "text-orange-500",
+    },
+};
 
 const frasesMotivacionais = [
     "O sucesso é a soma de pequenos esforços repetidos dia após dia.",
@@ -37,6 +55,7 @@ export default function HomeStudent() {
         totalPendingActivities: 0,
         data: [],
     });
+    const [achievements, setAchievements] = useState([]);
 
     useEffect(() => {
         async function loadDashboard() {
@@ -44,8 +63,11 @@ export default function HomeStudent() {
             setError(null);
 
             try {
-                const response = await studentDashboard();
-                const apiData = response.data || {};
+                const [dashRes, achievementsRes] = await Promise.all([
+                    studentDashboard(),
+                    studentAchievements(),
+                ]);
+                const apiData = dashRes.data || {};
                 setDashboard({
                     totalEnrolledDisciplines: apiData.totalEnrolledDisciplines || 0,
                     totalActivities: apiData.totalActivities || 0,
@@ -53,6 +75,7 @@ export default function HomeStudent() {
                     totalPendingActivities: apiData.totalPendingActivities || 0,
                     data: apiData.data || [],
                 });
+                setAchievements(achievementsRes.data || []);
             } catch (err) {
                 const message = err?.response?.data?.message || "Não foi possível carregar as atividades do aluno.";
                 setError(message);
@@ -184,21 +207,31 @@ export default function HomeStudent() {
                 </div>
             </div>
             <div className="px-6">
-                <div className="flex flex-wrap gap-3">
-                    <div
-                        className="flex items-center gap-2 p-3 rounded-lg border bg-bronze/10 border-bronze/30">
-                        <Icon name={'Trophy'} className="w-5 h-5 text-bronze"/>
-                        <div><p className="text-sm font-medium">Primeiro Passo</p><p
-                            className="text-xs text-muted-foreground">Completou sua primeira
-                            atividade</p></div>
+                {loading ? (
+                    <p className="text-sm text-muted-foreground">Carregando conquistas...</p>
+                ) : achievements.length === 0 ? (
+                    <p className="text-sm text-muted-foreground">Nenhuma conquista ainda.</p>
+                ) : (
+                    <div className="flex flex-wrap gap-3">
+                        {achievements.map((achievement) => {
+                            const style = typeBadge[achievement.type] || typeBadge.bronze;
+                            return (
+                                <div
+                                    key={achievement.id}
+                                    className={`flex items-center gap-2 p-3 rounded-lg border ${style.bg} ${style.border}`}
+                                >
+                                    <Icon name={'Trophy'} className={`w-5 h-5 ${style.iconColor}`}/>
+                                    <div>
+                                        <p className="text-sm font-medium">{achievement.name}</p>
+                                        {achievement.text && (
+                                            <p className="text-xs text-muted-foreground">{achievement.text}</p>
+                                        )}
+                                    </div>
+                                </div>
+                            );
+                        })}
                     </div>
-                    <div
-                        className="flex items-center gap-2 p-3 rounded-lg border bg-silver/10 border-silver/30">
-                        <Icon name={'Trophy'} className="w-6 h-6 text-silver"/>
-                        <div><p className="text-sm font-medium">Estudante Dedicado</p><p
-                            className="text-xs text-muted-foreground">Completou 10 atividades</p></div>
-                    </div>
-                </div>
+                )}
             </div>
         </div>
         <div

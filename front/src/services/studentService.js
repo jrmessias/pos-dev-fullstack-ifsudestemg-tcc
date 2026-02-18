@@ -8,3 +8,6 @@ export const studentDisciplines = () =>
 
 export const studentEnroll = (data) =>
     api.post("/student/enroll", data);
+
+export const studentAchievements = () =>
+    api.get("/student/achievements");

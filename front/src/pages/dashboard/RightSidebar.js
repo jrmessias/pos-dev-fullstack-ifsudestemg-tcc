@@ -1,8 +1,50 @@
 import Icon from "../../components/Icon.js";
 import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip.jsx";
+import {useEffect, useState} from "react";
+import {studentAchievements} from "@/services/studentService.js";
 
 export default function RightSidebar({type, rightOpen, setRightOpen}) {
     const isStudent = type === 'student';
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+    const [achievements, setAchievements] = useState([]);
+    const typeBadge = {
+        gold: {
+            border: "border-yellow-400/30",
+            bg: "bg-yellow-400/10",
+            iconColor: "text-yellow-500",
+        },
+        silver: {
+            border: "border-gray-400/30",
+            bg: "bg-gray-400/10",
+            iconColor: "text-gray-400",
+        },
+        bronze: {
+            border: "border-orange-400/30",
+            bg: "bg-orange-400/10",
+            iconColor: "text-orange-500",
+        },
+    };
+
+    useEffect(() => {
+        async function loadData() {
+            setLoading(true);
+            setError(null);
+
+            try {
+                const achievementsRes = await studentAchievements();
+                setAchievements(achievementsRes.data || []);
+            } catch (err) {
+                const message = err?.response?.data?.message || "Não foi possível carregar as atividades do aluno.";
+                setError(message);
+            } finally {
+                setLoading(false);
+            }
+        }
+
+        loadData();
+
+    }, []);
 
     return <>
         <aside
@@ -119,9 +161,22 @@ export default function RightSidebar({type, rightOpen, setRightOpen}) {
                                         </div>
                                         <p className="text-xs text-center text-muted-foreground mt-1">2450 / 2400 XP</p>
                                     </div>
-                                    <div className="flex flex-wrap gap-1"><span
-                                        className="inline-flex items-center justify-center rounded-md border px-2 py-0.5 font-medium w-fit whitespace-nowrap shrink-0 gap-1 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&]:hover:bg-accent [a&]:hover:text-accent-foreground text-xs border-bronze text-bronze">Primeiro Passo</span><span
-                                        className="inline-flex items-center justify-center rounded-md border px-2 py-0.5 font-medium w-fit whitespace-nowrap shrink-0 gap-1 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&]:hover:bg-accent [a&]:hover:text-accent-foreground text-xs border-silver text-silver">Estudante Dedicado</span>
+                                    <div className="flex flex-wrap gap-1">
+                                        {loading ? (
+                                            <p className="text-sm text-muted-foreground">Carregando conquistas...</p>
+                                        ) : achievements.length === 0 ? (
+                                            <p className="text-sm text-muted-foreground">Nenhuma conquista ainda.</p>
+                                        ) : (
+                                            <div className="flex flex-wrap gap-3">
+                                                {achievements.map((achievement) => {
+                                                    const style = typeBadge[achievement.type] || typeBadge.bronze;
+                                                    return (
+                                                        <span key={achievement.id}
+                                                              className={`inline-flex items-center justify-center rounded-md border px-2 py-0.5 font-medium w-fit whitespace-nowrap shrink-0 gap-1 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden [a&]:hover:bg-accent [a&]:hover:text-accent-foreground text-xs ${style.bg} ${style.border}`}>{achievement.name}</span>
+                                                    );
+                                                })}
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </div>

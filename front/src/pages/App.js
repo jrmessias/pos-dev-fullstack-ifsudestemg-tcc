@@ -14,6 +14,7 @@ import DisciplineStudentsPage from "./teacher/DisciplineStudentsPage.js";
 import ActivityIndexTeacherPage from "./teacher/ActivityIndexTeacherPage.js";
 import ActivityCreateTeacherPage from "./teacher/ActivityCreateTeacherPage.js";
 import AnswerIndexTeacherPage from "./teacher/AnswerIndexTeacherPage.js";
+import AchievementIndexTeacherPage from "./teacher/AchievementIndexTeacherPage.js";
 import GameIndexTeacherPage from "./teacher/GameIndexTeacherPage.js";
 import DisciplineIndexStudentPage from "./student/DisciplineIndexStudentPage.js";
 import ActivityIndexStudentPage from "./student/ActivityIndexStudentPage.js";
@@ -46,6 +47,7 @@ function App() {
                             <Route path="discipline/:id/students" element={<DisciplineStudentsPage/>}/>
                             <Route path="activity" element={<ActivityIndexTeacherPage/>}/>
                             <Route path="activity/new" element={<ActivityCreateTeacherPage/>}/>
+                            <Route path="achievement" element={<AchievementIndexTeacherPage/>}/>
                             <Route path="answer" element={<AnswerIndexTeacherPage/>}/>
                             <Route path="game" element={<GameIndexTeacherPage/>}/>
                         </Route>

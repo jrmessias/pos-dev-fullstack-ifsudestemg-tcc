@@ -6,14 +6,15 @@ const linksStudent = [
     {href: "/student", label: "Dashboard", icon: 'LayoutDashboard'},
     {href: "/student/discipline", label: "Disciplinas", icon: 'BookOpen'},
     {href: "/student/activity", label: "Atividades", icon: 'FileText'},
-    {href: "/student/progress", label: "Meu Progresso", icon: 'Trophy'},
+    {href: "/student/progress", label: "Meu Progresso", icon: 'TrendingUp'},
 ];
 
 const linksTeacher = [
     {href: "/teacher", label: "Dashboard", icon: 'LayoutDashboard'},
     {href: "/teacher/discipline", label: "Disciplinas", icon: 'BookOpen'},
     {href: "/teacher/activity", label: "Atividades", icon: 'FileText'},
-    {href: "/teacher/game", label: "Gamificação", icon: 'Trophy'},
+    {href: "/teacher/achievement", label: "Conquistas", icon: 'Trophy'},
+    {href: "/teacher/game", label: "Gamificação", icon: 'Crown'},
 ];
 
 export default function LeftSidebar({type, leftOpen, setLeftOpen}) {

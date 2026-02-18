@@ -56,7 +56,7 @@ export default function Login() {
                                 Transforme o aprendizado em uma <span className="text-primary">aventura</span>
                             </h1>
                             <p className="text-lg text-muted-foreground max-w-lg leading-relaxed">O Rankio combina
-                                educacao e gamificação para criar experiências de aprendizado envolventes. XP, medalhas,
+                                educação e gamificação para criar experiências de aprendizado envolventes. XP, medalhas,
                                 rankings e muito mais para motivar seus alunos.</p>
                             <div className="flex flex-col sm:flex-row gap-4"><a href="/login">
                                 <button
@@ -283,7 +283,7 @@ export default function Login() {
                         <div className="relative">
                             <div className="text-6xl font-bold text-primary/10 absolute -top-4 left-0">03</div>
                             <div className="pt-8 pl-4"><h3 className="text-xl font-semibold text-foreground mb-2">Engaje
-                                com gamificacao</h3><p className="text-muted-foreground">Crie atividades, defina
+                                com gamificação</h3><p className="text-muted-foreground">Crie atividades, defina
                                 recompensas e veja seus alunos se superarem.</p></div>
                         </div>
                     </div>

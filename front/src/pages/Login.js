@@ -4,9 +4,11 @@ import {loginSchema} from "../validators/loginSchema";
 import {loginRequest, meRequest} from "../services/authService";
 import {useContext, useEffect, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
-import ThemeToggle from "../components/ThemeToggle.js";
-import Icon from "../components/Icon.js";
+import ThemeToggle from "@/components//ThemeToggle.js";
+import Icon from "@/components//Icon.js";
 import {AuthContext} from "../contexts/AuthContext.js";
+import {Toaster} from "@/components/ui/sonner.jsx";
+import {toast} from "sonner";
 
 export default function Login() {
     const [loading, setLoading] = useState(false);
@@ -64,7 +66,7 @@ export default function Login() {
             // const role = meResponse?.data?.role;
             navigate(targetRoute, {replace: true});
         } catch (err) {
-            setError(err?.response?.data?.message || err.message || 'Erro ao autenticar');
+            toast.error(err?.response?.data?.message || err.message || 'Erro ao autenticar', {position: "top-center", autoClose: 5000});
         } finally {
             setLoading(false);
         }
@@ -163,5 +165,6 @@ export default function Login() {
                 </div>
             </div>
         </div>
+        <Toaster richColors/>
     </>
 }

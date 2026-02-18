@@ -103,7 +103,7 @@ export default function DisciplineIndexStudentPage() {
         ) : error ? (
             <div className="text-sm text-muted-foreground">{error}</div>
         ) : disciplines.length === 0 ? (
-            <div className="text-sm text-muted-foreground">Voce ainda nao esta matriculado em disciplinas ativas.</div>
+            <div className="text-sm text-muted-foreground">Voce ainda não esta matriculado em disciplinas ativas.</div>
         ) : (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {disciplines.map((discipline) => {
