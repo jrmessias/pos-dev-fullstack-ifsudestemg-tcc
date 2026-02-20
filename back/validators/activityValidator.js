@@ -96,6 +96,7 @@ const activityStoreSchema = z.object({
     name: z.string().trim().min(1).max(45),
     text: z.string().trim().max(65535).optional(),
     active: booleanSchema.optional(),
+    time_limit: z.enum(["00:00:20", "00:00:30", "00:01:00"]),
     questions: z.array(questionSchema).min(1, "A atividade deve ter ao menos uma pergunta"),
 }).strict();
 

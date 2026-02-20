@@ -212,7 +212,7 @@ export default function ActivityIndexTeacherPage() {
                 }
             }}
             title="Excluir Atividade"
-            description={`Tem certeza que deseja excluir a atividade "${activityToDelete?.name}"? Esta ação não pode ser desfeita.`}
+            description={`Tem certeza que deseja excluir a atividade "${activityToDelete?.name}"? <br>Esta ação não pode ser desfeita.`}
             onConfirm={handleDelete}
             isLoading={deleting}
             confirmText="Excluir"
@@ -238,6 +238,7 @@ export default function ActivityIndexTeacherPage() {
                     <div className="rounded-md border p-3 space-y-1">
                         <p className="text-sm"><span className="font-semibold">Disciplina:</span> {selectedActivity?.Discipline?.name || "-"}</p>
                         <p className="text-sm"><span className="font-semibold">Status:</span> {(selectedActivity?.active === 1 || selectedActivity?.active === true) ? "Ativa" : "Inativa"}</p>
+                        <p className="text-sm"><span className="font-semibold">Tempo limite:</span> {{"00:00:20": "20 segundos", "00:00:30": "30 segundos", "00:01:00": "1 minuto"}[selectedActivity?.time_limit] || "-"}</p>
                         <p className="text-sm"><span className="font-semibold">Descrição:</span> {selectedActivity?.text || "Sem descrição"}</p>
                     </div>
 

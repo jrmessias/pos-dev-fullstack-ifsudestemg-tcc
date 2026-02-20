@@ -574,7 +574,7 @@ export default function DisciplineIndexTeacherPage() {
             open={isDeleteModalOpen}
             onOpenChange={setIsDeleteModalOpen}
             title="Excluir Disciplina"
-            description={`Tem certeza que deseja excluir a disciplina "${disciplineToDelete?.name}"? Esta ação não pode ser desfeita.`}
+            description={`Tem certeza que deseja excluir a disciplina "${disciplineToDelete?.name}"? <br>Esta ação não pode ser desfeita.`}
             onConfirm={handleDelete}
             confirmText="Excluir"
             variant="destructive"

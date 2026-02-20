@@ -569,7 +569,7 @@ export default function AchievementIndexTeacherPage() {
             open={isDeleteModalOpen}
             onOpenChange={setIsDeleteModalOpen}
             title="Excluir Conquista"
-            description={`Tem certeza que deseja excluir a conquista "${achievementToDelete?.name}"? Esta ação não pode ser desfeita.`}
+            description={`Tem certeza que deseja excluir a conquista "${achievementToDelete?.name}"? <br>Esta ação não pode ser desfeita.`}
             onConfirm={handleDelete}
             confirmText="Excluir"
             variant="destructive"

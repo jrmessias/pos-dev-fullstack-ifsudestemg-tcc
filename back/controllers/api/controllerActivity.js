@@ -84,7 +84,7 @@ exports.store = async function (req, res) {
             return validationError(res, parsedBody);
         }
 
-        const { discipline_id, name, text, active, questions } = parsedBody.data;
+        const { discipline_id, name, text, active, time_limit, questions } = parsedBody.data;
 
         const discipline = await Discipline.findOne({
             where: { id: discipline_id, user_id: req.user.id },
@@ -101,6 +101,7 @@ exports.store = async function (req, res) {
                     discipline_id,
                     name,
                     text,
+                    time_limit,
                     ...(active !== undefined ? { active } : {}),
                 },
                 { transaction }
@@ -175,7 +176,7 @@ exports.show = async function (req, res) {
 
         const activity = await Activity.findOne({
             where: { id },
-            attributes: ["id", "name", "text", "active"],
+            attributes: ["id", "name", "text", "active", "time_limit"],
             include: [
                 {
                     model: Discipline,

@@ -74,5 +74,8 @@ export const activitySchema = z.object({
     name: z.string().trim().min(1, "Informe o nome da atividade").max(45, "Nome deve ter no máximo 45 caracteres"),
     text: z.string().trim().max(65535, "Descrição muito longa").optional().or(z.literal("")),
     active: z.boolean().default(false),
+    time_limit: z.enum(["00:00:20", "00:00:30", "00:01:00"], {
+        errorMap: () => ({ message: "Selecione o tempo limite da atividade" }),
+    }),
     questions: z.array(questionSchema).min(1, "Adicione ao menos uma pergunta"),
 });

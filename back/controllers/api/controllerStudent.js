@@ -421,9 +421,9 @@ exports.achievements = async function (req, res) {
         }
 
         const achievements = await user.getAchievements({
-            attributes: ["id", "name", "type", "text"],
+            attributes: ["name", "type", "text"],
             through: { attributes: ["created_at"] },
-            order: [["name", "ASC"]],
+            order: [["id", "ASC"]],
         });
 
         return res.json(

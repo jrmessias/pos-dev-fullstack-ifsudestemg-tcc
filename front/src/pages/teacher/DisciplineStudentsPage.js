@@ -161,7 +161,7 @@ export default function DisciplineStudentsPage() {
                     }
                 }}
                 title="Remover Aluno"
-                description={`Tem certeza que deseja remover o aluno "${studentToRemove?.name}" da disciplina? Esta ação não pode ser desfeita.`}
+                description={`Tem certeza que deseja remover o aluno "${studentToRemove?.name}" da disciplina? <br>Esta ação não pode ser desfeita.`}
                 onConfirm={handleRemoveStudent}
                 isLoading={removing}
                 confirmText="Remover"

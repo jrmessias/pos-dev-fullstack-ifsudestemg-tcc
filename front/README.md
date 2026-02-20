@@ -1,16 +1,75 @@
-# React + Vite
+# Desenvolvimento de um Sistema de Gamificação Educacional para Potencializar Engajamento e Aprendizagem em Ambientes Digitais
+Software desenvolvido para o Trabalho de Conclusão de Curso (TCC) apresentado como exigência para obtenção do título de Especialista em Desenvolvimento Full Stack do Instituto Federal do Sudeste de Minas Gerais - Campus Manhuaçu.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+ISRAEL APARECIDO MESSIAS JUNIOR – 2026
 
-Currently, two official plugins are available:
+**Objetivo**:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Analisar, projetar e desenvolver um sistema de gamificação voltado ao contexto educacional, aplicando elementos de jogos para potencializar o engajamento, a motivação e a participação ativa dos estudantes no processo de ensino-aprendizagem.
 
-## React Compiler
+## Guia de Instalação
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Stack utilizado
+- Node.js v18+
+- Express.js
+- MySQL
+- Vite
+- React.js
+- Tailwind CSS
+- Shadcn
+- Nodemon
+- 
 
-## Expanding the ESLint configuration
+## Requisitos rápidos
+- Sistema Operacional: Linux.
+- Node.js v18+ e npm.
+- Git.
+- Banco de dados: MySQL (projeto usa `mysql2` e `sequelize`).
+- (Opcional) WebStorm 2025.3 para desenvolvimento/depuração.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Clonar o repositório
+```bash
+git clone git@github.com:pos-FullStack/trabalho-de-conclus-o-de-curso-jrmessias/.git
+
+cd trabalho-de-conclus-o-de-curso-jrmessias
+```
+
+## Instalar dependências
+```bash
+npm install
+```
+
+## Arquivo de ambiente (\`.env\`)
+Copie o arquivo `.env.example` para `.env` na raiz do projeto.
+
+Exemplo mínimo:
+```env
+PORT=3000
+
+MYSQL_DIALECT=mysql
+MYSQL_HOST=localhost
+MYSQL_PORT=3306
+MYSQL_USER=root
+MYSQL_PASSWORD=
+MYSQL_DATABASE=rankio
+```
+Ajuste os valores conforme seu ambiente.
+
+## Criar banco MySQL
+```bash
+mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS rankio CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;"
+```
+Se usar outro usuário/porta, adapte o comando.
+
+## Scripts úteis
+- Rodar em desenvolvimento (com `nodemon`):
+```bash
+  npm run dev
+```
+- Rodar em produção:
+
+```bash
+  npm start
+```
+O ponto de entrada usado pelos scripts é `./bin/www` (usa `process.env.PORT`).
+

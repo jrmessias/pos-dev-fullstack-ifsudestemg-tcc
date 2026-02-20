@@ -31,6 +31,10 @@ Activity.init(
             allowNull: false,
             defaultValue: false
         },
+        time_limit: {
+            type: DataTypes.TIME,
+            allowNull: false
+        },
     },
     {
         sequelize,

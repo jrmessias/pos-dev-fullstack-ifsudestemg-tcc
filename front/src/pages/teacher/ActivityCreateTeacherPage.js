@@ -57,6 +57,7 @@ export default function ActivityCreateTeacherPage() {
             name: "",
             text: "",
             active: false,
+            time_limit: "",
             questions: [createQuizQuestion()],
         },
     });
@@ -176,6 +177,7 @@ export default function ActivityCreateTeacherPage() {
                 name: formData.name,
                 text: formData.text?.trim() || undefined,
                 active: formData.active,
+                time_limit: formData.time_limit,
                 questions: formData.questions.map((question) => ({
                     name: question.name,
                     text: question.text?.trim() || undefined,
@@ -296,18 +298,41 @@ export default function ActivityCreateTeacherPage() {
                         {errors.text && <p className="text-sm text-destructive">{errors.text.message}</p>}
                     </div>
 
-                    <div className="space-y-2 md:w-50">
-                        <Label htmlFor="active">Status</Label>
-                        <div className="flex items-center justify-between rounded-md border px-3 py-2">
-                            <span className="text-sm text-muted-foreground">{activeValue ? "Ativa" : "Inativa"}</span>
-                            <Switch
-                                id="active"
-                                checked={!!activeValue}
-                                onCheckedChange={(checked) => setValue("active", checked, {
+                    <div className="grid gap-4 md:grid-cols-2">
+                        <div className="space-y-2">
+                            <Label htmlFor="time_limit">Tempo limite por pergunta</Label>
+                            <Select
+                                value={watch("time_limit") || ""}
+                                onValueChange={(value) => setValue("time_limit", value, {
                                     shouldValidate: true,
                                     shouldDirty: true,
                                 })}
-                            />
+                            >
+                                <SelectTrigger id="time_limit" className="w-full">
+                                    <SelectValue placeholder="Selecione o tempo limite" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="00:00:20">20 segundos</SelectItem>
+                                    <SelectItem value="00:00:30">30 segundos</SelectItem>
+                                    <SelectItem value="00:01:00">1 minuto</SelectItem>
+                                </SelectContent>
+                            </Select>
+                            {errors.time_limit && <p className="text-sm text-destructive">{errors.time_limit.message}</p>}
+                        </div>
+
+                        <div className="space-y-2">
+                            <Label htmlFor="active">Status</Label>
+                            <div className="flex items-center justify-between rounded-md border px-3 py-2">
+                                <span className="text-sm text-muted-foreground">{activeValue ? "Ativa" : "Inativa"}</span>
+                                <Switch
+                                    id="active"
+                                    checked={!!activeValue}
+                                    onCheckedChange={(checked) => setValue("active", checked, {
+                                        shouldValidate: true,
+                                        shouldDirty: true,
+                                    })}
+                                />
+                            </div>
                         </div>
                     </div>
                 </div>
