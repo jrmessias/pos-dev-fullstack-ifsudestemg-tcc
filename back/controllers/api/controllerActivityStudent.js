@@ -63,7 +63,7 @@ exports.index = async function (req, res) {
         if (questionIds.length > 0) {
             try {
                 answeredRows = await ActivityAnswerUser.findAll({
-                    attributes: ['activity_id'],
+                    attributes: ['id', 'activity_id'],
                     where: { user_id: req.user.id, activity_id: { [Op.in]: activityIds } },
                     include: [{ model: Answer, attributes: ['question_id'], required: false, where: { question_id: { [Op.in]: questionIds } } }],
                     raw: true,
@@ -78,9 +78,9 @@ exports.index = async function (req, res) {
         const answeredQuestionIdsByActivityId = new Map();
         for (const row of answeredRows) {
             const activityId = Number(row.activity_id);
-            const questionId = Number(row.Answer?.question_id);
-            console.log('%cℹ️ Info:', 'color: #1e69b3; font-weight: bold;', activityId);
-            console.log('%cℹ️ Info:', 'color: #1e69b3; font-weight: bold;', questionId);
+            const questionId = Number(row.id);
+            // console.log('%cℹ️ Info:', 'color: #1e69b3; font-weight: bold;', activityId);
+            // console.log('%cℹ️ Info:', 'color: #1e69b3; font-weight: bold;', questionId);
             // if (!questionId) continue;
             if (!answeredQuestionIdsByActivityId.has(activityId)) answeredQuestionIdsByActivityId.set(activityId, new Set());
             answeredQuestionIdsByActivityId.get(activityId).add(questionId);
@@ -90,11 +90,10 @@ exports.index = async function (req, res) {
         const items = [];
         for (const activity of activities) {
             const activityId = Number(activity.id);
-            const totalQ = questionCountByActivityId.get(activityId) || 0;
+            const totalQuestion = questionCountByActivityId.get(activityId) || 0;
             const answered = answeredQuestionIdsByActivityId.get(activityId)?.size || 0;
-            // console.log('%cℹ️ Info:', 'color: #1e69b3; font-weight: bold;', answered);
-            // console.log('%cℹ️ Info:', 'color: #1e69b3; font-weight: bold;', totalQ);
-            const isCompleted = totalQ > 0 && answered === totalQ;
+            console.log('%cℹ️ Info:', 'color: #1e69b3; font-weight: bold;', answered +" > "+totalQuestion + " - "+activityId );
+            const isCompleted = totalQuestion > 0 && answered === totalQuestion;
             if (isCompleted) completedActivityIds.add(activityId);
             items.push(buildActivityRow(activity, isCompleted));
         }

@@ -52,6 +52,7 @@ exports.disciplines = async function (req, res) {
                     completedActivities: 0,
                     progress: 0,
                     xp: 0,
+                    avgXp: 0,
                 }))
             );
         }
@@ -79,27 +80,33 @@ exports.disciplines = async function (req, res) {
         }
 
         let answeredRows = [];
+        let xpRows = [];
+
         if (questionIds.length > 0) {
             try {
-                answeredRows = await ActivityAnswerUser.findAll({
-                    attributes: ["activity_id"],
-                    where: {
-                        user_id: req.user.id,
-                        activity_id: { [Op.in]: activityIds },
-                    },
-                    include: [
-                        {
-                            model: Answer,
-                            attributes: ["question_id"],
-                            required: true,
-                            where: {
-                                question_id: { [Op.in]: questionIds },
-                            },
+                [answeredRows, xpRows] = await Promise.all([
+                    ActivityAnswerUser.findAll({
+                        attributes: ["activity_id", "question_id"],
+                        where: {
+                            user_id: req.user.id,
+                            activity_id: { [Op.in]: activityIds },
+                            question_id: { [Op.in]: questionIds },
                         },
-                    ],
-                    raw: true,
-                    nest: true,
-                });
+                        raw: true,
+                    }),
+                    ActivityAnswerUser.findAll({
+                        attributes: [
+                            "activity_id",
+                            [ActivityAnswerUser.sequelize.fn("SUM", ActivityAnswerUser.sequelize.col("xp")), "totalXp"],
+                        ],
+                        where: {
+                            user_id: req.user.id,
+                            activity_id: { [Op.in]: activityIds },
+                        },
+                        group: ["activity_id"],
+                        raw: true,
+                    }),
+                ]);
             } catch (error) {
                 const isMissingAnswerTable = error?.original?.code === "ER_NO_SUCH_TABLE";
                 if (!isMissingAnswerTable) {
@@ -111,7 +118,7 @@ exports.disciplines = async function (req, res) {
         const answeredQuestionIdsByActivityId = new Map();
         for (const row of answeredRows) {
             const activityId = Number(row.activity_id);
-            const questionId = Number(row.Answer?.question_id);
+            const questionId = Number(row.question_id);
 
             if (!questionId) {
                 continue;
@@ -124,16 +131,9 @@ exports.disciplines = async function (req, res) {
             answeredQuestionIdsByActivityId.get(activityId).add(questionId);
         }
 
-        const completedActivityIds = new Set();
-        for (const activity of activities) {
-            const activityId = Number(activity.id);
-            const totalQuestions = questionCountByActivityId.get(activityId) || 0;
-            const answeredQuestions = answeredQuestionIdsByActivityId.get(activityId)?.size || 0;
-            const isCompleted = totalQuestions > 0 && answeredQuestions === totalQuestions;
-
-            if (isCompleted) {
-                completedActivityIds.add(activityId);
-            }
+        const xpByActivityId = new Map();
+        for (const row of xpRows) {
+            xpByActivityId.set(Number(row.activity_id), Number(row.totalXp) || 0);
         }
 
         const summaryByDisciplineId = new Map();
@@ -141,10 +141,15 @@ exports.disciplines = async function (req, res) {
             summaryByDisciplineId.set(Number(discipline.id), {
                 totalActivities: 0,
                 completedActivities: 0,
+                totalQuestions: 0,
+                answeredQuestions: 0,
+                xp: 0,
+                activitiesWithXp: 0,
             });
         }
 
         for (const activity of activities) {
+            const activityId = Number(activity.id);
             const disciplineId = Number(activity.discipline_id);
             const summary = summaryByDisciplineId.get(disciplineId);
 
@@ -152,9 +157,22 @@ exports.disciplines = async function (req, res) {
                 continue;
             }
 
+            const totalQuestionsForActivity = questionCountByActivityId.get(activityId) || 0;
+            const answeredQuestionsForActivity = answeredQuestionIdsByActivityId.get(activityId)?.size || 0;
+            const activityXp = xpByActivityId.get(activityId) || 0;
+            const isCompleted = totalQuestionsForActivity > 0 && answeredQuestionsForActivity === totalQuestionsForActivity;
+
             summary.totalActivities += 1;
-            if (completedActivityIds.has(Number(activity.id))) {
+            summary.totalQuestions += totalQuestionsForActivity;
+            summary.answeredQuestions += answeredQuestionsForActivity;
+            summary.xp += activityXp;
+
+            if (isCompleted) {
                 summary.completedActivities += 1;
+            }
+
+            if (activityXp > 0) {
+                summary.activitiesWithXp += 1;
             }
         }
 
@@ -162,11 +180,20 @@ exports.disciplines = async function (req, res) {
             const summary = summaryByDisciplineId.get(Number(discipline.id)) || {
                 totalActivities: 0,
                 completedActivities: 0,
+                totalQuestions: 0,
+                answeredQuestions: 0,
+                xp: 0,
+                activitiesWithXp: 0,
             };
 
             const progress =
-                summary.totalActivities > 0
-                    ? Math.round((summary.completedActivities / summary.totalActivities) * 100)
+                summary.totalQuestions > 0
+                    ? Math.round((summary.answeredQuestions / summary.totalQuestions) * 100)
+                    : 0;
+
+            const avgXp =
+                summary.activitiesWithXp > 0
+                    ? Math.round(summary.xp / summary.activitiesWithXp)
                     : 0;
 
             return {
@@ -176,7 +203,8 @@ exports.disciplines = async function (req, res) {
                 totalActivities: summary.totalActivities,
                 completedActivities: summary.completedActivities,
                 progress,
-                xp: 0,
+                xp: summary.xp,
+                avgXp,
             };
         });
 
