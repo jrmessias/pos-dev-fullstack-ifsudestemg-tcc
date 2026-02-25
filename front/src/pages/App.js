@@ -18,6 +18,8 @@ import AchievementIndexTeacherPage from "./teacher/AchievementIndexTeacherPage.j
 import GameIndexTeacherPage from "./teacher/GameIndexTeacherPage.js";
 import DisciplineIndexStudentPage from "./student/DisciplineIndexStudentPage.js";
 import ActivityIndexStudentPage from "./student/ActivityIndexStudentPage.js";
+import ActivityPlayPage from "./student/ActivityPlayPage.js";
+import ActivityResultPage from "./student/ActivityResultPage.js";
 import ProgressIndexStudentPage from "./student/ProgressIndexStudentPage.js";
 
 function App() {
@@ -59,6 +61,8 @@ function App() {
                             <Route index element={<Dashboard/>}/>
                             <Route path="discipline" element={<DisciplineIndexStudentPage />} />
                             <Route path="activity" element={<ActivityIndexStudentPage />} />
+                            <Route path="activity/:id/play" element={<ActivityPlayPage />} />
+                            <Route path="activity/:id/result" element={<ActivityResultPage />} />
                             <Route path="progress" element={<ProgressIndexStudentPage />} />
                         </Route>
                     </Route>

@@ -3,7 +3,6 @@ import {studentActivities} from '@/services/activityService.js';
 import {ActivityTabs} from '@/components/activity/ActivityTabs';
 import {ActivityList} from '@/components/activity/ActivityList';
 import Icon from "@/components/Icon.js";
-import {Toaster} from "@/components/ui/sonner.jsx";
 
 export default function ActivityIndexStudentPage() {
     const [status, setStatus] = useState('pending');
@@ -39,8 +38,10 @@ export default function ActivityIndexStudentPage() {
     }, [status, page]);
 
     return <>
-        <div><h1 className="text-2xl font-bold">Minhas Atividades</h1><p
-            className="text-muted-foreground">Visualize e envie suas atividades</p></div>
+        <div>
+            <h1 className="text-2xl font-bold">Minhas Atividades</h1>
+            <p  className="text-muted-foreground">Visualize e envie suas atividades</p>
+        </div>
         <div className="grid gap-4 sm:grid-cols-3">
             <div data-slot="card"
                  className="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm">
@@ -74,13 +75,13 @@ export default function ActivityIndexStudentPage() {
                             <Icon name="FileText" className={`w-6 h-6 text-blue-500`}/>
                         </div>
                         <div><p className="text-sm text-muted-foreground">Total</p><p
-                            className="text-2xl font-bold">{meta ? meta.total : '...'}</p></div>
+                            className="text-2xl font-bold">{meta ? meta.pendingCount + meta.completedCount : '...'}</p></div>
                     </div>
                 </div>
             </div>
         </div>
         <div>
-            <ActivityTabs counts={{pending: meta.pendingCount, completed: meta.completedCount, total: meta.total}}
+            <ActivityTabs counts={{pending: meta.pendingCount, completed: meta.completedCount, total: meta.pendingCount + meta.completedCount}}
                           value={status} onChange={(v) => {
                 setStatus(v);
                 setPage(1);

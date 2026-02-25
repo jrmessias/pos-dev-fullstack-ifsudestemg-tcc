@@ -103,7 +103,7 @@ export default function DisciplineIndexStudentPage() {
         ) : error ? (
             <div className="text-sm text-muted-foreground">{error}</div>
         ) : disciplines.length === 0 ? (
-            <div className="text-sm text-muted-foreground">Voce ainda não esta matriculado em disciplinas ativas.</div>
+            <div className="text-sm text-muted-foreground">Você ainda não está matriculado em disciplinas ativas.</div>
         ) : (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {disciplines.map((discipline) => {
@@ -123,7 +123,7 @@ export default function DisciplineIndexStudentPage() {
                                         <Icon name="BookOpen" className="w-6 h-6 text-primary"/>
                                     </div>
                                     <span data-slot="badge"
-                                          className="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 gap-1 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent [a&]:hover:bg-primary/90 bg-success text-success-foreground">Media: 85</span>
+                                          className="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 gap-1 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent [a&]:hover:bg-primary/90 bg-success text-success-foreground">Média: 85</span>
                                 </div>
                                 <div data-slot="card-title"
                                      className="leading-none font-semibold mt-4">{discipline.name}</div>

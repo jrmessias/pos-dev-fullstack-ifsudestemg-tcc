@@ -54,9 +54,9 @@ exports.index = async function (req, res) {
         const questionCountByActivityId = new Map();
         const questionIds = [];
         for (const q of questions) {
-            const aid = Number(q.activity_id);
+            const activityId = Number(q.activity_id);
             questionIds.push(Number(q.id));
-            questionCountByActivityId.set(aid, (questionCountByActivityId.get(aid) || 0) + 1);
+            questionCountByActivityId.set(activityId, (questionCountByActivityId.get(activityId) || 0) + 1);
         }
 
         let answeredRows = [];
@@ -65,7 +65,7 @@ exports.index = async function (req, res) {
                 answeredRows = await ActivityAnswerUser.findAll({
                     attributes: ['activity_id'],
                     where: { user_id: req.user.id, activity_id: { [Op.in]: activityIds } },
-                    include: [{ model: Answer, attributes: ['question_id'], required: true, where: { question_id: { [Op.in]: questionIds } } }],
+                    include: [{ model: Answer, attributes: ['question_id'], required: false, where: { question_id: { [Op.in]: questionIds } } }],
                     raw: true,
                     nest: true,
                 });
@@ -77,21 +77,25 @@ exports.index = async function (req, res) {
 
         const answeredQuestionIdsByActivityId = new Map();
         for (const row of answeredRows) {
-            const aid = Number(row.activity_id);
-            const qid = Number(row.Answer?.question_id);
-            if (!qid) continue;
-            if (!answeredQuestionIdsByActivityId.has(aid)) answeredQuestionIdsByActivityId.set(aid, new Set());
-            answeredQuestionIdsByActivityId.get(aid).add(qid);
+            const activityId = Number(row.activity_id);
+            const questionId = Number(row.Answer?.question_id);
+            console.log('%cℹ️ Info:', 'color: #1e69b3; font-weight: bold;', activityId);
+            console.log('%cℹ️ Info:', 'color: #1e69b3; font-weight: bold;', questionId);
+            // if (!questionId) continue;
+            if (!answeredQuestionIdsByActivityId.has(activityId)) answeredQuestionIdsByActivityId.set(activityId, new Set());
+            answeredQuestionIdsByActivityId.get(activityId).add(questionId);
         }
 
         const completedActivityIds = new Set();
         const items = [];
         for (const activity of activities) {
-            const aid = Number(activity.id);
-            const totalQ = questionCountByActivityId.get(aid) || 0;
-            const answered = answeredQuestionIdsByActivityId.get(aid)?.size || 0;
+            const activityId = Number(activity.id);
+            const totalQ = questionCountByActivityId.get(activityId) || 0;
+            const answered = answeredQuestionIdsByActivityId.get(activityId)?.size || 0;
+            // console.log('%cℹ️ Info:', 'color: #1e69b3; font-weight: bold;', answered);
+            // console.log('%cℹ️ Info:', 'color: #1e69b3; font-weight: bold;', totalQ);
             const isCompleted = totalQ > 0 && answered === totalQ;
-            if (isCompleted) completedActivityIds.add(aid);
+            if (isCompleted) completedActivityIds.add(activityId);
             items.push(buildActivityRow(activity, isCompleted));
         }
 

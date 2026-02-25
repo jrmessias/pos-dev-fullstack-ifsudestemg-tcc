@@ -47,6 +47,7 @@ Activity.hasMany(ActivityAnswerUser, { foreignKey: 'activity_id' });
 
 Question.belongsTo(Activity, { foreignKey: 'activity_id' });
 Question.hasMany(Answer, { foreignKey: 'question_id' });
+Question.hasMany(ActivityAnswerUser, { foreignKey: 'question_id' });
 
 Answer.belongsTo(Question, { foreignKey: 'question_id' });
 Answer.hasMany(ActivityAnswerUser, { foreignKey: 'answer_id' });
@@ -54,6 +55,7 @@ Answer.hasMany(ActivityAnswerUser, { foreignKey: 'answer_id' });
 ActivityAnswerUser.belongsTo(User, { foreignKey: 'user_id' });
 ActivityAnswerUser.belongsTo(Activity, { foreignKey: 'activity_id' });
 ActivityAnswerUser.belongsTo(Answer, { foreignKey: 'answer_id' });
+ActivityAnswerUser.belongsTo(Question, { foreignKey: 'question_id' });
 
 module.exports = {
     sequelize,

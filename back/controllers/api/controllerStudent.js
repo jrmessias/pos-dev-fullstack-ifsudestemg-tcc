@@ -187,7 +187,7 @@ exports.disciplines = async function (req, res) {
     }
 };
 
-const { studentActivitiesQuerySchema, enrollSchema } = require('../../validators/studentValidator');
+const { enrollSchema } = require('../../validators/studentValidator');
 
 exports.enroll = async function (req, res) {
     try {
@@ -223,18 +223,9 @@ exports.enroll = async function (req, res) {
 
 exports.index = async function (req, res) {
     try {
-        const parsed = studentActivitiesQuerySchema.safeParse(req.query);
-        if (!parsed.success) {
-            return res.status(400).json({ message: 'Dados inválidos', errors: parsed.error.issues });
-        }
-
-        const { status = 'all', page = 1, pageSize = 10 } = parsed.data;
-
         const enrolledLinks = await DisciplineUser.findAll({
             attributes: ["discipline_id"],
-            where: {
-                user_id: req.user.id,
-            },
+            where: { user_id: req.user.id },
             raw: true,
         });
 
@@ -246,7 +237,8 @@ exports.index = async function (req, res) {
                 totalActivities: 0,
                 totalCompletedActivities: 0,
                 totalPendingActivities: 0,
-                pendingActivities: [],
+                totalXp: 0,
+                data: [],
             });
         }
 
@@ -267,18 +259,17 @@ exports.index = async function (req, res) {
                 totalActivities: 0,
                 totalCompletedActivities: 0,
                 totalPendingActivities: 0,
-                pendingActivities: [],
+                totalXp: 0,
+                data: [],
             });
         }
 
-        const activitiesWhere = {
-            active: true,
-            discipline_id: { [Op.in]: disciplineIds },
-        };
-
         const activities = await Activity.findAll({
             attributes: ["id", "name", "discipline_id", "created_at"],
-            where: activitiesWhere,
+            where: {
+                active: true,
+                discipline_id: { [Op.in]: disciplineIds },
+            },
             include: [
                 {
                     model: Discipline,
@@ -299,17 +290,21 @@ exports.index = async function (req, res) {
                 totalActivities: 0,
                 totalCompletedActivities: 0,
                 totalPendingActivities: 0,
-                pendingActivities: [],
+                totalXp: 0,
+                data: [],
             });
         }
 
-        const questions = await Question.findAll({
-            attributes: ["id", "activity_id"],
-            where: {
-                activity_id: { [Op.in]: activityIds },
-            },
-            raw: true,
-        });
+        const [questions, totalXp] = await Promise.all([
+            Question.findAll({
+                attributes: ["id", "activity_id"],
+                where: { activity_id: { [Op.in]: activityIds } },
+                raw: true,
+            }),
+            ActivityAnswerUser.sum("xp", {
+                where: { user_id: req.user.id, activity_id: { [Op.in]: activityIds } },
+            }),
+        ]);
 
         const questionCountByActivityId = new Map();
         const questionIds = [];
@@ -337,9 +332,7 @@ exports.index = async function (req, res) {
                             model: Answer,
                             attributes: ["question_id"],
                             required: true,
-                            where: {
-                                question_id: { [Op.in]: questionIds },
-                            },
+                            where: { question_id: { [Op.in]: questionIds } },
                         },
                     ],
                     raw: true,
@@ -358,9 +351,7 @@ exports.index = async function (req, res) {
             const activityId = Number(row.activity_id);
             const questionId = Number(row.Answer?.question_id);
 
-            if (!questionId) {
-                continue;
-            }
+            if (!questionId) continue;
 
             if (!answeredQuestionIdsByActivityId.has(activityId)) {
                 answeredQuestionIdsByActivityId.set(activityId, new Set());
@@ -370,7 +361,7 @@ exports.index = async function (req, res) {
         }
 
         const completedActivityIds = new Set();
-        const pendingActivities = [];
+        const pendingData = [];
 
         for (const activity of activities) {
             const activityId = Number(activity.id);
@@ -380,31 +371,23 @@ exports.index = async function (req, res) {
 
             if (isCompleted) {
                 completedActivityIds.add(activityId);
+            } else {
+                pendingData.push({
+                    id: activity.id,
+                    name: activity.name,
+                    disciplineName: activity.Discipline?.name || "-",
+                    status: "pending",
+                });
             }
-
-            pendingActivities.push({
-                id: activity.id,
-                name: activity.name,
-                disciplineName: activity.Discipline?.name || "-",
-                status: isCompleted ? 'completed' : 'pending',
-            });
         }
-
-        const filtered = (() => {
-            if (status === 'all') return pendingActivities;
-            return pendingActivities.filter((a) => (status === 'pending' ? a.status === 'pending' : a.status === 'completed'));
-        })();
-
-        const start = (page - 1) * pageSize;
-        const paged = filtered.slice(start, start + pageSize);
 
         return res.json({
             totalEnrolledDisciplines: enrolledDisciplines.length,
             totalActivities: activities.length,
             totalCompletedActivities: completedActivityIds.size,
-            totalPendingActivities: pendingActivities.filter((a) => a.status === 'pending').length,
-            data: paged,
-            meta: { page, pageSize, total: filtered.length, pendingCount: pendingActivities.filter((a) => a.status === 'pending').length, completedCount: completedActivityIds.size },
+            totalPendingActivities: pendingData.length,
+            totalXp: totalXp ?? 0,
+            data: pendingData,
         });
     } catch (error) {
         console.error("Erro ao carregar dashboard do aluno:", error);

@@ -1,8 +1,10 @@
 import Icon from "../../components/Icon.js";
 import {useContext, useEffect, useMemo, useState} from "react";
+import {useNavigate} from "react-router-dom";
 import {AuthContext} from "../../contexts/AuthContext.js";
-import {studentDashboard, studentAchievements} from "../../services/studentService.js";
+import {studentAchievements, studentDashboard} from "../../services/studentService.js";
 import useCountUp from "../../hooks/useCountUp.js";
+import {Button} from "@/components/ui/button";
 
 const typeBadge = {
     gold: {
@@ -42,8 +44,7 @@ function buscarFraseAleatoria() {
 }
 
 export default function HomeStudent() {
-    const totalScore = 85;
-    const currentLevel = 8;
+    const navigate = useNavigate();
     const {user} = useContext(AuthContext);
     const motivationalPhrase = useMemo(() => buscarFraseAleatoria(), []);
     const [loading, setLoading] = useState(true);
@@ -53,6 +54,7 @@ export default function HomeStudent() {
         totalActivities: 0,
         totalCompletedActivities: 0,
         totalPendingActivities: 0,
+        totalXp: 0,
         data: [],
     });
     const [achievements, setAchievements] = useState([]);
@@ -73,7 +75,8 @@ export default function HomeStudent() {
                     totalActivities: apiData.totalActivities || 0,
                     totalCompletedActivities: apiData.totalCompletedActivities || 0,
                     totalPendingActivities: apiData.totalPendingActivities || 0,
-                    data: apiData.data || [],
+                    totalXp: apiData.totalXp ?? 0,
+                    data: (apiData.data || []).filter((a) => a.status === 'pending'),
                 });
                 setAchievements(achievementsRes.data || []);
             } catch (err) {
@@ -84,6 +87,7 @@ export default function HomeStudent() {
                     totalActivities: 0,
                     totalCompletedActivities: 0,
                     totalPendingActivities: 0,
+                    totalXp: 0,
                     data: [],
                 });
             } finally {
@@ -105,12 +109,7 @@ export default function HomeStudent() {
     });
 
     const animatedTotalScore = useCountUp({
-        target: totalScore,
-        startWhen: !loading,
-    });
-
-    const animatedCurrentLevel = useCountUp({
-        target: currentLevel,
+        target: dashboard.totalXp,
         startWhen: !loading,
     });
 
@@ -159,8 +158,10 @@ export default function HomeStudent() {
                     <div className="flex items-start justify-between">
                         <div className="space-y-1"><p
                             className="text-sm font-medium text-muted-foreground">Atividades
-                            Concluídas</p><p className="text-3xl font-bold">{loading ? "..." : animatedCompletedActivities}</p><p
-                            className="text-xs text-muted-foreground">{loading ? "..." : dashboard.totalPendingActivities} pendentes de {loading ? "..." : dashboard.totalActivities}</p></div>
+                            Concluídas</p><p
+                            className="text-3xl font-bold">{loading ? "..." : animatedCompletedActivities}</p><p
+                            className="text-xs text-muted-foreground">{loading ? "..." : dashboard.totalPendingActivities} pendentes
+                            de {loading ? "..." : dashboard.totalActivities}</p></div>
                         <div className="p-3 rounded-xl bg-primary/10">
                             <Icon name={'FileText'} className="w-6 h-6 text-primary"/>
                         </div>
@@ -171,11 +172,10 @@ export default function HomeStudent() {
                 className="bg-card text-card-foreground flex flex-col gap-6 rounded-xl border py-6 shadow-sm overflow-hidden">
                 <div className="p-6">
                     <div className="flex items-start justify-between">
-                        <div className="space-y-1"><p
-                            className="text-sm font-medium text-muted-foreground">Pontuação Total</p><p
-                            className="text-3xl font-bold">{loading ? "..." : animatedTotalScore}</p><p
-                            className="text-xs font-medium text-success">+15% em relação ao mês
-                            anterior</p></div>
+                        <div className="space-y-1">
+                            <p className="text-sm font-medium text-muted-foreground">XP Total</p>
+                            <p className="text-3xl font-bold">{loading ? "..." : animatedTotalScore}</p>
+                        </div>
                         <div className="p-3 rounded-xl bg-primary/10">
                             <Icon name={'Target'} className="w-6 h-6 text-primary"/>
                         </div>
@@ -188,8 +188,8 @@ export default function HomeStudent() {
                     <div className="flex items-start justify-between">
                         <div className="space-y-1"><p
                             className="text-sm font-medium text-muted-foreground">Nível Atual</p><p
-                            className="text-3xl font-bold">{loading ? "..." : animatedCurrentLevel}</p><p
-                            className="text-xs text-muted-foreground">2450 XP acumulados</p></div>
+                            className="text-3xl font-bold">{loading ? "..." : 8}</p>
+                        </div>
                         <div className="p-3 rounded-xl bg-primary/10">
                             <Icon name={'Star'} className="w-6 h-6 text-primary"/>
                         </div>
@@ -251,17 +251,15 @@ export default function HomeStudent() {
                         <p className="text-sm text-muted-foreground">Nenhuma atividade pendente.</p>
                     ) : (
                         dashboard.data.map((activity) => (
-                            <div key={activity.id} className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
+                            <div key={activity.id}
+                                 className="flex items-center justify-between p-3 rounded-lg bg-muted/50">
                                 <div>
                                     <p className="font-medium">{activity.name}</p>
                                     <p className="text-sm text-muted-foreground">{activity.disciplineName}</p>
                                 </div>
-                                <div className="text-right">
-                                    <span
-                                        className="inline-flex items-center justify-center rounded-md border px-2 py-0.5 text-xs font-medium w-fit whitespace-nowrap shrink-0 gap-1 focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] overflow-hidden border-transparent bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90">
-                                        Pendente
-                                    </span>
-                                </div>
+                                <Button size="sm" onClick={() => navigate(`/student/activity/${activity.id}/play`)}>
+                                    Abrir
+                                </Button>
                             </div>
                         ))
                     )}
