@@ -323,7 +323,9 @@ exports.index = async function (req, res) {
             });
         }
 
-        const [questions, totalXp] = await Promise.all([
+        const sequelizeInstance = ActivityAnswerUser.sequelize;
+
+        const [questions, totalXp, xpByActivity] = await Promise.all([
             Question.findAll({
                 attributes: ["id", "activity_id"],
                 where: { activity_id: { [Op.in]: activityIds } },
@@ -331,6 +333,18 @@ exports.index = async function (req, res) {
             }),
             ActivityAnswerUser.sum("xp", {
                 where: { user_id: req.user.id, activity_id: { [Op.in]: activityIds } },
+            }),
+            ActivityAnswerUser.findAll({
+                attributes: [
+                    "activity_id",
+                    [sequelizeInstance.fn("SUM", sequelizeInstance.col("xp")), "activityXp"],
+                ],
+                where: {
+                    user_id: req.user.id,
+                    activity_id: { [Op.in]: activityIds },
+                },
+                group: ["activity_id"],
+                raw: true,
             }),
         ]);
 
@@ -409,17 +423,124 @@ exports.index = async function (req, res) {
             }
         }
 
+        const maxXp = questions.length * 1000;
+
+        const xpByActivityMap = new Map();
+        for (const row of xpByActivity) {
+            xpByActivityMap.set(Number(row.activity_id), Number(row.activityXp) || 0);
+        }
+
+        let completedXpSum = 0;
+        for (const activityId of completedActivityIds) {
+            completedXpSum += xpByActivityMap.get(activityId) || 0;
+        }
+
+        const completedCount = completedActivityIds.size;
+        const averageScore = completedCount > 0 ? Math.round(completedXpSum / completedCount) : 0;
+
         return res.json({
             totalEnrolledDisciplines: enrolledDisciplines.length,
             totalActivities: activities.length,
-            totalCompletedActivities: completedActivityIds.size,
+            totalCompletedActivities: completedCount,
             totalPendingActivities: pendingData.length,
             totalXp: totalXp ?? 0,
+            maxXp,
+            averageScore,
             data: pendingData,
         });
     } catch (error) {
         console.error("Erro ao carregar dashboard do aluno:", error);
         return res.status(500).json({ message: "Erro ao carregar dashboard do aluno" });
+    }
+};
+
+exports.ranking = async function (req, res) {
+    try {
+        const sequelize = ActivityAnswerUser.sequelize;
+
+        const rows = await ActivityAnswerUser.findAll({
+            attributes: [
+                "user_id",
+                [sequelize.fn("SUM", sequelize.col("ActivityAnswerUser.xp")), "totalXp"],
+            ],
+            include: [
+                {
+                    model: User,
+                    attributes: ["id", "name"],
+                    required: true,
+                },
+            ],
+            group: ["user_id", "User.id", "User.name"],
+            order: [[sequelize.fn("SUM", sequelize.col("ActivityAnswerUser.xp")), "DESC"]],
+            limit: 5,
+            subQuery: false,
+            raw: true,
+            nest: true,
+        });
+
+        function buildInitials(name) {
+            return name
+                .split(" ")
+                .filter(Boolean)
+                .slice(0, 2)
+                .map((w) => w[0].toUpperCase())
+                .join("");
+        }
+
+        const ranking = rows.map((row, index) => {
+            const name = row.User?.name || "Aluno";
+            return {
+                position: index + 1,
+                name,
+                initials: buildInitials(name),
+                xp: Number(row.totalXp) || 0,
+                isCurrentUser: Number(row.user_id) === Number(req.user.id),
+            };
+        });
+
+        const currentUserInTop5 = ranking.some((r) => r.isCurrentUser);
+
+        if (!currentUserInTop5) {
+            const allRows = await ActivityAnswerUser.findAll({
+                attributes: [
+                    "user_id",
+                    [sequelize.fn("SUM", sequelize.col("ActivityAnswerUser.xp")), "totalXp"],
+                ],
+                include: [
+                    {
+                        model: User,
+                        attributes: ["id", "name"],
+                        required: true,
+                    },
+                ],
+                group: ["user_id", "User.id", "User.name"],
+                order: [[sequelize.fn("SUM", sequelize.col("ActivityAnswerUser.xp")), "DESC"]],
+                subQuery: false,
+                raw: true,
+                nest: true,
+            });
+
+            const userIndex = allRows.findIndex(
+                (r) => Number(r.user_id) === Number(req.user.id)
+            );
+
+            if (userIndex >= 0) {
+                const row = allRows[userIndex];
+                const name = row.User?.name || "Aluno";
+                ranking.push({
+                    position: userIndex + 1,
+                    name,
+                    initials: buildInitials(name),
+                    xp: Number(row.totalXp) || 0,
+                    isCurrentUser: true,
+                });
+            }
+        }
+
+        return res.json(ranking);
+    } catch (error) {
+        console.error("Erro ao carregar ranking:", error);
+        return res.status(500).json({ message: "Erro ao carregar ranking" });
     }
 };
 

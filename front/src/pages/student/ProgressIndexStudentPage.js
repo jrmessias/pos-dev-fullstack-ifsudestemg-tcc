@@ -1,6 +1,6 @@
 import {useContext, useEffect, useState} from "react";
 import {AuthContext} from "@/contexts/AuthContext.js";
-import {studentDashboard, studentAchievements} from "@/services/studentService.js";
+import {studentDashboard, studentAchievements, studentRanking} from "@/services/studentService.js";
 import {Loading} from "@/components/Loading.js";
 import Icon from "@/components/Icon.js";
 
@@ -39,18 +39,25 @@ export default function ProgressIndexStudentPage() {
     const {user} = useContext(AuthContext);
     const [loading, setLoading] = useState(true);
     const [completedActivities, setCompletedActivities] = useState(0);
+    const [totalXp, setTotalXp] = useState(0);
+    const [averageScore, setAverageScore] = useState(0);
     const [achievements, setAchievements] = useState([]);
+    const [ranking, setRanking] = useState([]);
 
     useEffect(() => {
         async function load() {
             try {
                 setLoading(true);
-                const [dashRes, achievementsRes] = await Promise.all([
+                const [dashRes, achievementsRes, rankingRes] = await Promise.all([
                     studentDashboard(),
                     studentAchievements(),
+                    studentRanking(),
                 ]);
                 setCompletedActivities(dashRes.data?.totalCompletedActivities ?? 0);
+                setTotalXp(dashRes.data?.totalXp ?? 0);
+                setAverageScore(dashRes.data?.averageScore ?? 0);
                 setAchievements(achievementsRes.data || []);
+                setRanking(rankingRes.data || []);
             } finally {
                 setLoading(false);
             }
@@ -120,7 +127,7 @@ export default function ProgressIndexStudentPage() {
                         </div>
                         <div>
                             <p className="text-sm text-muted-foreground">XP Total</p>
-                            <p className="text-2xl font-bold">2.450</p>
+                            <p className="text-2xl font-bold">{loading ? "—" : totalXp.toLocaleString('pt-BR')}</p>
                         </div>
                     </div>
                 </div>
@@ -134,7 +141,7 @@ export default function ProgressIndexStudentPage() {
                         </div>
                         <div>
                             <p className="text-sm text-muted-foreground">Média Geral</p>
-                            <p className="text-2xl font-bold">85</p>
+                            <p className="text-2xl font-bold">{loading ? "—" : averageScore.toLocaleString('pt-BR')}</p>
                         </div>
                     </div>
                 </div>
@@ -163,7 +170,7 @@ export default function ProgressIndexStudentPage() {
                             <Icon name="Trophy" className="w-6 h-6 text-gold"/>
                         </div>
                         <div>
-                            <p className="text-sm text-muted-foreground">Medalhas</p>
+                            <p className="text-sm text-muted-foreground">Conquistas</p>
                             <p className="text-2xl font-bold">
                                 {loading ? "—" : achievements.length}
                             </p>
@@ -223,85 +230,63 @@ export default function ProgressIndexStudentPage() {
                 </div>
             </div>
             <div data-slot="card-content" className="px-6">
-                <div className="space-y-3">
-                    <div className="flex items-center gap-4 p-3 rounded-lg bg-muted/30">
-                        <div className="w-8 flex justify-center">
-                            <Icon name="Crown" className="w-5 h-5 text-gold"/>
-                        </div>
-                        <span data-slot="avatar"
-                              className="relative flex size-8 shrink-0 overflow-hidden rounded-full w-10 h-10">
-                            <span data-slot="avatar-fallback"
-                                  className="flex size-full items-center justify-center rounded-full bg-muted">AC</span>
-                        </span>
-                        <div className="flex-1">
-                            <p className="font-medium">Ana Costa</p>
-                            <p className="text-sm text-muted-foreground">Nível 10</p>
-                        </div>
-                        <div className="text-right"><p className="font-bold">3.200 XP</p></div>
+                {loading ? (
+                    <Loading/>
+                ) : ranking.length === 0 ? (
+                    <p className="text-sm text-muted-foreground">Nenhum dado de ranking ainda.</p>
+                ) : (
+                    <div className="space-y-3">
+                        {ranking.map((entry, index) => {
+                            const isOutsideTop5 = entry.isCurrentUser && index === ranking.length - 1 && ranking.length > 5;
+                            const positionIcons = {
+                                1: {icon: 'Crown', color: 'text-gold'},
+                                2: {icon: 'Medal', color: 'text-silver'},
+                                3: {icon: 'Award', color: 'text-bronze'},
+                            };
+                            const iconConfig = positionIcons[entry.position];
+                            const rowClass = entry.isCurrentUser
+                                ? 'bg-primary/10 border border-primary/30'
+                                : 'bg-muted/30';
+                            const avatarClass = entry.isCurrentUser
+                                ? 'bg-primary text-primary-foreground'
+                                : 'bg-muted';
+
+                            return (
+                                <div key={entry.position}>
+                                    {isOutsideTop5 && (
+                                        <div className="flex items-center gap-2 py-1">
+                                            <div className="flex-1 border-t border-dashed border-border"/>
+                                            <span className="text-xs text-muted-foreground">···</span>
+                                            <div className="flex-1 border-t border-dashed border-border"/>
+                                        </div>
+                                    )}
+                                    <div className={`flex items-center gap-4 p-3 rounded-lg ${rowClass}`}>
+                                        <div className="w-8 flex justify-center">
+                                            {iconConfig ? (
+                                                <Icon name={iconConfig.icon} className={`w-5 h-5 ${iconConfig.color}`}/>
+                                            ) : (
+                                                <span className="font-bold text-muted-foreground">{entry.position}</span>
+                                            )}
+                                        </div>
+                                        <span className="relative flex shrink-0 overflow-hidden rounded-full w-10 h-10">
+                                            <span className={`flex size-full items-center justify-center rounded-full ${avatarClass}`}>
+                                                {entry.initials}
+                                            </span>
+                                        </span>
+                                        <div className="flex-1">
+                                            <p className={`font-medium ${entry.isCurrentUser ? 'text-primary' : ''}`}>
+                                                {entry.isCurrentUser ? `${entry.name} (Você)` : entry.name}
+                                            </p>
+                                        </div>
+                                        <div className="text-right">
+                                            <p className="font-bold">{entry.xp.toLocaleString('pt-BR')} XP</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            );
+                        })}
                     </div>
-                    <div className="flex items-center gap-4 p-3 rounded-lg bg-primary/10 border border-primary/30">
-                        <div className="w-8 flex justify-center">
-                            <Icon name="Medal" className="w-5 h-5 text-silver"/>
-                        </div>
-                        <span data-slot="avatar"
-                              className="relative flex size-8 shrink-0 overflow-hidden rounded-full w-10 h-10">
-                            <span data-slot="avatar-fallback"
-                                  className="flex size-full items-center justify-center rounded-full bg-primary text-primary-foreground">
-                                {initials}
-                            </span>
-                        </span>
-                        <div className="flex-1">
-                            <p className="font-medium text-primary">{user?.name || "Você"} (Você)</p>
-                            <p className="text-sm text-muted-foreground">Nível 8</p>
-                        </div>
-                        <div className="text-right"><p className="font-bold">2.450 XP</p></div>
-                    </div>
-                    <div className="flex items-center gap-4 p-3 rounded-lg bg-muted/30">
-                        <div className="w-8 flex justify-center">
-                            <Icon name="Award" className="w-5 h-5 text-bronze"/>
-                        </div>
-                        <span data-slot="avatar"
-                              className="relative flex size-8 shrink-0 overflow-hidden rounded-full w-10 h-10">
-                            <span data-slot="avatar-fallback"
-                                  className="flex size-full items-center justify-center rounded-full bg-muted">CM</span>
-                        </span>
-                        <div className="flex-1">
-                            <p className="font-medium">Carla Mendes</p>
-                            <p className="text-sm text-muted-foreground">Nível 7</p>
-                        </div>
-                        <div className="text-right"><p className="font-bold">2.100 XP</p></div>
-                    </div>
-                    <div className="flex items-center gap-4 p-3 rounded-lg bg-muted/30">
-                        <div className="w-8 flex justify-center">
-                            <span className="font-bold text-muted-foreground">4</span>
-                        </div>
-                        <span data-slot="avatar"
-                              className="relative flex size-8 shrink-0 overflow-hidden rounded-full w-10 h-10">
-                            <span data-slot="avatar-fallback"
-                                  className="flex size-full items-center justify-center rounded-full bg-muted">PL</span>
-                        </span>
-                        <div className="flex-1">
-                            <p className="font-medium">Pedro Lima</p>
-                            <p className="text-sm text-muted-foreground">Nível 6</p>
-                        </div>
-                        <div className="text-right"><p className="font-bold">1.800 XP</p></div>
-                    </div>
-                    <div className="flex items-center gap-4 p-3 rounded-lg bg-muted/30">
-                        <div className="w-8 flex justify-center">
-                            <span className="font-bold text-muted-foreground">5</span>
-                        </div>
-                        <span data-slot="avatar"
-                              className="relative flex size-8 shrink-0 overflow-hidden rounded-full w-10 h-10">
-                            <span data-slot="avatar-fallback"
-                                  className="flex size-full items-center justify-center rounded-full bg-muted">LO</span>
-                        </span>
-                        <div className="flex-1">
-                            <p className="font-medium">Lucas Oliveira</p>
-                            <p className="text-sm text-muted-foreground">Nível 4</p>
-                        </div>
-                        <div className="text-right"><p className="font-bold">950 XP</p></div>
-                    </div>
-                </div>
+                )}
             </div>
         </div>
     </>;

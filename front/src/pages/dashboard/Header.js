@@ -83,7 +83,7 @@ export default function Header({type, leftOpen, rightOpen}) {
                         {/*</DropdownMenuItem>*/}
                         {/*<DropdownMenuSeparator/>*/}
                         <DropdownMenuItem onClick={handleLogout}
-                                          className="text-destructive hover:text-destructive hover:bg-accent dark:hover:bg-accent/30 rounded-lg cursor-pointer">
+                                          className="text-destructive hover:text-destructive hover:bg-accent dark:hover:text-destructive dark:hover:bg-accent/30 rounded-lg cursor-pointer">
                             <Icon name={'LogOut'} className="w-4 h-4 mr-2"/>
                             Sair
                         </DropdownMenuItem>

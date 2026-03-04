@@ -1,13 +1,17 @@
 import Icon from "../../components/Icon.js";
 import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip.jsx";
 import {useEffect, useState} from "react";
-import {studentAchievements} from "@/services/studentService.js";
+import {studentAchievements, studentDashboard, studentRanking} from "@/services/studentService.js";
 
 export default function RightSidebar({type, rightOpen, setRightOpen}) {
     const isStudent = type === 'student';
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [achievements, setAchievements] = useState([]);
+    const [ranking, setRanking] = useState([]);
+    const [totalXp, setTotalXp] = useState(0);
+    const [maxXp, setMaxXp] = useState(0);
+
     const typeBadge = {
         gold: {
             border: "border-yellow-400/30",
@@ -26,16 +30,31 @@ export default function RightSidebar({type, rightOpen, setRightOpen}) {
         },
     };
 
+    const positionConfig = {
+        1: {icon: 'Crown', colorClass: 'text-gold', wrapperClass: 'bg-gold/10 border border-gold/20'},
+        2: {icon: 'Medal', colorClass: 'text-silver', wrapperClass: 'bg-silver/10 border border-silver/20'},
+        3: {icon: 'Award', colorClass: 'text-bronze', wrapperClass: 'bg-bronze/10 border border-bronze/20'},
+    };
+
     useEffect(() => {
         async function loadData() {
             setLoading(true);
             setError(null);
 
             try {
-                const achievementsRes = await studentAchievements();
-                setAchievements(achievementsRes.data || []);
+                const calls = [studentAchievements(), studentRanking()];
+                if (isStudent) calls.push(studentDashboard());
+
+                const results = await Promise.all(calls);
+                setAchievements(results[0].data || []);
+                setRanking(results[1].data || []);
+
+                if (isStudent && results[2]) {
+                    setTotalXp(results[2].data?.totalXp ?? 0);
+                    setMaxXp(results[2].data?.maxXp ?? 0);
+                }
             } catch (err) {
-                const message = err?.response?.data?.message || "Não foi possível carregar as atividades do aluno.";
+                const message = err?.response?.data?.message || "Não foi possível carregar os dados.";
                 setError(message);
             } finally {
                 setLoading(false);
@@ -43,8 +62,9 @@ export default function RightSidebar({type, rightOpen, setRightOpen}) {
         }
 
         loadData();
+    }, [isStudent]);
 
-    }, []);
+    const xpPercent = maxXp > 0 ? Math.min((totalXp / maxXp) * 100, 100) : 0;
 
     return <>
         <aside
@@ -80,86 +100,68 @@ export default function RightSidebar({type, rightOpen, setRightOpen}) {
                         <div className="mb-6">
                             <div className="flex items-center gap-2 mb-3">
                                 <Icon name={'Trophy'} className="w-4 h-4 text-primary"/>
-                                <h3 className="font-semibold text-sm">Ranking Geral</h3></div>
+                                <h3 className="font-semibold text-sm">Ranking Geral</h3>
+                            </div>
                             <div className="space-y-2">
-                                <div
-                                    className="flex items-center gap-3 p-2 rounded-lg transition-colors bg-gold/10 border border-gold/20">
-                                    <div className="w-6 flex justify-center">
-                                        <Icon name={'Crown'} className="w-4 h-4 text-gold"/>
-                                    </div>
-                                    <span
-                                        className="relative flex size-8 shrink-0 overflow-hidden rounded-full w-8 h-8"><span
-                                        className="flex size-full items-center justify-center rounded-full text-xs bg-primary/10 text-primary">AC</span></span>
-                                    <div className="flex-1 min-w-0"><p className="text-sm font-medium truncate">Ana
-                                        Costa</p><p className="text-xs text-muted-foreground">Nível 10 • 3200 XP</p>
-                                    </div>
-                                </div>
-                                <div
-                                    className="flex items-center gap-3 p-2 rounded-lg transition-colors bg-silver/10 border border-silver/20">
-                                    <div className="w-6 flex justify-center">
-                                        <Icon name={'Medal'} className="w-4 h-4 text-silver"/>
-                                    </div>
-                                    <span
-                                        className="relative flex size-8 shrink-0 overflow-hidden rounded-full w-8 h-8"><span
+                                {loading ? (
+                                    <p className="text-sm text-muted-foreground">Carregando ranking...</p>
+                                ) : error ? (
+                                    <p className="text-sm text-destructive">{error}</p>
+                                ) : ranking.length === 0 ? (
+                                    <p className="text-sm text-muted-foreground">Nenhum dado de ranking ainda.</p>
+                                ) : (
+                                    ranking.map((entry) => {
+                                        const config = positionConfig[entry.position];
+                                        const displayName = entry.isCurrentUser
+                                            ? `${entry.name} (Você)`
+                                            : entry.name;
 
-                                        className="flex size-full items-center justify-center rounded-full text-xs bg-primary/10 text-primary">JS</span></span>
-                                    <div className="flex-1 min-w-0"><p className="text-sm font-medium truncate">João
-                                        Santos</p><p className="text-xs text-muted-foreground">Nível 8 • 2450 XP</p>
-                                    </div>
-                                </div>
-                                <div
-                                    className="flex items-center gap-3 p-2 rounded-lg transition-colors bg-bronze/10 border border-bronze/20">
-                                    <div className="w-6 flex justify-center">
-                                        <Icon name={'Award'} className="w-4 h-4 text-bronze"/>
-                                    </div>
-                                    <span
-                                        className="relative flex size-8 shrink-0 overflow-hidden rounded-full w-8 h-8"><span
-
-                                        className="flex size-full items-center justify-center rounded-full text-xs bg-primary/10 text-primary">CM</span></span>
-                                    <div className="flex-1 min-w-0"><p
-                                        className="text-sm font-medium truncate">Carla Mendes</p><p
-                                        className="text-xs text-muted-foreground">Nível 7 • 2100 XP</p></div>
-                                </div>
-                                <div
-                                    className="flex items-center gap-3 p-2 rounded-lg transition-colors bg-muted/50">
-                                    <div className="w-6 flex justify-center"><span
-                                        className="text-xs font-bold text-muted-foreground">4</span></div>
-                                    <span
-                                        className="relative flex size-8 shrink-0 overflow-hidden rounded-full w-8 h-8"><span
-                                        className="flex size-full items-center justify-center rounded-full text-xs bg-primary/10 text-primary">PL</span></span>
-                                    <div className="flex-1 min-w-0"><p
-                                        className="text-sm font-medium truncate">Pedro Lima</p><p
-                                        className="text-xs text-muted-foreground">Nível 6 • 1800 XP</p></div>
-                                </div>
-                                <div
-                                    className="flex items-center gap-3 p-2 rounded-lg transition-colors bg-muted/50">
-                                    <div className="w-6 flex justify-center"><span
-                                        className="text-xs font-bold text-muted-foreground">5</span></div>
-                                    <span
-                                        className="relative flex size-8 shrink-0 overflow-hidden rounded-full w-8 h-8"><span
-
-                                        className="flex size-full items-center justify-center rounded-full text-xs bg-primary/10 text-primary">LO</span></span>
-                                    <div className="flex-1 min-w-0"><p
-                                        className="text-sm font-medium truncate">Lucas Oliveira</p><p
-                                        className="text-xs text-muted-foreground">Nível 4 • 950 XP</p></div>
-                                </div>
+                                        return (
+                                            <div
+                                                key={entry.position}
+                                                className={`flex items-center gap-3 p-2 rounded-lg transition-colors ${config ? config.wrapperClass : 'bg-muted/50'}`}>
+                                                <div className="w-6 flex justify-center">
+                                                    {config ? (
+                                                        <Icon name={config.icon} className={`w-4 h-4 ${config.colorClass}`}/>
+                                                    ) : (
+                                                        <span className="text-xs font-bold text-muted-foreground">{entry.position}</span>
+                                                    )}
+                                                </div>
+                                                <span className="relative flex size-8 shrink-0 overflow-hidden rounded-full w-8 h-8">
+                                                    <span className="flex size-full items-center justify-center rounded-full text-xs bg-primary/10 text-primary">
+                                                        {entry.initials}
+                                                    </span>
+                                                </span>
+                                                <div className="flex-1 min-w-0">
+                                                    <p className="text-sm font-medium truncate">{displayName}</p>
+                                                    <p className="text-xs text-muted-foreground">Nível 1 • {entry.xp.toLocaleString('pt-BR')} XP</p>
+                                                </div>
+                                            </div>
+                                        );
+                                    })
+                                )}
                             </div>
                         </div>
                         {isStudent &&
                             <div className="mb-6">
                                 <div className="flex items-center gap-2 mb-3">
                                     <Icon name={'Star'} className="w-4 h-4 text-accent"/>
-                                    <h3 className="font-semibold text-sm">Seu Progresso</h3></div>
+                                    <h3 className="font-semibold text-sm">Seu Progresso</h3>
+                                </div>
                                 <div className="p-3 rounded-lg bg-muted/50 space-y-3">
                                     <div>
-                                        <div className="flex justify-between items-center mb-1"><span
-                                            className="text-xs text-muted-foreground">Nível 8</span><span
-                                            className="text-xs text-muted-foreground">Nível 9</span></div>
+                                        <div className="flex justify-between items-center mb-1">
+                                            <span className="text-xs text-muted-foreground">0 XP</span>
+                                            <span className="text-xs text-muted-foreground">Máximo</span>
+                                        </div>
                                         <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
                                             <div
-                                                className="h-full bg-gradient-to-r from-primary to-accent rounded-full transition-all w-1/6"></div>
+                                                className="h-full bg-gradient-to-r from-primary to-accent rounded-full transition-all"
+                                                style={{width: `${xpPercent}%`}}/>
                                         </div>
-                                        <p className="text-xs text-center text-muted-foreground mt-1">2450 / 2400 XP</p>
+                                        <p className="text-xs text-center text-muted-foreground mt-1">
+                                            {totalXp.toLocaleString('pt-BR')} / {maxXp.toLocaleString('pt-BR')} XP
+                                        </p>
                                     </div>
                                     <div className="flex flex-wrap gap-1">
                                         {loading ? (
@@ -181,7 +183,6 @@ export default function RightSidebar({type, rightOpen, setRightOpen}) {
                                 </div>
                             </div>
                         }
-
                     </div>
                 </div>
             </div>

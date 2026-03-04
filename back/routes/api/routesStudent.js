@@ -4,6 +4,7 @@ const router = createRouter("/api/student");
 
 router.get('/disciplines', controllerStudent.disciplines);
 router.get('/achievements', controllerStudent.achievements);
+router.get('/ranking', controllerStudent.ranking);
 router.post('/enroll', controllerStudent.enroll);
 
 router.get('/', controllerStudent.index);

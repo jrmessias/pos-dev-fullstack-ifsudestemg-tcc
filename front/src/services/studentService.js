@@ -11,3 +11,6 @@ export const studentEnroll = (data) =>
 
 export const studentAchievements = () =>
     api.get("/student/achievements");
+
+export const studentRanking = () =>
+    api.get("/student/ranking");
