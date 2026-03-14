@@ -51,7 +51,7 @@ export default function RightSidebar({type, rightOpen, setRightOpen}) {
 
                 if (isStudent && results[2]) {
                     setTotalXp(results[2].data?.totalXp ?? 0);
-                    setMaxXp(results[2].data?.maxXp ?? 0);
+                    setMaxXp(results[2].data?.xpNextLevel ?? 0);
                 }
             } catch (err) {
                 const message = err?.response?.data?.message || "Não foi possível carregar os dados.";
@@ -134,7 +134,7 @@ export default function RightSidebar({type, rightOpen, setRightOpen}) {
                                                 </span>
                                                 <div className="flex-1 min-w-0">
                                                     <p className="text-sm font-medium truncate">{displayName}</p>
-                                                    <p className="text-xs text-muted-foreground">Nível 1 • {entry.xp.toLocaleString('pt-BR')} XP</p>
+                                                     <p className="text-xs text-muted-foreground">Nível {entry.level ?? 1} • {entry.xp.toLocaleString('pt-BR')} XP</p>
                                                 </div>
                                             </div>
                                         );
@@ -151,8 +151,8 @@ export default function RightSidebar({type, rightOpen, setRightOpen}) {
                                 <div className="p-3 rounded-lg bg-muted/50 space-y-3">
                                     <div>
                                         <div className="flex justify-between items-center mb-1">
-                                            <span className="text-xs text-muted-foreground">0 XP</span>
-                                            <span className="text-xs text-muted-foreground">Máximo</span>
+                                            <span className="text-xs text-muted-foreground">{totalXp.toLocaleString('pt-BR')} XP</span>
+                                            <span className="text-xs text-muted-foreground">{maxXp.toLocaleString('pt-BR')} XP</span>
                                         </div>
                                         <div className="w-full h-2 bg-muted rounded-full overflow-hidden">
                                             <div

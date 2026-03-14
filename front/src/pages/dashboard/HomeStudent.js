@@ -55,6 +55,10 @@ export default function HomeStudent() {
         totalCompletedActivities: 0,
         totalPendingActivities: 0,
         totalXp: 0,
+        level: 1,
+        xpCurrentLevel: 0,
+        xpNextLevel: 0,
+        xpToNext: 0,
         data: [],
     });
     const [achievements, setAchievements] = useState([]);
@@ -76,6 +80,10 @@ export default function HomeStudent() {
                     totalCompletedActivities: apiData.totalCompletedActivities || 0,
                     totalPendingActivities: apiData.totalPendingActivities || 0,
                     totalXp: apiData.totalXp ?? 0,
+                    level: apiData.level ?? 1,
+                    xpCurrentLevel: apiData.xpCurrentLevel ?? 0,
+                    xpNextLevel: apiData.xpNextLevel ?? 0,
+                    xpToNext: apiData.xpToNext ?? 0,
                     data: (apiData.data || []).filter((a) => a.status === 'pending'),
                 });
                 setAchievements(achievementsRes.data || []);
@@ -120,19 +128,29 @@ export default function HomeStudent() {
             </div>
             <div className="flex items-center gap-3 p-4 rounded-xl bg-card border">
                 <div
-                    className="w-14 h-14 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-2xl font-bold text-primary-foreground">8
+                    className="w-14 h-14 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-2xl font-bold text-primary-foreground">
+                    {loading ? "..." : dashboard.level}
                 </div>
                 <div><p className="text-sm text-muted-foreground">Nível Atual</p><p
-                    className="font-semibold">2450 XP</p>
+                    className="font-semibold">{loading ? "..." : dashboard.totalXp} XP</p>
                     <div className="flex items-center gap-2 mt-1">
                         <div aria-valuemax="100" aria-valuemin="0" role="progressbar"
                              data-state="indeterminate" data-max="100"
                              className="bg-primary/20 relative overflow-hidden rounded-full w-24 h-2">
                             <div data-state="indeterminate" data-max="100"
                                  className="bg-primary h-full w-full flex-1 transition-all"
-                                 style={{transform: 'translateX(-83.3333%)'}}></div>
+                                 style={{
+                                     transform: `translateX(-${loading ? 100 : (() => {
+                                         const range = dashboard.xpNextLevel - dashboard.xpCurrentLevel;
+                                         if (range <= 0) return 0;
+                                         const pct = Math.min(100, Math.max(0, ((dashboard.totalXp - dashboard.xpCurrentLevel) / range) * 100));
+                                         return (100 - pct).toFixed(4);
+                                     })()}%)`
+                                 }}></div>
                         </div>
-                        <span className="text-xs text-muted-foreground">250 XP para o próximo</span>
+                        <span className="text-xs text-muted-foreground">
+                            {loading ? "..." : dashboard.xpToNext} XP para o próximo
+                        </span>
                     </div>
                 </div>
             </div>
@@ -188,7 +206,7 @@ export default function HomeStudent() {
                     <div className="flex items-start justify-between">
                         <div className="space-y-1"><p
                             className="text-sm font-medium text-muted-foreground">Nível Atual</p><p
-                            className="text-3xl font-bold">{loading ? "..." : 8}</p>
+                            className="text-3xl font-bold">{loading ? "..." : dashboard.level}</p>
                         </div>
                         <div className="p-3 rounded-xl bg-primary/10">
                             <Icon name={'Star'} className="w-6 h-6 text-primary"/>

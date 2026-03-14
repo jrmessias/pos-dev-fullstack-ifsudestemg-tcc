@@ -1,5 +1,5 @@
 const { Op } = require("sequelize");
-const { User, Discipline, DisciplineUser, Activity, Question, Answer, ActivityAnswerUser, Achievement, AchievementUser } = require("../../models");
+const { User, Discipline, DisciplineUser, Activity, Question, Answer, ActivityAnswerUser, Achievement, AchievementUser, Level } = require("../../models");
 
 exports.disciplines = async function (req, res) {
     try {
@@ -313,12 +313,20 @@ exports.index = async function (req, res) {
         const activityIds = activities.map((activity) => activity.id);
 
         if (activityIds.length === 0) {
+            const firstLevel = await Level.findOne({ order: [["xp_required", "ASC"]], raw: true });
+            const secondLevel = await Level.findOne({ order: [["xp_required", "ASC"]], offset: 1, raw: true });
             return res.json({
                 totalEnrolledDisciplines: enrolledDisciplines.length,
                 totalActivities: 0,
                 totalCompletedActivities: 0,
                 totalPendingActivities: 0,
                 totalXp: 0,
+                maxXp: 0,
+                averageScore: 0,
+                level: firstLevel?.level ?? 1,
+                xpCurrentLevel: firstLevel?.xp_required ?? 0,
+                xpNextLevel: secondLevel?.xp_required ?? 0,
+                xpToNext: secondLevel?.xp_required ?? 0,
                 data: [],
             });
         }
@@ -438,14 +446,35 @@ exports.index = async function (req, res) {
         const completedCount = completedActivityIds.size;
         const averageScore = completedCount > 0 ? Math.round(completedXpSum / completedCount) : 0;
 
+        const currentXp = totalXp ?? 0;
+
+        const levels = await Level.findAll({ order: [["xp_required", "ASC"]], raw: true });
+
+        let currentLevel = levels[0] ?? { level: 1, xp_required: 0, xp_to_next: 0 };
+        let nextLevel = null;
+
+        for (let i = 0; i < levels.length; i++) {
+            if (currentXp >= levels[i].xp_required) {
+                currentLevel = levels[i];
+                nextLevel = levels[i + 1] ?? null;
+            }
+        }
+
+        const xpToNext = nextLevel ? Math.max(0, nextLevel.xp_required - currentXp) : 0;
+        const xpNextLevel = nextLevel ? nextLevel.xp_required : currentLevel.xp_required;
+
         return res.json({
             totalEnrolledDisciplines: enrolledDisciplines.length,
             totalActivities: activities.length,
             totalCompletedActivities: completedCount,
             totalPendingActivities: pendingData.length,
-            totalXp: totalXp ?? 0,
+            totalXp: currentXp,
             maxXp,
             averageScore,
+            level: currentLevel.level,
+            xpCurrentLevel: currentLevel.xp_required,
+            xpNextLevel,
+            xpToNext,
             data: pendingData,
         });
     } catch (error) {
@@ -487,13 +516,25 @@ exports.ranking = async function (req, res) {
                 .join("");
         }
 
+        const levels = await Level.findAll({ order: [["xp_required", "ASC"]], raw: true });
+
+        function resolveLevel(xp) {
+            let current = levels[0] ?? { level: 1 };
+            for (const l of levels) {
+                if (xp >= l.xp_required) current = l;
+            }
+            return current.level ?? 1;
+        }
+
         const ranking = rows.map((row, index) => {
             const name = row.User?.name || "Aluno";
+            const xp = Number(row.totalXp) || 0;
             return {
                 position: index + 1,
                 name,
                 initials: buildInitials(name),
-                xp: Number(row.totalXp) || 0,
+                xp,
+                level: resolveLevel(xp),
                 isCurrentUser: Number(row.user_id) === Number(req.user.id),
             };
         });
@@ -527,11 +568,13 @@ exports.ranking = async function (req, res) {
             if (userIndex >= 0) {
                 const row = allRows[userIndex];
                 const name = row.User?.name || "Aluno";
+                const xp = Number(row.totalXp) || 0;
                 ranking.push({
                     position: userIndex + 1,
                     name,
                     initials: buildInitials(name),
-                    xp: Number(row.totalXp) || 0,
+                    xp,
+                    level: resolveLevel(xp),
                     isCurrentUser: true,
                 });
             }

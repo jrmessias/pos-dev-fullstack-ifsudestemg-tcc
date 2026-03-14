@@ -9,6 +9,7 @@ const DisciplineUser = require('./DisciplineUser');
 const ActivityAnswerUser = require('./ActivityAnswerUser');
 const Achievement = require('./Achievement');
 const AchievementUser = require('./AchievementUser');
+const Level = require('./Level');
 
 User.hasMany(Discipline, { foreignKey: 'user_id' });
 User.hasMany(Achievement, { foreignKey: 'user_id', as: 'CreatedAchievements' });
@@ -68,4 +69,5 @@ module.exports = {
     ActivityAnswerUser,
     Achievement,
     AchievementUser,
+    Level,
 };

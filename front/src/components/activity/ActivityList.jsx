@@ -5,6 +5,8 @@ import {Badge} from '@/components/ui/badge';
 import {Skeleton} from '@/components/ui/skeleton';
 import {Empty, EmptyDescription, EmptyHeader, EmptyTitle} from '@/components/ui/empty';
 import {useNavigate} from 'react-router-dom';
+import {Star} from 'lucide-react';
+import Icon from "@/components/Icon.js";
 
 export function ActivityList({items}) {
     const navigate = useNavigate();
@@ -18,7 +20,9 @@ export function ActivityList({items}) {
                             <Skeleton className="h-5 w-3/4"/>
                             <Skeleton className="h-4 w-1/2"/>
                         </CardHeader>
-                        <CardContent/>
+                        <CardContent>
+                            <Skeleton className="h-4 w-24"/>
+                        </CardContent>
                         <CardFooter className="justify-between">
                             <Skeleton className="h-4 w-16"/>
                             <Skeleton className="h-8 w-20"/>
@@ -46,7 +50,18 @@ export function ActivityList({items}) {
                         <CardTitle>{item.name}</CardTitle>
                         <div className="text-sm text-muted-foreground">{item.discipline?.name}</div>
                     </CardHeader>
-                    <CardContent/>
+                    <CardContent>
+                        {item.status === 'completed' ? (
+                            <div className="flex items-center gap-1.5 text-sm font-semibold text-accent dark:text-accent">
+                                <Icon name={'Check'} className="h-4 w-4 "/>
+                                {item.xp.toLocaleString('pt-BR')} XP
+                            </div>
+                        ) : (
+                            <div className="flex items-center gap-1.5 text-sm text-muted-foreground text-red-500 dark:text-red-400">
+                                <Icon name={'Hourglass'} className="h-4 w-4"/> XP
+                            </div>
+                        )}
+                    </CardContent>
                     <CardFooter className="justify-between">
                         {item.status === 'completed' &&
                             <Badge className="bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300">

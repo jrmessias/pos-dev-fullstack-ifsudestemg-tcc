@@ -43,6 +43,10 @@ export default function ProgressIndexStudentPage() {
     const [averageScore, setAverageScore] = useState(0);
     const [achievements, setAchievements] = useState([]);
     const [ranking, setRanking] = useState([]);
+    const [level, setLevel] = useState(0);
+    const [xpCurrentLevel, setXpCurrentLevel] = useState(0);
+    const [xpToNext, setXpToNext] = useState(0);
+    const [xpNextLevel, setXpNextLevel] = useState(0);
 
     useEffect(() => {
         async function load() {
@@ -56,6 +60,10 @@ export default function ProgressIndexStudentPage() {
                 setCompletedActivities(dashRes.data?.totalCompletedActivities ?? 0);
                 setTotalXp(dashRes.data?.totalXp ?? 0);
                 setAverageScore(dashRes.data?.averageScore ?? 0);
+                setLevel(dashRes.data?.level ?? 0);
+                setXpCurrentLevel(dashRes.data?.xpCurrentLevel ?? 0);
+                setXpToNext(dashRes.data?.xpToNext ?? 0);
+                setXpNextLevel(dashRes.data?.xpNextLevel ?? 0);
                 setAchievements(achievementsRes.data || []);
                 setRanking(rankingRes.data || []);
             } finally {
@@ -66,6 +74,13 @@ export default function ProgressIndexStudentPage() {
     }, []);
 
     const initials = getInitials(user?.name);
+
+    const myRankEntry = ranking.find(r => r.isCurrentUser);
+    const rankPosition = myRankEntry ? `${myRankEntry.position}º lugar no ranking geral` : "—";
+
+    const xpSpanLevel = xpCurrentLevel + xpToNext;
+    const progressPercent = xpSpanLevel > 0 ? (xpCurrentLevel / xpSpanLevel) * 100 : 0;
+    const progressTranslate = `translateX(-${(100 - progressPercent).toFixed(4)}%)`;
 
     return <>
         <div>
@@ -86,30 +101,30 @@ export default function ProgressIndexStudentPage() {
                             </span>
                         </span>
                         <div
-                            className="absolute -bottom-2 -right-2 w-10 h-10 rounded-full bg-accent flex items-center justify-center text-accent-foreground font-bold border-2 border-background">
-                            8
-                        </div>
+                             className="absolute -bottom-2 -right-2 w-10 h-10 rounded-full bg-accent flex items-center justify-center text-accent-foreground font-bold border-2 border-background">
+                             {loading ? "—" : level}
+                         </div>
                     </div>
                     <div className="flex-1">
                         <h2 className="text-2xl font-bold">{user?.name || "—"}</h2>
                         <div className="flex items-center gap-2 mt-1">
                             <Icon name="Medal" className="w-5 h-5 text-silver"/>
-                            <span className="text-muted-foreground">2º lugar no ranking geral</span>
+                             <span className="text-muted-foreground">{loading ? "—" : rankPosition}</span>
                         </div>
                         <div className="mt-4">
                             <div className="flex justify-between items-center mb-2">
-                                <span className="text-sm">Nível 8</span>
-                                <span className="text-sm">Nível 9</span>
+                                 <span className="text-sm">{`Nível ${level}`}</span>
+                                 <span className="text-sm">{`Nível ${level + 1}`}</span>
                             </div>
                             <div aria-valuemax="100" aria-valuemin="0" role="progressbar"
                                  data-state="indeterminate" data-max="100" data-slot="progress"
                                  className="bg-primary/20 relative w-full overflow-hidden rounded-full h-3">
                                 <div data-state="indeterminate" data-max="100" data-slot="progress-indicator"
                                      className="bg-primary h-full w-full flex-1 transition-all"
-                                     style={{transform: "translateX(-83.3333%)"}}></div>
+                                      style={{transform: progressTranslate}}></div>
                             </div>
                             <p className="text-sm text-muted-foreground mt-1 text-center">
-                                2450 XP • Faltam 250 XP para o próximo nível
+                                 {`${totalXp.toLocaleString('pt-BR')} XP • Faltam ${xpToNext.toLocaleString('pt-BR')} XP para o próximo nível`}
                             </p>
                         </div>
                     </div>

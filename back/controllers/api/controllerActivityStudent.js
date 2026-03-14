@@ -1,8 +1,9 @@
 const { Op } = require('sequelize');
+const sequelize = require('../../database/sequelize');
 const { Discipline, DisciplineUser, Activity, Question, Answer, ActivityAnswerUser } = require('../../models');
 const { studentActivitiesQuerySchema } = require('../../validators/studentValidator');
 
-function buildActivityRow(activity, isCompleted) {
+function buildActivityRow(activity, isCompleted, xp) {
     return {
         id: activity.id,
         name: activity.name,
@@ -10,6 +11,7 @@ function buildActivityRow(activity, isCompleted) {
         status: isCompleted ? 'completed' : 'pending',
         dueAt: activity.dueAt || null,
         progress: 0,
+        xp: xp ?? 0,
     };
 }
 
@@ -79,11 +81,20 @@ exports.index = async function (req, res) {
         for (const row of answeredRows) {
             const activityId = Number(row.activity_id);
             const questionId = Number(row.id);
-            // console.log('%cℹ️ Info:', 'color: #1e69b3; font-weight: bold;', activityId);
-            // console.log('%cℹ️ Info:', 'color: #1e69b3; font-weight: bold;', questionId);
-            // if (!questionId) continue;
             if (!answeredQuestionIdsByActivityId.has(activityId)) answeredQuestionIdsByActivityId.set(activityId, new Set());
             answeredQuestionIdsByActivityId.get(activityId).add(questionId);
+        }
+
+        const xpRows = await ActivityAnswerUser.findAll({
+            attributes: ['activity_id', [sequelize.fn('SUM', sequelize.col('xp')), 'totalXp']],
+            where: { user_id: req.user.id, activity_id: { [Op.in]: activityIds } },
+            group: ['activity_id'],
+            raw: true,
+        });
+
+        const xpByActivityId = new Map();
+        for (const row of xpRows) {
+            xpByActivityId.set(Number(row.activity_id), Number(row.totalXp) || 0);
         }
 
         const completedActivityIds = new Set();
@@ -92,10 +103,9 @@ exports.index = async function (req, res) {
             const activityId = Number(activity.id);
             const totalQuestion = questionCountByActivityId.get(activityId) || 0;
             const answered = answeredQuestionIdsByActivityId.get(activityId)?.size || 0;
-            console.log('%cℹ️ Info:', 'color: #1e69b3; font-weight: bold;', answered +" > "+totalQuestion + " - "+activityId );
             const isCompleted = totalQuestion > 0 && answered === totalQuestion;
             if (isCompleted) completedActivityIds.add(activityId);
-            items.push(buildActivityRow(activity, isCompleted));
+            items.push(buildActivityRow(activity, isCompleted, xpByActivityId.get(activityId)));
         }
 
         const filtered = status === 'all' ? items : items.filter((a) => (status === 'pending' ? a.status === 'pending' : a.status === 'completed'));
