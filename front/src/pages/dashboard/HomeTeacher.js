@@ -140,6 +140,9 @@ export default function HomeTeacher() {
                                          </div>
                                          <div className="text-right">
                                              <p className="text-xs text-muted-foreground">{formatDate(activity.date)}</p>
+                                             <span className={`text-xs font-medium ${activity.active ? "text-green-600" : "text-red-500"}`}>
+                                                 {activity.active ? "Ativa" : "Inativa"}
+                                             </span>
                                          </div>
                                      </div>
                                  ))

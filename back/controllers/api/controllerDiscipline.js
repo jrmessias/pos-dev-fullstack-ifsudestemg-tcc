@@ -85,7 +85,7 @@ exports.students = async function (req, res) {
             id: student.id,
             name: student.name,
             email: student.email,
-            enrolled_at: student.DisciplineUser.created_at
+            enrolled_at: student.DisciplineUser.createdAt
         })));
     } catch (error) {
         console.error("Erro ao listar alunos da disciplina", {

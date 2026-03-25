@@ -541,7 +541,7 @@ export default function DisciplineIndexTeacherPage() {
                                         <p className="text-xs text-muted-foreground">Tipo: {question.type === "true_false" ? "Verdadeiro ou Falso" : "Quiz"}</p>
                                     </div>
 
-                                    {question.text ? (
+                                    {question.text && /^\/uploads\/questions\/.+\.(jpg|jpeg|png)$/i.test(question.text) ? (
                                         <img
                                             src={getQuestionImageUrl(question.text)}
                                             alt={`Imagem da pergunta ${questionIndex + 1}`}
