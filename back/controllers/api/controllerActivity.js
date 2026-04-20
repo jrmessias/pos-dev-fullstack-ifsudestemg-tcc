@@ -118,7 +118,7 @@ exports.store = async function (req, res) {
                     { transaction }
                 );
 
-                if (questionPayload.type === "true_false") {
+                if (questionPayload.type === "boolean") {
                     const normalizedCorrect = questionPayload.answers.find((answer) => answer.correct).text.trim().toLowerCase();
 
                     const trueFalseAnswers = [

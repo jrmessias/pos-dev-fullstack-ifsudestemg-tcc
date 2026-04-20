@@ -538,7 +538,7 @@ export default function DisciplineIndexTeacherPage() {
                                     <div className="space-y-1">
                                         <p className="font-semibold">Pergunta {questionIndex + 1}</p>
                                         <p className="text-sm">{question.name}</p>
-                                        <p className="text-xs text-muted-foreground">Tipo: {question.type === "true_false" ? "Verdadeiro ou Falso" : "Quiz"}</p>
+                                        <p className="text-xs text-muted-foreground">Tipo: {question.type === "boolean" ? "Verdadeiro ou Falso" : "Quiz"}</p>
                                     </div>
 
                                     {question.text && /^\/uploads\/questions\/.+\.(jpg|jpeg|png)$/i.test(question.text) ? (

@@ -19,10 +19,12 @@ function createQuizQuestion() {
     return {
         name: "",
         text: "",
-        type: "quiz",
+        type: "choose",
         answers: [
             { title: "A", text: "", correct: false },
             { title: "B", text: "", correct: false },
+            { title: "C", text: "", correct: false },
+            { title: "D", text: "", correct: false },
         ],
     };
 }
@@ -101,7 +103,7 @@ export default function ActivityCreateTeacherPage() {
     const setQuestionType = (questionIndex, type) => {
         setValue(`questions.${questionIndex}.type`, type, { shouldValidate: true, shouldDirty: true });
 
-        if (type === "true_false") {
+        if (type === "boolean") {
             setValue(`questions.${questionIndex}.answers`, createTrueFalseAnswers(), {
                 shouldValidate: true,
                 shouldDirty: true,
@@ -109,13 +111,15 @@ export default function ActivityCreateTeacherPage() {
             return;
         }
 
-        const currentAnswers = getValues(`questions.${questionIndex}.answers`) || [];
-        if (currentAnswers.length < 2) {
-            setValue(`questions.${questionIndex}.answers`, createQuizQuestion().answers, {
-                shouldValidate: true,
-                shouldDirty: true,
-            });
-        }
+        setValue(`questions.${questionIndex}.answers`, [
+            { title: "A", text: "", correct: false },
+            { title: "B", text: "", correct: false },
+            { title: "C", text: "", correct: false },
+            { title: "D", text: "", correct: false },
+        ], {
+            shouldValidate: true,
+            shouldDirty: true,
+        });
     };
 
     const setCorrectAnswer = (questionIndex, answerIndex) => {
@@ -148,8 +152,8 @@ export default function ActivityCreateTeacherPage() {
 
     const removeQuizAnswer = (questionIndex, answerIndex) => {
         const answers = getValues(`questions.${questionIndex}.answers`) || [];
-        if (answers.length <= 2) {
-            toast.error("Perguntas do tipo quiz precisam ter ao menos 2 respostas.", { position: "top-center" });
+        if (answers.length <= 4) {
+            toast.error("Perguntas do tipo escolha precisam ter ao menos 4 respostas.", { position: "top-center" });
             return;
         }
 
@@ -352,7 +356,7 @@ export default function ActivityCreateTeacherPage() {
                 <div className="space-y-4">
                     {questionFields.map((questionField, questionIndex) => {
                         const questionErrors = errors.questions?.[questionIndex];
-                        const questionType = questions[questionIndex]?.type || "quiz";
+                        const questionType = questions[questionIndex]?.type || "choose";
                         const answers = questions[questionIndex]?.answers || [];
 
                         return (
@@ -392,8 +396,8 @@ export default function ActivityCreateTeacherPage() {
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="quiz">Quiz</SelectItem>
-                                                <SelectItem value="true_false">Verdadeiro ou Falso</SelectItem>
+                                                <SelectItem value="choose">Quiz</SelectItem>
+                                                <SelectItem value="boolean">Verdadeiro ou Falso</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </div>
@@ -444,7 +448,7 @@ export default function ActivityCreateTeacherPage() {
                                 <div className="space-y-3">
                                     <div className="flex items-center justify-between">
                                         <p className="font-medium">Respostas</p>
-                                        {questionType === "quiz" && (
+                                        {questionType === "choose" && (
                                             <Button
                                                 type="button"
                                                 variant="outline"
@@ -480,7 +484,7 @@ export default function ActivityCreateTeacherPage() {
 
                                                 <Input
                                                     value={answer.text || ""}
-                                                    disabled={questionType === "true_false"}
+                                                    disabled={questionType === "boolean"}
                                                     onChange={(event) => setValue(`questions.${questionIndex}.answers.${answerIndex}.text`, event.target.value, {
                                                         shouldValidate: true,
                                                         shouldDirty: true,
@@ -499,7 +503,7 @@ export default function ActivityCreateTeacherPage() {
                                                         {answer.correct ? "Correta" : "Marcar Correta"}
                                                     </Button>
 
-                                                    {questionType === "quiz" && (
+                                                    {questionType === "choose" && (
                                                         <Button
                                                             type="button"
                                                             variant="destructive"

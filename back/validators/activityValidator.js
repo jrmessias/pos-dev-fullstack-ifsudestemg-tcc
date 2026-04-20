@@ -33,8 +33,8 @@ const answerSchema = z.object({
 const questionSchema = z.object({
     name: z.string().trim().min(1).max(255),
     text: z.string().trim().max(255).optional(),
-    type: z.enum(["quiz", "true_false"]),
-    answers: z.array(answerSchema).min(2),
+    type: z.enum(["choose", "boolean"]),
+    answers: z.array(answerSchema).min(4),
 }).superRefine((question, ctx) => {
     if (question.text) {
         const validImagePath = /^\/uploads\/questions\/.+\.(jpg|jpeg|png)$/i.test(question.text);
@@ -57,11 +57,11 @@ const questionSchema = z.object({
         });
     }
 
-    if (question.type === "quiz") {
-        if (question.answers.length < 2) {
+    if (question.type === "choose") {
+        if (question.answers.length < 4) {
             ctx.addIssue({
                 code: z.ZodIssueCode.custom,
-                message: "Perguntas do tipo quiz devem ter pelo menos 2 respostas",
+                message: "Perguntas do tipo escolha devem ter pelo menos 4 respostas",
                 path: ["answers"],
             });
         }

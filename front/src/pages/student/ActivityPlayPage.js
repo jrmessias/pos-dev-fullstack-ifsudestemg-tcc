@@ -60,7 +60,19 @@ export default function ActivityPlayPage() {
 
     useEffect(() => {
         loadNextQuestion();
-        return () => clearTimer();
+        
+        const handlePopState = (event) => {
+            event.preventDefault();
+            window.history.pushState(null, '', window.location.href);
+        };
+        
+        window.history.pushState(null, '', window.location.href);
+        window.addEventListener('popstate', handlePopState);
+        
+        return () => {
+            clearTimer();
+            window.removeEventListener('popstate', handlePopState);
+        };
     }, [id]);
 
     useEffect(() => {
@@ -200,17 +212,21 @@ export default function ActivityPlayPage() {
             </div>
 
             <div className="flex-1 flex flex-col items-center justify-center px-6 py-4 gap-4">
-                {question.text && (
+                <p className="text-white text-2xl font-bold text-center max-w-2xl leading-snug">
+                    {question.name}
+                </p>
+                {question.text && /^\/uploads\/questions\/.+\.(jpg|jpeg|png)$/i.test(question.text) ? (
                     <img
-                        src={`${API_BASE}/uploads/questions/${question.text.split('/').pop()}`}
+                        src={`${API_BASE}${question.text}`}
                         alt="Imagem da questão"
                         className="max-h-40 rounded-xl object-contain"
                         onError={(e) => { e.target.style.display = 'none'; }}
                     />
-                )}
-                <p className="text-white text-2xl font-bold text-center max-w-2xl leading-snug">
-                    {question.name}
-                </p>
+                ) : question.text ? (
+                    <p className="text-white text-xl text-center max-w-2xl">
+                        {question.text}
+                    </p>
+                ) : null}
             </div>
 
             <div className="grid grid-cols-2 gap-3 px-4 pb-6">
