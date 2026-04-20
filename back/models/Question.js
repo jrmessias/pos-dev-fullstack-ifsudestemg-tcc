@@ -27,6 +27,9 @@ Question.init({
     type: {
         type: DataTypes.STRING(45)
     },
+    image: {
+        type: DataTypes.STRING(255)
+    },
 }, {
     sequelize,
     freezeTableName: true,

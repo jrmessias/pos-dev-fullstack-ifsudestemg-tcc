@@ -113,6 +113,7 @@ exports.store = async function (req, res) {
                         activity_id: activity.id,
                         name: questionPayload.name,
                         text: questionPayload.text,
+                        image: questionPayload.image,
                         type: questionPayload.type,
                     },
                     { transaction }
@@ -186,7 +187,7 @@ exports.show = async function (req, res) {
                 },
                 {
                     model: Question,
-                    attributes: ["id", "name", "text", "type"],
+                    attributes: ["id", "name", "text", "image", "type"],
                     include: [
                         {
                             model: Answer,
@@ -235,11 +236,11 @@ exports.delete = async function (req, res) {
 
         const questions = await Question.findAll({
             where: { activity_id: id },
-            attributes: ["text"],
+            attributes: ["image"],
             raw: true,
         });
 
-        const imagePaths = questions.map((question) => question.text).filter(Boolean);
+        const imagePaths = questions.map((question) => question.image).filter(Boolean);
 
         const activityName = activity.name;
         await activity.destroy();

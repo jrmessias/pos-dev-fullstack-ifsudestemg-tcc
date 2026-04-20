@@ -80,6 +80,7 @@ exports.startActivity = async function (req, res) {
                     id: nextQuestion.id,
                     name: nextQuestion.name,
                     text: nextQuestion.text,
+                    image: nextQuestion.image,
                     type: nextQuestion.type,
                     answers: nextQuestion.Answers.map((a) => ({
                         id: a.id,

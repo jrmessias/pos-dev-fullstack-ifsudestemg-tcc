@@ -215,17 +215,18 @@ export default function ActivityPlayPage() {
                 <p className="text-white text-2xl font-bold text-center max-w-2xl leading-snug">
                     {question.name}
                 </p>
-                {question.text && /^\/uploads\/questions\/.+\.(jpg|jpeg|png)$/i.test(question.text) ? (
+                {question.text && (
+                    <p className="text-white text-xl text-center max-w-2xl">
+                        {question.text}
+                    </p>
+                )}
+                {question.image && /^\/uploads\/questions\/.+\.(jpg|jpeg|png)$/i.test(question.image) ? (
                     <img
-                        src={`${API_BASE}${question.text}`}
+                        src={`${API_BASE}${question.image}`}
                         alt="Imagem da questão"
                         className="max-h-40 rounded-xl object-contain"
                         onError={(e) => { e.target.style.display = 'none'; }}
                     />
-                ) : question.text ? (
-                    <p className="text-white text-xl text-center max-w-2xl">
-                        {question.text}
-                    </p>
                 ) : null}
             </div>
 

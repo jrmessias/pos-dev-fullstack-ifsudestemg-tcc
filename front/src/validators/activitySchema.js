@@ -8,17 +8,18 @@ const answerSchema = z.object({
 
 const questionSchema = z.object({
     name: z.string().trim().min(1, "Informe o enunciado da pergunta").max(255, "Enunciado deve ter no máximo 255 caracteres"),
-    text: z.string().trim().max(255, "Caminho da imagem inválido").optional().or(z.literal("")),
+    text: z.string().trim().max(255, "Texto deve ter no máximo 255 caracteres").optional().or(z.literal("")),
+    image: z.string().trim().max(255, "Caminho da imagem inválido").optional().or(z.literal("")),
     type: z.enum(["choose", "boolean"]),
     answers: z.array(answerSchema).min(4, "A pergunta deve ter ao menos 4 respostas"),
 }).superRefine((question, ctx) => {
-    if (question.text) {
-        const validImagePath = /^\/uploads\/questions\/.+\.(jpg|jpeg|png)$/i.test(question.text);
+    if (question.image) {
+        const validImagePath = /^\/uploads\/questions\/.+\.(jpg|jpeg|png)$/i.test(question.image);
         if (!validImagePath) {
             ctx.addIssue({
                 code: z.ZodIssueCode.custom,
                 message: "Imagem deve ser JPG ou PNG",
-                path: ["text"],
+                path: ["image"],
             });
         }
     }

@@ -19,6 +19,7 @@ function createQuizQuestion() {
     return {
         name: "",
         text: "",
+        image: "",
         type: "choose",
         answers: [
             { title: "A", text: "", correct: false },
@@ -185,6 +186,7 @@ export default function ActivityCreateTeacherPage() {
                 questions: formData.questions.map((question) => ({
                     name: question.name,
                     text: question.text?.trim() || undefined,
+                    image: question.image?.trim() || undefined,
                     type: question.type,
                     answers: question.answers.map((answer) => ({
                         title: answer.title,
@@ -234,7 +236,7 @@ export default function ActivityCreateTeacherPage() {
                 return;
             }
 
-            setValue(`questions.${questionIndex}.text`, imagePath, {
+            setValue(`questions.${questionIndex}.image`, imagePath, {
                 shouldValidate: true,
                 shouldDirty: true,
             });
@@ -248,7 +250,7 @@ export default function ActivityCreateTeacherPage() {
     };
 
     const removeQuestionImage = (questionIndex) => {
-        setValue(`questions.${questionIndex}.text`, "", {
+        setValue(`questions.${questionIndex}.image`, "", {
             shouldValidate: true,
             shouldDirty: true,
         });
@@ -418,15 +420,15 @@ export default function ActivityCreateTeacherPage() {
                                         {uploadingQuestions[questionIndex] && (
                                             <p className="text-sm text-muted-foreground">Enviando imagem...</p>
                                         )}
-                                        {questions[questionIndex]?.text && (
+                                        {questions[questionIndex]?.image && (
                                             <div className="space-y-2">
                                                 <img
-                                                    src={getQuestionImageUrl(questions[questionIndex]?.text)}
+                                                    src={getQuestionImageUrl(questions[questionIndex]?.image)}
                                                     alt={`Imagem da pergunta ${questionIndex + 1}`}
                                                     className="w-full max-h-52 object-cover rounded-md border"
                                                 />
                                                 <div className="flex items-center gap-2">
-                                                    <span className="text-xs text-muted-foreground break-all">{questions[questionIndex]?.text}</span>
+                                                    <span className="text-xs text-muted-foreground break-all">{questions[questionIndex]?.image}</span>
                                                     <Button
                                                         type="button"
                                                         variant="destructive"
@@ -439,8 +441,8 @@ export default function ActivityCreateTeacherPage() {
                                                 </div>
                                             </div>
                                         )}
-                                        {questionErrors?.text && (
-                                            <p className="text-sm text-destructive">{questionErrors.text.message}</p>
+                                        {questionErrors?.image && (
+                                            <p className="text-sm text-destructive">{questionErrors.image.message}</p>
                                         )}
                                     </div>
                                 </div>
