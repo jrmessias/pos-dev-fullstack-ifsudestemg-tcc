@@ -1,0 +1,13 @@
+{
+  "name": "rankio-monorepo",
+  "private": true,
+  "version": "0.0.0",
+  "devDependencies": {
+    "concurrently": "^8.2.0"
+  },
+  "scripts": {
+    "dev": "concurrently \"npm:start:back\" \"npm:start:front\" --names \"BACK,FRONT\" --prefix \"[{name}]\"",
+    "start:back": "cd back && npm run dev",
+    "start:front": "cd front && npm run dev"
+  }
+}

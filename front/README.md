@@ -18,7 +18,6 @@ Analisar, projetar e desenvolver um sistema de gamificação voltado ao contexto
 - Tailwind CSS
 - Shadcn
 - Nodemon
-- 
 
 ## Requisitos rápidos
 - Sistema Operacional: Linux.
@@ -29,9 +28,9 @@ Analisar, projetar e desenvolver um sistema de gamificação voltado ao contexto
 
 ## Clonar o repositório
 ```bash
-git clone git@github.com:pos-FullStack/trabalho-de-conclus-o-de-curso-jrmessias/.git
+git clone git@github.com:jrmessias/pos-dev-fullstack-ifsudestemg-tcc.git
 
-cd trabalho-de-conclus-o-de-curso-jrmessias
+cd pos-dev-fullstack-ifsudestemg-tcc
 ```
 
 ## Instalar dependências
@@ -44,22 +43,10 @@ Copie o arquivo `.env.example` para `.env` na raiz do projeto.
 
 Exemplo mínimo:
 ```env
-PORT=3000
+VITE_API_URL=http://127.0.0.1:3001/api/
 
-MYSQL_DIALECT=mysql
-MYSQL_HOST=localhost
-MYSQL_PORT=3306
-MYSQL_USER=root
-MYSQL_PASSWORD=
-MYSQL_DATABASE=rankio
 ```
-Ajuste os valores conforme seu ambiente.
-
-## Criar banco MySQL
-```bash
-mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS rankio CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;"
-```
-Se usar outro usuário/porta, adapte o comando.
+_Ajuste os valores conforme seu ambiente._ 
 
 ## Scripts úteis
 - Rodar em desenvolvimento (com `nodemon`):

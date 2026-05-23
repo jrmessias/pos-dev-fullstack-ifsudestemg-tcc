@@ -34,15 +34,28 @@ MYSQL_USER=root
 MYSQL_PASSWORD=
 MYSQL_DATABASE=rankio
 
-SESSION_SECRET=your_session_secret_here #(https://it-tools.tech/token-generator?length=64)
+SESSION_SECRET=your_session_secret_here
+# Gere um SESSION_SECRET em https://it-tools.tech/token-generator?length=64
 ```
-Ajuste os valores conforme seu ambiente.
+_Ajuste os valores conforme seu ambiente._
 
 ## Criar banco MySQL
 ```bash
 mysql -u root -p -e "CREATE DATABASE IF NOT EXISTS rankio CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;"
 ```
-Se usar outro usuário/porta, adapte o comando.
+_Se usar outro usuário/porta, adapte o comando._
+
+## Importar SQL de demonstração
+
+- Se não utiliza senha no banco de dados
+```bash
+mysql -u root -psua_senha rankio < rankio.sql
+```
+- Ou se não utiliza senha no banco de dados
+```bash
+mysql -u root -p rankio < rankio.sql
+```
+_Ainda é possível iniciar o sistema e cadastrar professores e alunos sem a necessidade de importar o banco de dados._
 
 ## Scripts úteis
 - Rodar em desenvolvimento (com `nodemon`):
@@ -54,16 +67,8 @@ Se usar outro usuário/porta, adapte o comando.
 ```bash
   npm start
 ```
-O ponto de entrada usado pelos scripts é `./bin/www` (usa `process.env.PORT`).
-
-## WebStorm
-- Crie uma Run Configuration do tipo `npm` com o script `dev`, ou uma Node configuration apontando para `./bin/www`.
-- Configure variáveis de ambiente da Run Configuration para carregar o arquivo `.env` se necessário.
 
 ## Observações e depuração
 - Procure por `process.env` no código para identificar outras variáveis necessárias.
 - Logs aparecem no terminal; a aplicação já depende de `morgan`. Use variáveis de ambiente e ferramentas de depuração do Node conforme necessário.
-- O projeto usa `sequelize`; se houver migrations, verifique pastas `migrations` e scripts em `package.json`.
-
-## Contato
-- Repositório: `git@github.com:jrmessias/pos-dev-fullstack-ifsudestemg-tcc.git`
+- O projeto usa `sequelize`; a sincronização de models com o banco de dados está desabilitada em `app.js`, linha 16.
