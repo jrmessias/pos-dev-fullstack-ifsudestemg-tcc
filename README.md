@@ -11,6 +11,8 @@ Requisitos
 - Node.js (v18+) e npm instalados.
 - Verifique as variáveis: `front/.env.development` (VITE_API_URL) e `back/.env` (PORT).
 
+> **RECOMENDO CRIAR UM `.env.example` COM AS AS VARIÁVEIS DE AMBIENTE CRIADAS SEM OS VALORES E COM COMENTÁRIOS EXPLICATIVOS**
+
 Instalação (na raiz do repositório)
 - Instale a dependência dev `concurrently` na raiz (uma vez):
   npm install --save-dev concurrently@^8.2.0
@@ -21,9 +23,11 @@ O que foi adicionado
     - `start:front` -> `npm --prefix ./front run dev`
     - `dev` -> roda ambos em paralelo através do `concurrently`
 
+> **INFORMAR A NECESSIDADE DE INSTALAR OS PACOTES EM BACK E FRONT (`npm install`) ANTES DE EXECUTAR `npm run dev` NA RAIZ DO PROJETO**
+
 Rodando os dois ao mesmo tempo
 - A partir da raiz do repositório:
-  npm run dev
+  `npm run dev`
 - A saída será prefixada por [BACK] e [FRONT] e iniciará o backend (nodemon) e o frontend (Vite) em paralelo.
 
 Rodando separadamente
@@ -35,6 +39,8 @@ Rodando separadamente
   cd front
   npm install
   npm run dev
+
+> **INSERIR INSTRUÇÕES PARA EXECUTAR O BANCO DE DADOS**
 
 Resolução de problemas
 - Se `npm run dev` falhar, verifique:
